@@ -7,7 +7,7 @@ branches:
   only:
     - 3.10.x
     - /^ecat3.10-.*$/ # any dev branch
-    - ecat-test # test branch
+    - ecat-test # Test branch
     
 script:
   - if [[ $TRAVIS_BRANCH =~ ^ecat3.10-.*$ ]]; then export BRANCH=/ecat3/dev; elif [[ $TRAVIS_BRANCH = ecat-test ]]; then export BRANCH=/ecat3/test; else export BRANCH=/ecat3/prod; fi
