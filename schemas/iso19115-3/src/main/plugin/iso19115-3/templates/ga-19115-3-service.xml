@@ -299,7 +299,7 @@
                      <mco:MD_RestrictionCode codeList="codeListLocation#MD_RestrictionCode" codeListValue="otherRestrictions"/>
                </mco:useConstraints>
                <mco:otherConstraints>
-                     <gco:CharacterString>(c) Commonwealth of Australia (Geoscience Australia) 2021</gco:CharacterString>
+                     <gco:CharacterString>(c) Commonwealth of Australia (Geoscience Australia) 2022</gco:CharacterString>
                </mco:otherConstraints>
             </mco:MD_LegalConstraints>
          </mri:resourceConstraints>
