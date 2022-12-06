@@ -51,7 +51,7 @@
 					</xsl:apply-templates>
 				</Abstract>
 			</xsl:if>
-
+			
 			<xsl:if test="xs:boolean($MetadataScope)">
 				<MetadataScope>
 					<xsl:value-of select="mdb:metadataScope/mdb:MD_MetadataScope/@id" />
@@ -96,7 +96,7 @@
 				</Status>
 			</xsl:if>
 
-			<!--<xsl:if test="xs:boolean($imageChecked)"> <xsl:for-each select="mdb:identificationInfo/*/mri:graphicOverview/*/mcc:fileName">
+			<!--<xsl:if test="xs:boolean($imageChecked)"> <xsl:for-each select="mdb:identificationInfo/*/mri:graphicOverview/*/mcc:fileName"> 
 				<image> <xsl:value-of select="*/text()"/> </image> </xsl:for-each> </xsl:if> -->
 
 			<xsl:if test="xs:boolean($Keyword)">
