@@ -42,7 +42,7 @@ import jeeves.server.context.ServiceContext;
 /**
  * This class creates online resource element for Data storage, Associated
  * resources, Additional Information and Distribution link.
- * 
+ *
  * @author Joseph John - U89263
  *
  */
@@ -51,16 +51,16 @@ public class OnlineResourceEditElement implements EditElement {
 	XMLOutputter out = new XMLOutputter();
 
 	SchemaManager schemaManager;
-	
+
 	@Override
 	public void removeAndAddElement(CSVBatchEdit batchEdit, ApplicationContext context, ServiceContext serContext,
 			Entry<String, Integer> header, CSVRecord csvr, XPath _xpath, List<BatchEditParam> listOfUpdates, BatchEditReport report) {
 
 		schemaManager = context.getBean(SchemaManager.class);
-		
+
 		String headerVal = header.getKey();
 		String onlineValue = csvr.get(headerVal);
-		
+
 		String[] contents = onlineValue.split(content_separator);
 		for (String content : contents) {
 			String[] values = content.split(type_separator);
@@ -79,14 +79,14 @@ public class OnlineResourceEditElement implements EditElement {
 				function = values[4];
 
 			Element rootE = null;
-			
+
 			try {
 				if (Geonet.EditType.ASSOCIATED_RES.equalsIgnoreCase(headerVal)) {
 					rootE = getOnlineResourceElement(name, desc, linkage, protocol, function);
 				} else if (Geonet.EditType.DISTRIBUTION_LINK.equalsIgnoreCase(headerVal)){
 					rootE = getDistributionOnlineResourceElement(name, desc, linkage, protocol, function);
 				}else if (Geonet.EditType.DATA_STORAGE_LINK.equalsIgnoreCase(headerVal)){
-					rootE = getResourceFormatElement(content);
+					rootE = getResourceFormatElement(linkage);
 				}else if (Geonet.EditType.ADDITIONAL_INFO.equalsIgnoreCase(headerVal)) {
 					rootE = additionalInformation(name, desc, linkage, protocol, function);
 				}
@@ -98,11 +98,11 @@ public class OnlineResourceEditElement implements EditElement {
 
 			if(rootE != null){
 				String strEle = out.outputString(rootE);
-	
+
 				//Log.debug(Geonet.GA, "OnlineResource EditElement --> strEle : " + strEle);
-	
+
 				String _val = "<gn_add>" + strEle + "</gn_add>";
-	
+
 				BatchEditParam e = new BatchEditParam(_xpath.getXPath(), _val);
 				listOfUpdates.add(e);
 			}
@@ -111,7 +111,7 @@ public class OnlineResourceEditElement implements EditElement {
 	}
 
 	/**
-	 * Creates Online resource element 
+	 * Creates Online resource element
 	 * @param _name
 	 * @param description
 	 * @param link
@@ -121,56 +121,54 @@ public class OnlineResourceEditElement implements EditElement {
 	private Element getDistributionOnlineResourceElement(String name, String description, String link, String protocol, String function) throws BatchEditException {
 		try{
 			Element digitalTransferOptions = new Element("MD_DigitalTransferOptions", Geonet.Namespaces.MRD);
-			
+
 			Path p = schemaManager.getSchemaDir("iso19115-3").resolve("csv").resolve("distribution-link.xsl");
-			
+
 			Map<String, Object> params = new HashMap<>();
 			params.put("name", name);
 			params.put("description", description);
 			params.put("linkage", link);
 			params.put("protocol", protocol);
 			params.put("function", function);
-			
+
 			digitalTransferOptions = Xml.transform(digitalTransferOptions, p, params);
-			
+
 			return digitalTransferOptions;
-			
-			
+
+
 		}catch(Exception e){
 			Log.error(Geonet.GA, String.format("Unable to process Online Resource Element having name %s and link %s, %s", name, link, e.getMessage()));
 			throw new BatchEditException(String.format("Unable to process Online Resource Element having name %s and link %s", name, link));
 		}
 	}
-	
-	
+
+
 	/**
-	 * Creates Online resource for resource format - Data Storage 
-	 * @param _name
-	 * @param description
-	 * @param link
-	 * @return
+     * Returns an Element object in an MD_Format which has the updated linkage for Data Storage Link.
+     * @param link  the new or updated linkage
+     * @return  the Element with the new linkage
 	 * @throws BatchEditException
 	 */
 	private Element getResourceFormatElement(String link) throws BatchEditException {
 		try{
-			
-			Element mdFormat = new Element("MD_Format", Namespaces.MRD);
+
+			Element mdFormat = new Element("MD_Format", Geonet.Namespaces.MRD);
 			Path p = schemaManager.getSchemaDir(Geonet.SCHEMA_ISO_19115_3).resolve("csv").resolve("resource-format.xsl");
-			
+
 			Map<String, Object> params = new HashMap<>();
 			params.put("linkage", link);
 			mdFormat = Xml.transform(mdFormat, p, params);
-			
+
 			return mdFormat;
-			
+
 		}catch(Exception e){
 			Log.error(Geonet.GA, String.format("Unable to process resource format having name link %s" , link));
 			throw new BatchEditException(String.format("Unable to process resource format having name link %s" , link));
 		}
 	}
-	
+
 	/**
-	 * Creates Online resource element 
+	 * Creates Online resource element
 	 * @param _name
 	 * @param description
 	 * @param link
@@ -179,9 +177,9 @@ public class OnlineResourceEditElement implements EditElement {
 	 */
 	private Element getOnlineResourceElement(String name, String description, String link, String protocol, String function) throws BatchEditException {
 		try{
-			
+
 			return onlineResElement(name, description, link, protocol, function);
-			
+
 		}catch(BatchEditException e){
 			Log.error(Geonet.GA, String.format("Unable to process Online Resource Element having name %s link %s" , name, link));
 			throw new BatchEditException(String.format("Unable to process Online Resource Element having name %s link %s" , name, link));
@@ -201,12 +199,12 @@ public class OnlineResourceEditElement implements EditElement {
 			Element citation = new Element("CI_Citation", Geonet.Namespaces.CIT);
 			Element onlineres = new Element("onlineResource", Geonet.Namespaces.CIT);
 			Element title = new Element("title", Geonet.Namespaces.CIT);
-	
+
 			citation.addContent(title.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(name)));
 			citation.addContent(onlineres.addContent(onlineResElement(name, description, link, protocol, function)));
-		
+
 			return citation;
-			
+
 		}catch(BatchEditException e){
 			Log.error(Geonet.GA, String.format("Unable to process additional Information having name %s link %s" , name, link));
 			throw new BatchEditException(String.format("Unable to process additional Information having name %s link %s" , name, link));
@@ -226,16 +224,16 @@ public class OnlineResourceEditElement implements EditElement {
 		try {
 			Element onlineRes = new Element("CI_OnlineResource", Geonet.Namespaces.CIT);
 			Path p = schemaManager.getSchemaDir(Geonet.SCHEMA_ISO_19115_3).resolve("csv").resolve("online-resource.xsl");
-			
+
 			Map<String, Object> params = new HashMap<>();
 			params.put("name", name);
 			params.put("description", description);
 			params.put("linkage", link);
 			params.put("protocol", protocol);
 			params.put("function", function);
-			
+
 			onlineRes = Xml.transform(onlineRes, p, params);
-			
+
 			return onlineRes;
 		} catch (Exception e) {
 			Log.error(Geonet.GA, String.format("Unable to process onlineRes Element having name %s link %s" , name, link));
