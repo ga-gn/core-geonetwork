@@ -49,16 +49,6 @@
                            </cit:numberType>
                         </cit:CI_Telephone>
                      </cit:phone>
-                     <cit:phone>
-                        <cit:CI_Telephone>
-                           <cit:number>
-                              <gco:CharacterString>02 6249 9960</gco:CharacterString>
-                           </cit:number>
-                           <cit:numberType>
-                              <cit:CI_TelephoneTypeCode codeList="codeListLocation#CI_TelephoneTypeCode" codeListValue="facsimile"/>
-                           </cit:numberType>
-                        </cit:CI_Telephone>
-                     </cit:phone>
                      <cit:address>
                         <cit:CI_Address>
                            <cit:deliveryPoint>
@@ -169,16 +159,6 @@
                                  </cit:number>
                                  <cit:numberType>
                                     <cit:CI_TelephoneTypeCode codeList="codeListLocation#CI_TelephoneTypeCode" codeListValue="voice"/>
-                                 </cit:numberType>
-                              </cit:CI_Telephone>
-                           </cit:phone>
-                           <cit:phone>
-                              <cit:CI_Telephone>
-                                 <cit:number>
-                                    <gco:CharacterString>02 6249 9960</gco:CharacterString>
-                                 </cit:number>
-                                 <cit:numberType>
-                                    <cit:CI_TelephoneTypeCode codeList="codeListLocation#CI_TelephoneTypeCode" codeListValue="facsimile"/>
                                  </cit:numberType>
                               </cit:CI_Telephone>
                            </cit:phone>
