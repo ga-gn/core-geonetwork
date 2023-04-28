@@ -311,10 +311,10 @@
 								<xsl:variable name="ecatId" select="/root/env/gaid" />
 								<xsl:choose>
 									<xsl:when test="$codelistvalue='service'">
-										<xsl:value-of select="concat('http://pid.geoscience.gov.au/', 'service', '/ga/', $ecatId)" />
+										<xsl:value-of select="concat('https://pid.geoscience.gov.au/', 'service', '/ga/', $ecatId)" />
 									</xsl:when>
 									<xsl:otherwise>
-										<xsl:value-of select="concat('http://pid.geoscience.gov.au/', 'dataset', '/ga/', $ecatId)" />
+										<xsl:value-of select="concat('https://pid.geoscience.gov.au/', 'dataset', '/ga/', $ecatId)" />
 									</xsl:otherwise>
 								</xsl:choose>
 							</xsl:when>
@@ -322,10 +322,10 @@
 								<xsl:variable name="ecatId" select="//mdb:alternativeMetadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:codeSpace/gco:CharacterString='eCatId']/mcc:code/gco:CharacterString" />
 								<xsl:choose>
 									<xsl:when test="$codelistvalue='service'">
-										<xsl:value-of select="concat('http://pid.geoscience.gov.au/', 'service', '/ga/', $ecatId)" />
+										<xsl:value-of select="concat('https://pid.geoscience.gov.au/', 'service', '/ga/', $ecatId)" />
 									</xsl:when>
 									<xsl:otherwise>
-										<xsl:value-of select="concat('http://pid.geoscience.gov.au/', 'dataset', '/ga/', $ecatId)" />
+										<xsl:value-of select="concat('https://pid.geoscience.gov.au/', 'dataset', '/ga/', $ecatId)" />
 									</xsl:otherwise>
 								</xsl:choose>
 							</xsl:otherwise>
