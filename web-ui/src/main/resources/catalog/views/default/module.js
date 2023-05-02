@@ -293,7 +293,7 @@
             citationUrl += md.PID;
           }else{
             var scope = md.type === 'service' ? 'service' : 'dataset';
-            citationUrl += "http://pid.geoscience.gov.au/" + scope + "/ga/" + md.eCatId;
+            citationUrl += "https://pid.geoscience.gov.au/" + scope + "/ga/" + md.eCatId;
           }
           
           return citationUrl;
