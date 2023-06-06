@@ -762,7 +762,7 @@
     "system/publication/doi/doikey": "Your DataCite prefix",
     "system/publication/doi/doikey-help": "Usually looks like 10.xxxx. You will be allowed to register DOI names only under the prefixes that have been assigned to you.",
     "system/publication/doi/doilandingpagetemplate": "DOI landing page URL template",
-    "system/publication/doi/doilandingpagetemplate-help": "The URL to use to register the DOI. A good default for GeoNetwork is http://pid.geoscience.gov.au/dataset/ga/\\{\\{eCatId\\}\\}. The landing page URL MUST contains the UUID of the record.",
+    "system/publication/doi/doilandingpagetemplate-help": "The URL to use to register the DOI. A good default for GeoNetwork is https://pid.geoscience.gov.au/dataset/ga/\\{\\{eCatId\\}\\}. The landing page URL MUST contain the eCatId of the record.",
     "system/csw": "Catalog Service for the Web (CSW)",
     "system/csw/capabilityRecordUuid": "Record to use for GetCapabilities",
     "system/csw/capabilityRecordUuid-help": "Choose the record to be used to build custom GetCapabilities document. If none exist, create a service metadata record (using ISO19139 or 19115-3 standards). To have a capabilities document with the main information required, set title, abstract, point of contact, keywords, constraints. If you need INSPIRE support also set properly the record main language and additional languages, INSPIRE themes and INSPIRE conformity.",
