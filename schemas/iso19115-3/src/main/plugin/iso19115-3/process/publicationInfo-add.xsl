@@ -147,6 +147,7 @@
 						<xsl:apply-templates select="mri:MD_DataIdentification/mri:topicCategory" />
 						<xsl:apply-templates select="mri:MD_DataIdentification/mri:extent" />
 						<xsl:apply-templates select="mri:MD_DataIdentification/mri:resourceMaintenance" />
+						<xsl:apply-templates select="mri:MD_DataIdentification/mri:graphicOverview" />
 						<xsl:apply-templates select="mri:MD_DataIdentification/mri:resourceFormat" />
 						<xsl:apply-templates select="mri:MD_DataIdentification/mri:descriptiveKeywords" />
 						<mri:descriptiveKeywords>
