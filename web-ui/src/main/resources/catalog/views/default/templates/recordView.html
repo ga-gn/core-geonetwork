@@ -89,7 +89,7 @@
         </ul>
         <div class="subheader">Abstract</div>
         <div class="abstract-view" data-ng-bind-html="mdView.current.record.abstract | newlines" ></div>
-        <div data-ng-if="mdView.current.record.image"><img src="{{ getThumbnail(mdView.current.record.image) }}" height="350px" width="550px"/></div>
+        <div data-ng-if="mdView.current.record.image"><img src="{{ getThumbnail(mdView.current.record.image) }}" height="350px" style="border: 1px solid #ddd;"/></div>
 
         <hr>
         <div class="subheader">Related Keywords</div>
