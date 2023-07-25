@@ -69,7 +69,32 @@
         <entry key="revision">Updated</entry>
         <!--<entry key="publication"></entry> is in publicationYear -->
     </xsl:variable>
-    
+
+    <xsl:variable name="scopeMapping">
+    <entry key="attribute">Model</entry>
+    <entry key="attributeType">Model</entry>
+    <entry key="featureType">Model</entry>
+    <entry key="propertyType">Model</entry>
+    <entry key="model">Model</entry>
+    <entry key="collectionHardware">Other</entry>
+    <entry key="collectionSession">Dataset</entry>
+    <entry key="dataset">Dataset</entry>
+    <entry key="tile">Image</entry>
+    <entry key="nonGeographicDataset">Dataset</entry>
+    <entry key="dimensionGroup">Other</entry>
+    <entry key="fieldSession">Event</entry>
+    <entry key="feature">PhysicalObject</entry>
+    <entry key="series">Dataset</entry>
+    <entry key="service">Service</entry>
+    <entry key="software">Software</entry>
+    <entry key="document">Text</entry>
+    <entry key="collection">Collection</entry>
+    </xsl:variable>
+
+
+    <xsl:variable name="resourceScopeCode" select="//mdb:metadataScope/*/mdb:resourceScope/*/@codeListValue"/>
+    <xsl:variable name="key" select="$resourceScopeCode"/>
+    <xsl:variable name="resourceTypeGeneral" select="$scopeMapping//*[@key = $key]/text()"/>
     
     <xsl:template match="mdb:MD_Metadata">
         {
@@ -82,7 +107,7 @@
         "state": "findable",
         "event": "publish",
 		"types": {
-        "resourceTypeGeneral": "<xsl:value-of select="concat(upper-case(substring(mdb:metadataScope/*/mdb:resourceScope/*/@codeListValue, 1, 1)), substring(mdb:metadataScope/*/mdb:resourceScope/*/@codeListValue, 2))" />"
+        "resourceTypeGeneral": "<xsl:value-of select="$resourceTypeGeneral" />"
         },
         "creators": [
         
