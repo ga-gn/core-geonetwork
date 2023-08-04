@@ -346,7 +346,7 @@ public class DoiManager {
         //--- needed to detach md from the document
 //        md.detach();
 
-        dm.updateMetadata(context, metadata.getId() + "", recordWithDoi, false, true, true,
+        dm.updateMetadata(context, metadata.getId() + "", recordWithDoi, false, false, true,
             context.getLanguage(), new ISODate().toString(), true);
 
         doiInfo.put(DOI_ID, HTTPS_DOI_ORG + doiInfo.get(DOI));
