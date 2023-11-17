@@ -463,8 +463,9 @@ public class BaseMetadataManager implements IMetadataManager {
 
         newMetadata.getMetadataCategories().addAll(filteredCategories);
 
-        int finalId = insertMetadata(context, newMetadata, xml, IndexingMode.full, true, UpdateDatestamp.YES,
-            fullRightsForGroup, true).getId();
+        boolean generateGAID = true;
+        int finalId = insertMetadata(context, newMetadata, xml, IndexingMode.full,  true, UpdateDatestamp.YES,
+            fullRightsForGroup, true, generateGAID).getId();
 
         return String.valueOf(finalId);
     }
@@ -578,6 +579,13 @@ public class BaseMetadataManager implements IMetadataManager {
     public AbstractMetadata insertMetadata(ServiceContext context, AbstractMetadata newMetadata, Element metadataXml,
                                            IndexingMode indexingMode, boolean updateFixedInfo, UpdateDatestamp updateDatestamp,
                                            boolean fullRightsForGroup, boolean forceRefreshReaders) throws Exception {
+        return insertMetadata(context, newMetadata, metadataXml, indexingMode, updateFixedInfo, updateDatestamp, fullRightsForGroup, forceRefreshReaders, false);
+    }
+
+    @Override
+    public AbstractMetadata insertMetadata(ServiceContext context, AbstractMetadata newMetadata, Element metadataXml,
+                                           IndexingMode indexingMode, boolean updateFixedInfo, UpdateDatestamp updateDatestamp,
+                                           boolean fullRightsForGroup, boolean forceRefreshReaders, boolean generateGAID) throws Exception {
         final String schema = newMetadata.getDataInfo().getSchemaId();
 
         // Check if the schema is allowed by settings
@@ -597,7 +605,7 @@ public class BaseMetadataManager implements IMetadataManager {
         if (updateFixedInfo && newMetadata.getDataInfo().getType() == MetadataType.METADATA) {
             String parentUuid = null;
             metadataXml = updateFixedInfo(schema, Optional.absent(), newMetadata.getUuid(), metadataXml, parentUuid,
-                updateDatestamp, context);
+                updateDatestamp, context, generateGAID);
         }
 
         // --- store metadata
@@ -920,6 +928,12 @@ public class BaseMetadataManager implements IMetadataManager {
         return info;
     }
 
+    @Override
+    public Element updateFixedInfo(String schema, Optional<Integer> metadataId, String uuid, Element md,
+                                   String parentUuid, UpdateDatestamp updateDatestamp, ServiceContext context) throws Exception {
+        return updateFixedInfo(schema, metadataId, uuid, md, parentUuid, updateDatestamp, context, false);
+    }
+
     /**
      * Update metadata record (not template) using update-fixed-info.xsl
      *
@@ -929,7 +943,7 @@ public class BaseMetadataManager implements IMetadataManager {
      */
     @Override
     public Element updateFixedInfo(String schema, Optional<Integer> metadataId, String uuid, Element md, String parentUuid,
-                                   UpdateDatestamp updateDatestamp, ServiceContext context) throws Exception {
+                                   UpdateDatestamp updateDatestamp, ServiceContext context, boolean generateGAID) throws Exception {
         boolean autoFixing = settingManager.getValueAsBool(Settings.SYSTEM_AUTOFIXING_ENABLE, true);
         if (autoFixing) {
             LOGGER_DATA_MANAGER.debug("Autofixing is enabled, trying update-fixed-info (updateDatestamp: {})", updateDatestamp.name());
@@ -975,6 +989,11 @@ public class BaseMetadataManager implements IMetadataManager {
                 final Path resourceDir = Lib.resource.getDir(Params.Access.PRIVATE, metadataId.get());
                 env.addContent(new Element("datadir").setText(resourceDir.toString()));
             }
+
+            // add ga-id to env
+            if (generateGAID) {
+				env.addContent(new Element("gaid").setText(metadataUtils.getGAID()));
+			}
 
             // add user information to env if user is authenticated (should be)
             Element elUser = new Element("user");

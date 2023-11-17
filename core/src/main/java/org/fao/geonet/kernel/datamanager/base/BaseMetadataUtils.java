@@ -78,6 +78,8 @@ public class BaseMetadataUtils implements IMetadataUtils {
     @Autowired
     private MetadataRepository metadataRepository;
 
+    @Autowired
+    private ECatIdRepository ecatIdRepository;
     // FIXME Remove when get rid of Jeeves
     private ServiceContext servContext;
     @Autowired
@@ -257,6 +259,29 @@ public class BaseMetadataUtils implements IMetadataUtils {
         md.detach();
 
         return uuid;
+    }
+
+    @Override
+	public String extractGAID(String schema, Element md) throws Exception {
+        Path styleSheet = metadataSchemaUtils.getSchemaDir(schema).resolve(Geonet.File.EXTRACT_GAID);
+		String gaid = "";
+		gaid = Xml.transform(md, styleSheet).getText().trim();
+
+		if (Log.isDebugEnabled(Geonet.DATA_MANAGER))
+			Log.debug(Geonet.DATA_MANAGER, "Extracted GAID '" + gaid + "' for schema '" + schema + "'");
+
+        //--- needed to detach md from the document
+        md.detach();
+
+        return gaid;
+	}
+
+    @Override
+    public String getGAID() throws Exception {
+        Long gaid = ecatIdRepository.getGaid();
+        if (Log.isDebugEnabled(Geonet.DATA_MANAGER))
+			Log.debug(Geonet.DATA_MANAGER, "Generated GAID '" + gaid);
+        return String.valueOf(gaid);
     }
 
     /**
