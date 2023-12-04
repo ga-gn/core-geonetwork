@@ -180,7 +180,7 @@
 					 and in the ISO19139-to-ISO19115-3 conversion script in web/src/main/webapp/xsl/conversion/import
 					 This codeSpace value is the way in which the ga-id is recognized. -->
 			<xsl:choose>
-				<xsl:when test="/root/env/gaid">
+				<xsl:when test="/root/env/uuid">
 					<mdb:alternativeMetadataReference>
 						<cit:CI_Citation>
 							<cit:title>
@@ -190,7 +190,7 @@
 								<mcc:MD_Identifier>
 									<mcc:code>
 										<gco:CharacterString>
-											<xsl:value-of select="/root/env/gaid" />
+											<xsl:value-of select="/root/env/uuid" />
 										</gco:CharacterString>
 									</mcc:code>
 									<mcc:codeSpace>
@@ -258,14 +258,13 @@
 				<mcc:code>
 					<gco:CharacterString>
 						<xsl:choose>
-							<xsl:when test="/root/env/gaid">
-								<xsl:variable name="ecatId" select="/root/env/gaid" />
+							<xsl:when test="/root/env/uuid">
 								<xsl:choose>
 									<xsl:when test="$codelistvalue='service'">
-										<xsl:value-of select="concat('https://pid.geoscience.gov.au/', 'service', '/ga/', $ecatId)" />
+										<xsl:value-of select="concat('https://pid.geoscience.gov.au/', 'service', '/ga/', $uuid)" />
 									</xsl:when>
 									<xsl:otherwise>
-										<xsl:value-of select="concat('https://pid.geoscience.gov.au/', 'dataset', '/ga/', $ecatId)" />
+										<xsl:value-of select="concat('https://pid.geoscience.gov.au/', 'dataset', '/ga/', $uuid)" />
 									</xsl:otherwise>
 								</xsl:choose>
 							</xsl:when>
@@ -273,10 +272,10 @@
 								<xsl:variable name="ecatId" select="//mdb:alternativeMetadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:codeSpace/gco:CharacterString='eCatId']/mcc:code/gco:CharacterString" />
 								<xsl:choose>
 									<xsl:when test="$codelistvalue='service'">
-										<xsl:value-of select="concat('https://pid.geoscience.gov.au/', 'service', '/ga/', $ecatId)" />
+										<xsl:value-of select="concat('https://pid.geoscience.gov.au/', 'service', '/ga/', $uuid)" />
 									</xsl:when>
 									<xsl:otherwise>
-										<xsl:value-of select="concat('https://pid.geoscience.gov.au/', 'dataset', '/ga/', $ecatId)" />
+										<xsl:value-of select="concat('https://pid.geoscience.gov.au/', 'dataset', '/ga/', $uuid)" />
 									</xsl:otherwise>
 								</xsl:choose>
 							</xsl:otherwise>
