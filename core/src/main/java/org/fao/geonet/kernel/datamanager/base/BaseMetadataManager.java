@@ -991,9 +991,9 @@ public class BaseMetadataManager implements IMetadataManager {
             }
 
             // add ga-id to env
-            // if (generateGAID) {
-            // 	env.addContent(new Element("gaid").setText(metadataUtils.getGAID()));
-            // }
+            if (generateGAID) {
+                env.addContent(new Element("gaid").setText(metadataUtils.getGAID()));
+            }
 
             // add user information to env if user is authenticated (should be)
             Element elUser = new Element("user");
