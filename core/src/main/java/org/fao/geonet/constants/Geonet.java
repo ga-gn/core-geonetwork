@@ -103,6 +103,7 @@ public final class Geonet {
         public static final String EXTRACT_SKOS_FROM_ISO19135 = "xml_iso19135ToSKOS.xsl";
         public static final String EXTRACT_DATE_MODIFIED = "extract-date-modified.xsl";
         public static final String SET_UUID = "set-uuid.xsl";
+        public static final String SET_GAID = "set-gaid.xsl";
         public static final String SET_CREATIVECOMMONS = "set-creativecommons.xsl";
         public static final String SET_DATACOMMONS = "set-datacommons.xsl";
         public static final String DUPLICATE_METADATA = "duplicate-metadata.xsl";
