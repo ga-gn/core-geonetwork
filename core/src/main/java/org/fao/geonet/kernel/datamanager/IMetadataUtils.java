@@ -122,6 +122,11 @@ public interface IMetadataUtils {
      */
     String getGAID() throws Exception;
 
+    /**
+     * Add GAID into the metadata
+     */
+    Element setGAID(String schema, String gaid, Element md) throws Exception;
+
     String extractDefaultLanguage(String schema, Element md) throws Exception;
 
     /**
