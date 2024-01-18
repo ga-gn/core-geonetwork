@@ -174,6 +174,9 @@
       <document>
         <!--<xsl:value-of select="saxon:serialize(., 'default-serialize-mode')"/>-->
       </document>
+      <eCatId>
+        <xsl:value-of select="mdb:alternativeMetadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:codeSpace/gco:CharacterString='eCatId']/mcc:code/gco:CharacterString" />
+      </eCatId>
 
       <xsl:copy-of select="gn-fn-index:add-field('metadataIdentifier', $identifier)"/>
 

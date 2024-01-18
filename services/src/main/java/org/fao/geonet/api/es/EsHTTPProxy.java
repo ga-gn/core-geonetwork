@@ -422,6 +422,7 @@ public class EsHTTPProxy {
         source.add(Geonet.IndexFieldNames.GROUP_OWNER);
         source.add(Geonet.IndexFieldNames.OWNER);
         source.add(Geonet.IndexFieldNames.ID);
+        source.add(Geonet.IndexFieldNames.ECAT_ID);
     }
 
     private void addFilterToQuery(ServiceContext context,
