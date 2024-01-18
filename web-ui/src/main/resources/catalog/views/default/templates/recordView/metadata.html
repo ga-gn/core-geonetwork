@@ -66,3 +66,28 @@
     </div>
   </div>
 </div>
+
+<div
+  data-ng-if="mdView.current.record.eCatId"
+  class="gn-margin-bottom gn-md-side-uuid flex-row"
+>
+  <span class="badge badge-rounded" title="{{'eCatId' | translate}}">
+    <i class="fa fa-fw fa-info"></i>
+  </span>
+  <div>
+    <h3 data-translate="">eCatId</h3>
+    <div class="input-group">
+      <input
+        type="text"
+        class="form-control"
+        value="{{::mdView.current.record.eCatId}}"
+      />
+      <span
+        gn-copy-to-clipboard-button=""
+        data-btn-class="input-group-addon"
+        data-text="{{::mdView.current.record.eCatId}}"
+      >
+      </span>
+    </div>
+  </div>
+</div>

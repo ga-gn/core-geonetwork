@@ -640,6 +640,7 @@ public final class Geonet {
         public static final String HARVESTUUID = "harvesterUuid";
         public static final String IS_TEMPLATE = "isTemplate";
         public static final String UUID = "uuid";
+        public static final String ECAT_ID = "eCatId";
         public static final String IS_HARVESTED = "isHarvested";
         public static final String OWNER = "owner";
         public static final String OWNERNAME = "recordOwner";
