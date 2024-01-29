@@ -231,7 +231,7 @@
          <mri:resourceConstraints>
             <mco:MD_LegalConstraints uuid="urn:ga-licences:232">
                <mco:useLimitation>
-                     <!-- commenting out until further notice 
+                     <!-- commenting out until further notice
                      <gco:CharacterString>To the extent possible under law, the material on this website is supplied as-is and as-available, and Geoscience Australia makes no representations or warranties of any kind whether express, implied, statutory, or otherwise.</gco:CharacterString>
                      -->
                </mco:useLimitation>
@@ -279,7 +279,7 @@
                      <mco:MD_RestrictionCode codeList="codeListLocation#MD_RestrictionCode" codeListValue="otherRestrictions"/>
                </mco:useConstraints>
                <mco:otherConstraints>
-                     <gco:CharacterString>(c) Commonwealth of Australia (Geoscience Australia) 2023</gco:CharacterString>
+                     <gco:CharacterString>(c) Commonwealth of Australia (Geoscience Australia) 2024</gco:CharacterString>
                </mco:otherConstraints>
             </mco:MD_LegalConstraints>
          </mri:resourceConstraints>
@@ -302,7 +302,7 @@
                                     <gco:CharacterString xsi:type="gco:CodeType" codeSpace="http://pid.geoscience.gov.au/def/schema/ga/ISO19115-3-2016/codelist/ga_profile_codelists.xml#gapCI_ProtocolTypeCode">WWW:LINK-1.0-http--link</gco:CharacterString>
                                  </cit:protocol>
                            </cit:CI_OnlineResource>
-                        </cit:onlineResource> 
+                        </cit:onlineResource>
                      </cit:CI_Citation>
                </mco:reference>
                <mco:classification>
