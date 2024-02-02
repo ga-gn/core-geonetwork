@@ -162,12 +162,13 @@ public interface IMetadataManager {
      * @param context
      * @param newMetadata
      * @param metadataXml
+     * @param indexingMode
      * @param updateFixedInfo
      * @param updateDatestamp
      * @param fullRightsForGroup
      * @param forceRefreshReaders
      * @param generateGAID
-     * @return
+     * @return updated Metadata
      * @throws Exception
      */
     AbstractMetadata insertMetadata(ServiceContext context, AbstractMetadata newMetadata, Element metadataXml,
@@ -242,8 +243,16 @@ public interface IMetadataManager {
     /**
      * Update metadata record (not template) using update-fixed-info.xsl. Generate eCatId/GAID if required
      *
+     * @param schema
+     * @param metadataId
+     * @param md
+     * @param parentUuid
      * @param uuid If the metadata is a new record (not yet saved), provide the uuid for that record
      * @param updateDatestamp updateDatestamp is not used when running XSL transformation
+     * @param context
+     * @param generateGAID
+     * @return updated Element
+     * @throws Exception
      */
     Element updateFixedInfo(String schema, Optional<Integer> metadataId, String uuid, Element md, String parentUuid,
             UpdateDatestamp updateDatestamp, ServiceContext context, boolean generateGAID) throws Exception;
