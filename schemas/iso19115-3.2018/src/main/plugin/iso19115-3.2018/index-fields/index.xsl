@@ -1274,9 +1274,9 @@
               <p name="initiativeType" value="{$initiativeType}"/>
             </properties>
           </xsl:variable>
-          <xsl:copy-of select="gn-fn-index:build-record-link(
+          <!-- <xsl:copy-of select="gn-fn-index:build-record-link(
                                 $code, $xlink, mri:metadataReference/@xlink:title,
-                                'siblings', $properties)"/>
+                                'siblings', $properties)"/> -->
           <agg_associated><xsl:value-of select="$code"/></agg_associated>
           <xsl:element name="{concat('agg_associated_', $associationType)}"><xsl:value-of select="$code"/></xsl:element>
         </xsl:if>
