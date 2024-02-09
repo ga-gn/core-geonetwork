@@ -1,0 +1,18 @@
+language: java
+jdk:
+  - openjdk8
+
+branches:
+  only:
+    - test
+
+script:
+  - if [[ $TRAVIS_BRANCH = test ]]; then export BRANCH=/ecat3/test; fi
+  - mvn clean install -DskipTests -Penv-prod,es
+
+addons:
+  artifacts:
+    s3_region: "ap-southeast-2"
+    paths:
+      - $TRAVIS_BUILD_DIR/web/target/geonetwork.war
+    target_paths: $BRANCH
