@@ -199,7 +199,7 @@
         if (!gnMdViewObj.usingFormatter && md.draft !== "y") {
           $http.post("../api/records/" + md.uuid + "/popularity");
         }
-        this.setLocationUuid(md.uuid, formatter);
+        this.setLocationUuid(md.eCatId, formatter);
         gnMdViewObj.recordsLoaded = true;
       };
 
@@ -296,7 +296,7 @@
                             {
                               multi_match: {
                                 query: uuid,
-                                fields: ["id", "uuid"]
+                                fields: ["id", "uuid", "eCatId"]
                               }
                             },
                             { terms: { isTemplate: ["n", "y"] } },
