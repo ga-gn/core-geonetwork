@@ -45,5 +45,5 @@
        * postgres
        * sqlserver
     -->
-  <import resource="@db.config.file@"/>
+  <import resource="../config-db/postgres-postgis.xml"/>
 </beans>
