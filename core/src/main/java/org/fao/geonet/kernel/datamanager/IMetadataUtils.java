@@ -111,6 +111,21 @@ public interface IMetadataUtils {
      */
     String extractUUID(String schema, Element md) throws Exception;
 
+    /**
+     * Extract GAID(eCatId) from the metadata record using the schema XSL for GAID extraction)
+     */
+    String extractGAID(String schema, Element md) throws Exception;
+
+    /**
+     * Get GAID from the database sequence table
+     *
+     */
+    String getGAID() throws Exception;
+
+    /**
+     * Add GAID into the metadata
+     */
+    Element setGAID(String schema, String gaid, Element md) throws Exception;
 
     String extractDefaultLanguage(String schema, Element md) throws Exception;
 

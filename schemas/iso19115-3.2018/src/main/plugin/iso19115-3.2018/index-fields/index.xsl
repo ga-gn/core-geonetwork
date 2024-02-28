@@ -174,6 +174,9 @@
       <document>
         <!--<xsl:value-of select="saxon:serialize(., 'default-serialize-mode')"/>-->
       </document>
+      <eCatId>
+        <xsl:value-of select="mdb:alternativeMetadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:codeSpace/gco:CharacterString='eCatId']/mcc:code/gco:CharacterString" />
+      </eCatId>
 
       <xsl:copy-of select="gn-fn-index:add-field('metadataIdentifier', $identifier)"/>
 
@@ -1271,9 +1274,9 @@
               <p name="initiativeType" value="{$initiativeType}"/>
             </properties>
           </xsl:variable>
-          <xsl:copy-of select="gn-fn-index:build-record-link(
+          <!-- <xsl:copy-of select="gn-fn-index:build-record-link(
                                 $code, $xlink, mri:metadataReference/@xlink:title,
-                                'siblings', $properties)"/>
+                                'siblings', $properties)"/> -->
           <agg_associated><xsl:value-of select="$code"/></agg_associated>
           <xsl:element name="{concat('agg_associated_', $associationType)}"><xsl:value-of select="$code"/></xsl:element>
         </xsl:if>
