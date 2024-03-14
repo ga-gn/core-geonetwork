@@ -1,25 +1,23 @@
 <div data-ng-class="fluidHeaderLayout ? 'container-fluid' : 'container'">
   <div class="navbar-header">
     <a
-      class="hidden-sm hidden-md hidden-lg pull-left gn-logo-link"
+      class="hidden-ga pull-left gn-logo-link"
       data-gn-active-tb-item="{{gnCfg.mods.home.appUrl}}"
       data-ng-hide="{{gnCfg.mods.header.isLogoInHeader}}"
     >
       <img
         class="gn-logo"
         alt="{{'siteLogo' | translate}}"
-        data-ng-src="{{gnUrl}}../images/logos/{{info['node/id'] || info['system/site/siteId']}}.png?random{{info['system/site/lastUpdate']}}"
+        data-ng-src="../../catalog/views/default/images/geoscience_inline_sm.png"
       />
     </a>
     <a
-      class="hidden-sm hidden-md hidden-lg btn btn-link pull-left"
+      class="hidden-ga btn btn-link pull-left"
       data-gn-active-tb-item="{{gnCfg.mods.home.appUrl}}"
+      style="padding-top: 12px"
     >
-      <span
-        class="gn-name"
-        data-ng-class="authenticated && user.isEditorOrMore() ? 'gn-truncate' : ''"
-        title="{{info['system/site/name']}}"
-        >{{info['node/name'] || info['system/site/name']}}</span
+      <span class="gn-name" title="DATA AND PUBLICATIONS SEARCH"
+        >DATA AND PUBLICATIONS SEARCH</span
       >
     </a>
     <button
@@ -43,7 +41,6 @@
       <li data-ng-if="menu == 'gn-site-name-menu'" gn-site-name-menu=""></li>
       <li data-ng-if="menu == 'gn-portal-switcher'" gn-portal-switcher=""></li>
       <li data-ng-if="menu == 'gn-search-menu'" gn-search-menu=""></li>
-      <li data-ng-if="menu == 'gn-map-menu'" gn-map-menu=""></li>
       <li data-ng-if="menu == 'gn-contribute-menu'" gn-contribute-menu=""></li>
       <li data-ng-if="menu == 'gn-admin-menu'" gn-admin-menu=""></li>
       <li
@@ -63,7 +60,6 @@
     </ul>
     <div class="navbar-right">
       <ul gn-signin-menu=""></ul>
-      <div gn-languages-menu=""></div>
     </div>
   </div>
 </div>
