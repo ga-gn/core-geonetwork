@@ -17,7 +17,7 @@
         alt="{{'avatar' | translate}}"
         data-ng-src="../api/users/{{(user.id)}}.png?size=18"
       />
-      <div class="gn-user-info hidden-sm hidden-md">
+      <div class="gn-user-info hidden-xs-ga">
         <span class="gn-user-name">{{user.name}} {{user.surname}}</span><br />
         <span class="gn-user-role">{{user.profile | translate}}</span>
       </div>
@@ -33,30 +33,30 @@
       </span>
     </a>
     <ul class="dropdown-menu gn-menuitem-xs">
-      <li class="text-center hidden-xs" role="menuitem">
+      <li class="text-center hidden-xs-ga" role="menuitem">
         <img
           class="img-circle"
           alt="{{'avatar' | translate}}"
           data-ng-src="../api/users/{{(user.id)}}.png?size=56"
         />
       </li>
-      <li role="separator" class="divider hidden-xs"></li>
-      <li class="dropdown-header hidden-xs" role="menuitem" translate>username</li>
-      <li class="hidden-xs" role="menuitem">
+      <li role="separator" class="divider hidden-xs-ga"></li>
+      <li class="dropdown-header hidden-xs-ga" role="menuitem" translate>username</li>
+      <li class="hidden-xs-ga" role="menuitem">
         <a
           data-gn-active-tb-item="{{gnCfg.mods.admin.appUrl}}#/organization/users?userOrGroup={{user.username}}"
           >{{user.name}} {{user.surname}}</a
         >
       </li>
-      <li class="dropdown-header hidden-xs" role="menuitem" translate>profile</li>
-      <li class="hidden-xs" role="menuitem">
+      <li class="dropdown-header hidden-xs-ga" role="menuitem" translate>profile</li>
+      <li class="hidden-xs-ga" role="menuitem">
         <a
           style="text-transform: lowercase"
           data-gn-active-tb-item="{{gnCfg.mods.admin.appUrl}}#/organization/users?userOrGroup={{user.username}}"
           >{{user.profile | translate}}</a
         >
       </li>
-      <li role="separator" class="divider hidden-xs"></li>
+      <li role="separator" class="divider hidden-xs-ga"></li>
       <li role="menuitem">
         <a href="{{signoutUrl}}" title="{{'signout' | translate}}">
           <span class="fa fa-fw fa-sign-out"></span>
@@ -76,7 +76,7 @@
       data-ng-keypress="$event"
       id="signinLink"
     >
-      <span class="fa fa-fw fa-sign-in hidden-sm"></span>
+      <span class="fa fa-fw fa-sign-in hidden-xs-ga"></span>
       {{'signIn' | translate}}
     </a>
   </li>
@@ -94,7 +94,7 @@
       aria-haspopup="true"
       data-ng-mouseover="focusLoginPopup()"
     >
-      <span class="fa fa-fw fa-sign-in hidden-sm"></span>
+      <span class="fa fa-fw fa-sign-in hidden-xs-ga"></span>
       {{'signIn' | translate}}
       <span class="caret"></span>
     </a>
