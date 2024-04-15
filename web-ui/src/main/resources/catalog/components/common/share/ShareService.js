@@ -188,7 +188,14 @@
           return defer.promise;
         },
 
-        publish: function (metadataId, bucket, publish, user, publicationType) {
+        publish: function (
+          metadataId,
+          bucket,
+          publish,
+          user,
+          publicationType,
+          internalPublish
+        ) {
           var defer = $q.defer();
           var url =
             "../api/records" +
@@ -202,6 +209,10 @@
 
           if (angular.isDefined(publicationType)) {
             url = gnUrlUtils.append(url, "publicationType=" + publicationType);
+          }
+
+          if (angular.isDefined(internalPublish)) {
+            url = gnUrlUtils.append(url, "internalPublish=" + internalPublish);
           }
 
           $http.put(url).then(

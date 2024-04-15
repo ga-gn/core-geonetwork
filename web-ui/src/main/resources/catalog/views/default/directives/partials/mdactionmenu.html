@@ -92,6 +92,29 @@
         </a>
       </li>
 
+      <li
+        data-ng-repeat="pubOption in publicationOptions"
+        role="menuitem"
+        data-ng-if="!md.isPublished(pubOption)"
+        data-ng-class="getPublicationOptionClass(md, user, isMdWorkflowEnable, pubOption)"
+        title="{{getPublicationOptionTitle(md, user, isMdWorkflowEnable, pubOption) | translate}}"
+      >
+        <a
+          href=""
+          data-ng-click="mdService.publish(md, undefined, undefined, getCatScope(), pubOption, true)"
+        >
+          <span
+            class="fa fa-fw"
+            data-ng-class="md.isPublished(pubOption) ? 'fa-lock' : 'fa-unlock'"
+          ></span
+          >&nbsp;
+          <span data-ng-if="!md.isPublished(pubOption)" data-translate=""
+            >{{ 'Internal Publish' + (pubOption.name === 'default'? '':
+            pubOption.name)}}</span
+          >&nbsp;
+        </a>
+      </li>
+
       <!-- Workflow -->
       <li
         data-ng-if="isMdWorkflowEnable
