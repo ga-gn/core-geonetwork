@@ -458,7 +458,14 @@
        * @param {string} flag
        * @return {*}
        */
-      this.publish = function (md, bucket, flag, scope, publicationType) {
+      this.publish = function (
+        md,
+        bucket,
+        flag,
+        scope,
+        publicationType,
+        internalPublish = false
+      ) {
         if (md) {
           flag = md.isPublished(publicationType) ? "off" : "on";
         }
@@ -482,7 +489,8 @@
             angular.isDefined(md) ? undefined : bucket,
             onOrOff,
             $rootScope.user,
-            publicationType.name === "default" ? "" : publicationType.name
+            publicationType.name === "default" ? "" : publicationType.name,
+            internalPublish
           )
           .then(
             function (response) {
