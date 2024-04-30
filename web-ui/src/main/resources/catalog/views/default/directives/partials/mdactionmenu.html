@@ -95,7 +95,7 @@
       <li
         data-ng-repeat="pubOption in publicationOptions"
         role="menuitem"
-        data-ng-if="!md.isPublished(pubOption)"
+        data-ng-if="displayPublicationOption(md, user, pubOption)"
         data-ng-class="getPublicationOptionClass(md, user, isMdWorkflowEnable, pubOption)"
         title="{{getPublicationOptionTitle(md, user, isMdWorkflowEnable, pubOption) | translate}}"
       >
