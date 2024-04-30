@@ -255,6 +255,7 @@
         gnGlobalSettings.isShowLoginAsLink = <xsl:value-of select="$isShowLoginAsLink"/>;
         gnGlobalSettings.isUserProfileUpdateEnabled = <xsl:value-of select="$isUserProfileUpdateEnabled"/>;
         gnGlobalSettings.isUserGroupUpdateEnabled = <xsl:value-of select="$isUserGroupUpdateEnabled"/>;
+        gnGlobalSettings.isIntranet = <xsl:value-of select="$isIntranet"/>;
         }]);
       </script>
 

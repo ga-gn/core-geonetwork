@@ -3,6 +3,7 @@
     <tr>
       <th></th>
       <th data-translate="">title</th>
+      <th data-translate="">eCat ID</th>
       <th data-translate="">cl_status</th>
       <th data-translate="">actions</th>
     </tr>
@@ -40,6 +41,21 @@
           >
         </h1>
       </td>
+
+      <td class="gn-md-title">
+        <h1>
+          {{md.eCatId}}
+          <b
+            data-ng-show="authenticated || isIntranet()"
+            ng-style="{ 'color' : (((isArray(md.op0)) && (md.op0.includes('1'))) || (md.op0 === '1')) ? '#5cb85c' : md.statusWorkflow === 'draft' ? '#ffc107' : md.statusWorkflow === 'approved' ? '#3277B3' : '#d9534f' }"
+          >
+            - {{(((isArray(md.op0)) && (md.op0.includes("1"))) || (md.op0 === "1")) ?
+            'External' : 'Internal'}} - {{md.statusWorkflow ? md.statusWorkflow :
+            'Workflow not active'}}
+          </b>
+        </h1>
+      </td>
+
       <td>
         <div
           data-ng-if="md.cl_status.length > 0"

@@ -642,13 +642,13 @@ public class EsHTTPProxy {
                 }
 
                 // Remove fields with privileges info
-                if (doc.has("_source")) {
-                    ObjectNode sourceNode = (ObjectNode) doc.get("_source");
+                // if (doc.has("_source")) {
+                //     ObjectNode sourceNode = (ObjectNode) doc.get("_source");
 
-                    for (ReservedOperation o : ReservedOperation.values()) {
-                        sourceNode.remove("op" + o.getId());
-                    }
-                }
+                //     for (ReservedOperation o : ReservedOperation.values()) {
+                //         sourceNode.remove("op" + o.getId());
+                //     }
+                // }
             });
         } else {
             JsonStreamUtils.addInfoToDocsMSearch(parser, generator, doc -> {

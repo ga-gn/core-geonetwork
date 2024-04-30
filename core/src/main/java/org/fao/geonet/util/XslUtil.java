@@ -1164,6 +1164,17 @@ public final class XslUtil {
         }
     }
 
+    public static boolean isIntranet() {
+        try {
+            ServiceContext context = ServiceContext.get();
+            AccessManager accessManager = ApplicationContextHolder.get().getBean(AccessManager.class);
+            return accessManager.isIntranet(context.getIpAddress());
+        } catch (Exception e) {
+            Log.error(Geonet.GEONETWORK, "Unable get the IP Address");
+            return false;
+        }
+    }
+
     public static String getSiteUrl() {
         ServiceContext context = ServiceContext.get();
         String baseUrl = "";
