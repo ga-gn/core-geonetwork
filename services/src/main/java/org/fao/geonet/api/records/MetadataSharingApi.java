@@ -44,6 +44,7 @@ import org.fao.geonet.api.tools.i18n.LanguageUtils;
 import org.fao.geonet.config.IPublicationConfig;
 import org.fao.geonet.config.PublicationOption;
 import org.fao.geonet.domain.*;
+// import org.fao.geonet.repository.GroupRepository;
 import org.fao.geonet.domain.utils.ObjectJSONUtils;
 import org.fao.geonet.events.history.RecordGroupOwnerChangeEvent;
 import org.fao.geonet.events.history.RecordOwnerChangeEvent;
@@ -1318,6 +1319,15 @@ public class MetadataSharingApi {
             privReservedGroup.setOperations(operations);
             if (!internalPublish) {
                 privilegesList.add(privReservedGroup);
+            } else {
+                Group editorGroup = groupRepository.findByName("editors_all");
+
+                if (editorGroup != null) {
+                    GroupOperations editorGroupOperations = new GroupOperations();
+                    editorGroupOperations.setGroup(editorGroup.getId());
+                    editorGroupOperations.setOperations(operations);
+                    privilegesList.add(editorGroupOperations);
+                }
             }
 
             // Process the additional publication group(s) and operations
