@@ -1318,6 +1318,15 @@ public class MetadataSharingApi {
             privReservedGroup.setOperations(operations);
             if (!internalPublish) {
                 privilegesList.add(privReservedGroup);
+            } else {
+                Group editorGroup = groupRepository.findByName("editors_all");
+
+                if (editorGroup != null) {
+                    GroupOperations editorGroupOperations = new GroupOperations();
+                    editorGroupOperations.setGroup(editorGroup.getId());
+                    editorGroupOperations.setOperations(operations);
+                    privilegesList.add(editorGroupOperations);
+                }
             }
 
             // Process the additional publication group(s) and operations
