@@ -4,6 +4,8 @@
   xmlns:mdb="http://standards.iso.org/iso/19115/-3/mdb/2.0"
   xmlns:mcc="http://standards.iso.org/iso/19115/-3/mcc/1.0"
   xmlns:cit="http://standards.iso.org/iso/19115/-3/cit/2.0"
+  xmlns:mac="http://standards.iso.org/iso/19115/-3/mac/2.0"
+  xmlns:gex="http://standards.iso.org/iso/19115/-3/gex/1.0"
   exclude-result-prefixes="#all">
 
   <xsl:template match="/root">
@@ -76,6 +78,28 @@
     <xsl:copy>
       <xsl:apply-templates select="@*|node()"/>
     </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="gex:EX_Extent">
+      <xsl:copy>
+          <xsl:copy-of select="@*"/>
+          <xsl:apply-templates select="gex:geographicElement"/>
+          <xsl:apply-templates select="gex:verticalElement"/>
+          <xsl:apply-templates select="gex:temporalElement"/>
+      </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="mdb:acquisitionInformation">
+      <xsl:copy>
+          <mac:scope>
+            <mcc:MD_Scope>
+              <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/resources/Codelists/cat/codelists.xml#MD_ScopeCode" codeListValue="collectionHardware"/>
+              </mcc:level>
+            </mcc:MD_Scope>
+          </mac:scope>
+          <xsl:apply-templates select="@* | node()"/>
+      </xsl:copy>
   </xsl:template>
 </xsl:stylesheet>
 

@@ -52,8 +52,8 @@
             </annotation>
           </element>
           <element maxOccurs="unbounded" minOccurs="0" name="geographicElement" type="gex:AbstractEX_GeographicExtent_PropertyType"/>
-          <element maxOccurs="unbounded" minOccurs="0" name="temporalElement" type="gex:EX_TemporalExtent_PropertyType"/>
           <element maxOccurs="unbounded" minOccurs="0" name="verticalElement" type="gex:EX_VerticalExtent_PropertyType"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="temporalElement" type="gex:EX_TemporalExtent_PropertyType"/>
         </sequence>
       </extension>
     </complexContent>
