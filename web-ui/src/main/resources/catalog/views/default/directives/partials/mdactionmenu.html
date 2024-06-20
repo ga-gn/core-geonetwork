@@ -178,26 +178,26 @@
         data-ng-if="user.isConnected() && user.canEditRecord(md) && md.draft != 'y'"
       ></li>
 
-      <li
-        data-ng-repeat="t in tasks"
-        data-ng-show="taskConfiguration[t.name] && taskConfiguration[t.name].isVisible && taskConfiguration[t.name].isVisible(md)"
-        data-ng-class="{'disabled': !taskConfiguration[t.name].isApplicable(md)}"
-      >
-        <a
-          href=""
-          data-ng-click="mdService.openUpdateStatusPanel(getScope(md), 'task', t)"
-        >
-          <span class="fa fa-fw"></span>&nbsp;
-          <span>{{t.label | gnLocalized}}</span>
-        </a>
-      </li>
-      <li
-        role="menuitem"
-        class="divider"
-        data-ng-if="user.isConnected() && tasks.length > 0 && hasVisibletasks"
-      >
-        &nbsp;
-      </li>
+      <!--      <li-->
+      <!--        data-ng-repeat="t in tasks"-->
+      <!--        data-ng-show="taskConfiguration[t.name] && taskConfiguration[t.name].isVisible && taskConfiguration[t.name].isVisible(md)"-->
+      <!--        data-ng-class="{'disabled': !taskConfiguration[t.name].isApplicable(md)}"-->
+      <!--      >-->
+      <!--        <a-->
+      <!--          href=""-->
+      <!--          data-ng-click="mdService.openUpdateStatusPanel(getScope(md), 'task', t)"-->
+      <!--        >-->
+      <!--          <span class="fa fa-fw"></span>&nbsp;-->
+      <!--          <span>{{t.label | gnLocalized}}</span>-->
+      <!--        </a>-->
+      <!--      </li>-->
+      <!--      <li-->
+      <!--        role="menuitem"-->
+      <!--        class="divider"-->
+      <!--        data-ng-if="user.isConnected() && tasks.length > 0 && hasVisibletasks"-->
+      <!--      >-->
+      <!--        &nbsp;-->
+      <!--      </li>-->
 
       <li role="menuitem">
         <a
