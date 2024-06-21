@@ -49,7 +49,7 @@ public class DoiBuilder {
      *
      * @return The DOI value from prefix based on DOI pattern define in settings.
      */
-    public String create(String doiPattern, String prefix, AbstractMetadata metadata) {
+    public String create(String doiPattern, String prefix, AbstractMetadata metadata, String eCatId) {
         java.util.Optional<Group> groupOwner =
             metadata.getSourceInfo().getGroupOwner() != null
                 ? groupRepository.findById(metadata.getSourceInfo().getGroupOwner())
@@ -58,13 +58,14 @@ public class DoiBuilder {
         return prefix + "/" + doiPattern
             .replace("{{groupOwner}}", groupOwner.isPresent() ? groupOwner.get().getName() : "")
             .replace("{{id}}", metadata.getId() + "")
-            .replace("{{uuid}}", metadata.getUuid());
+            .replace("{{uuid}}", metadata.getUuid())
+            .replace("{{eCatId}}", eCatId);
     }
 
     /**
      * Static utility for XSL calls.
      */
-    public static String createDoi(String uuid) {
+    public static String createDoi(String uuid, String eCatId) {
         DoiBuilder doiBuilder =
             ApplicationContextHolder.get().getBean(DoiBuilder.class);
 
@@ -78,7 +79,6 @@ public class DoiBuilder {
         BaseMetadataUtils metadataUtils =
             ApplicationContextHolder.get().getBean(BaseMetadataUtils.class);
         AbstractMetadata metadata = metadataUtils.findOneByUuid(uuid);
-
-        return doiBuilder.create(doiPattern, doiPrefix, metadata);
+        return doiBuilder.create(doiPattern, doiPrefix, metadata, eCatId);
     }
 }
