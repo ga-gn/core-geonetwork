@@ -4,10 +4,11 @@ jdk:
 
 branches:
   only:
+    - dev
     - test
 
 script:
-  - if [[ $TRAVIS_BRANCH = test ]]; then export BRANCH=/ecat3/test; fi
+  - if [[ $TRAVIS_BRANCH = dev ]]; then export BRANCH=/ecat3/dev; elif [[ $TRAVIS_BRANCH = test ]]; then export BRANCH=/ecat3/test; fi
   - mvn clean install -DskipTests -Penv-prod
   - echo $BRANCH
 
