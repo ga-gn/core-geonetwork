@@ -215,6 +215,10 @@ public class MetadataSharingApi {
             description = "Publication type",
             required = false)
         String publicationType,
+        @Parameter(
+            description = "Internal publish",
+            required = false)
+        Boolean internalPublish,
         @Parameter(hidden = true)
         HttpSession session,
         HttpServletRequest request
@@ -228,7 +232,11 @@ public class MetadataSharingApi {
             publicationType = DEFAULT_PUBLICATION_TYPE_NAME;
         }
 
-        shareMetadataWithReservedGroup(metadataUuid, true, publicationType, session, request);
+        if (internalPublish == null) {
+            internalPublish = false;
+        }
+
+        shareMetadataWithReservedGroup(metadataUuid, true, publicationType, session, request, internalPublish);
     }
 
     @io.swagger.v3.oas.annotations.Operation(
@@ -1114,6 +1122,10 @@ public class MetadataSharingApi {
 
     }
 
+    private void shareMetadataWithReservedGroup(String metadataUuid, boolean publish, String publicationType,
+    HttpSession session, HttpServletRequest request) throws Exception {
+        shareMetadataWithReservedGroup(metadataUuid, publish, publicationType, session, request, false);
+    }
 
     /**
      * Shares a metadata based on the publicationConfig to publish/unpublish it.
@@ -1125,7 +1137,7 @@ public class MetadataSharingApi {
      * @throws Exception
      */
     private void shareMetadataWithReservedGroup(String metadataUuid, boolean publish, String publicationType,
-                                           HttpSession session, HttpServletRequest request) throws Exception {
+                                           HttpSession session, HttpServletRequest request, boolean internalPublish) throws Exception {
         AbstractMetadata metadata = ApiUtils.canEditRecord(metadataUuid, request);
         ApplicationContext appContext = ApplicationContextHolder.get();
         ServiceContext context = ApiUtils.createServiceContext(request);
@@ -1143,7 +1155,7 @@ public class MetadataSharingApi {
             operationMap.put(o.getName(), o.getId());
         }
 
-        SharingParameter sharing = buildSharingForPublicationConfig(publish, publicationType);
+        SharingParameter sharing = buildSharingForPublicationConfig(publish, publicationType, internalPublish);
 
         List<GroupOperations> privileges = sharing.getPrivileges();
         List<MetadataPublicationNotificationInfo> metadataListToNotifyPublication = new ArrayList<>();
@@ -1270,6 +1282,9 @@ public class MetadataSharingApi {
         return report;
     }
 
+    private SharingParameter buildSharingForPublicationConfig(boolean publish, String configName) {
+        return buildSharingForPublicationConfig(publish, configName, false);
+    }
 
     /**
      * Creates a ref {@link SharingParameter} object with privileges to publih/un-publish
@@ -1278,7 +1293,7 @@ public class MetadataSharingApi {
      * @param publish Flag to add/remove sharing privileges.
      * @return
      */
-    private SharingParameter buildSharingForPublicationConfig(boolean publish, String configName) {
+    private SharingParameter buildSharingForPublicationConfig(boolean publish, String configName, boolean internalPublish) {
         SharingParameter sharing = new SharingParameter();
         sharing.setClear(false);
 
@@ -1301,7 +1316,18 @@ public class MetadataSharingApi {
                 operations.put(operation.toString(), publish);
             }
             privReservedGroup.setOperations(operations);
-            privilegesList.add(privReservedGroup);
+            if (!internalPublish) {
+                privilegesList.add(privReservedGroup);
+            } else {
+                Group editorGroup = groupRepository.findByName("editors_all");
+
+                if (editorGroup != null) {
+                    GroupOperations editorGroupOperations = new GroupOperations();
+                    editorGroupOperations.setGroup(editorGroup.getId());
+                    editorGroupOperations.setOperations(operations);
+                    privilegesList.add(editorGroupOperations);
+                }
+            }
 
             // Process the additional publication group(s) and operations
             Iterator<Map.Entry<ReservedGroup, List<ReservedOperation>>> it2 =

@@ -170,16 +170,16 @@ public class DoiManager {
         }
     }
 
-    public String checkDoiUrl(AbstractMetadata metadata) {
-        return doiBuilder.create(doiPattern, doiPrefix, metadata);
+    public String checkDoiUrl(AbstractMetadata metadata, String eCatId) {
+        return doiBuilder.create(doiPattern, doiPrefix, metadata, eCatId);
     }
 
-    public Map<String, Boolean> check(ServiceContext serviceContext, AbstractMetadata metadata, Element dataciteMetadata) throws Exception {
+    public Map<String, Boolean> check(ServiceContext serviceContext, AbstractMetadata metadata, Element dataciteMetadata, String eCatId) throws Exception {
         Map<String, Boolean> conditions = new HashMap<>();
         checkInitialised();
         conditions.put(DoiConditions.API_CONFIGURED, true);
 
-        String doi =  doiBuilder.create(doiPattern, doiPrefix, metadata);
+        String doi =  doiBuilder.create(doiPattern, doiPrefix, metadata, eCatId);
         checkPreConditions(metadata, doi);
         conditions.put(DoiConditions.RECORD_IS_PUBLIC, true);
         conditions.put(DoiConditions.STANDARD_SUPPORT, true);
@@ -195,10 +195,10 @@ public class DoiManager {
         return conditions;
     }
 
-    public Map<String, String> register(ServiceContext context, AbstractMetadata metadata) throws Exception {
+    public Map<String, String> register(ServiceContext context, AbstractMetadata metadata, String eCatId) throws Exception {
         Map<String, String> doiInfo = new HashMap<>(3);
         // The new DOI for this record
-        String doi =  doiBuilder.create(doiPattern, doiPrefix, metadata);
+        String doi =  doiBuilder.create(doiPattern, doiPrefix, metadata, eCatId);
         doiInfo.put("doi", doi);
 
         // The record in datacite format
@@ -207,7 +207,7 @@ public class DoiManager {
                     metadata.getXmlData(false), doi);
 
         try {
-            check(context, metadata, dataciteFormatMetadata);
+            check(context, metadata, dataciteFormatMetadata, eCatId);
         } catch (ResourceAlreadyExistException ignore) {
             // Update DOI
             doiInfo.put("update", "true");
@@ -215,7 +215,7 @@ public class DoiManager {
             throw e;
         }
 
-        createDoi(context, metadata, doiInfo, dataciteFormatMetadata);
+        createDoi(context, metadata, doiInfo, dataciteFormatMetadata, eCatId);
         checkDoiCreation(metadata, doiInfo);
 
         return doiInfo;
@@ -340,9 +340,9 @@ public class DoiManager {
             List<?> failures = Xml.selectNodes(rules, ".//svrl:failed-assert/svrl:text/*", namespaces);
             StringBuilder message = new StringBuilder();
             if (!failures.isEmpty()) {
-                message.append("<ul>");
-                failures.forEach(f -> message.append("<li>").append(((Element)f).getTextNormalize()).append("</li>"));
-                message.append("</ul>");
+//                message.append("<ul>");
+                failures.forEach(f -> message.append(((Element)f).getTextNormalize()));
+//                message.append("</ul>");
 
                 throw new DoiClientException(String.format(
                     "Record '%s' is not conform with DataCite format. %d mandatory field(s) missing. %s",
@@ -407,7 +407,7 @@ public class DoiManager {
      * @param context
      * @param metadata
      */
-    private void createDoi(ServiceContext context, AbstractMetadata metadata, Map<String, String> doiInfo, Element dataciteMetadata) throws Exception {
+    private void createDoi(ServiceContext context, AbstractMetadata metadata, Map<String, String> doiInfo, Element dataciteMetadata, String eCatId) throws Exception {
         // * Now, let's create the DOI
         // picking a DOI name,
 
@@ -422,7 +422,7 @@ public class DoiManager {
 
         // Register the URL for Datacite
         String landingPage = landingPageTemplate.replace(
-                        "{{uuid}}", metadata.getUuid());
+                        "{{eCatId}}", eCatId);
         doiInfo.put("doiLandingPage", landingPage);
         doiInfo.put("doiUrl",
             client.createPublicUrl(doiInfo.get("doi")));
@@ -434,7 +434,7 @@ public class DoiManager {
         // Update the published copy
         //--- needed to detach md from the document
 
-        dm.updateMetadata(context, metadata.getId() + "", recordWithDoi, false, true,
+        dm.updateMetadata(context, metadata.getId() + "", recordWithDoi, false, false,
             context.getLanguage(), new ISODate().toString(), true, IndexingMode.full);
     }
 
@@ -451,10 +451,10 @@ public class DoiManager {
     }
 
 
-    public void unregisterDoi(AbstractMetadata metadata, ServiceContext context) throws DoiClientException, ResourceNotFoundException {
+    public void unregisterDoi(AbstractMetadata metadata, ServiceContext context, String eCatId) throws DoiClientException, ResourceNotFoundException {
         checkInitialised();
 
-        final String doi = doiBuilder.create(doiPattern, doiPrefix, metadata);
+        final String doi = doiBuilder.create(doiPattern, doiPrefix, metadata, eCatId);
         final String doiResponse = client.retrieveDoi(doi);
         if (doiResponse == null) {
             throw new ResourceNotFoundException(String.format(

@@ -156,6 +156,27 @@ public interface IMetadataManager {
             throws Exception;
 
     /**
+     * /** Inserts a metadata into the database, optionally indexing it, and optionally applying automatic changes to it
+     * (update-fixed-info).
+     *
+     * @param context
+     * @param newMetadata
+     * @param metadataXml
+     * @param indexingMode
+     * @param updateFixedInfo
+     * @param updateDatestamp
+     * @param fullRightsForGroup
+     * @param forceRefreshReaders
+     * @param generateGAID
+     * @return updated Metadata
+     * @throws Exception
+     */
+    AbstractMetadata insertMetadata(ServiceContext context, AbstractMetadata newMetadata, Element metadataXml,
+                                    IndexingMode indexingMode,
+                                    boolean updateFixedInfo, UpdateDatestamp updateDatestamp, boolean fullRightsForGroup, boolean forceRefreshReaders, boolean generateGAID)
+            throws Exception;
+
+    /**
      * Retrieves a metadata (in xml) given its id. Use this method when you must retrieve a metadata in the same transaction.
      */
     Element getMetadata(String id) throws Exception;
@@ -218,6 +239,23 @@ public interface IMetadataManager {
      */
     Element updateFixedInfo(String schema, Optional<Integer> metadataId, String uuid, Element md, String parentUuid,
             UpdateDatestamp updateDatestamp, ServiceContext context) throws Exception;
+
+    /**
+     * Update metadata record (not template) using update-fixed-info.xsl. Generate eCatId/GAID if required
+     *
+     * @param schema
+     * @param metadataId
+     * @param md
+     * @param parentUuid
+     * @param uuid If the metadata is a new record (not yet saved), provide the uuid for that record
+     * @param updateDatestamp updateDatestamp is not used when running XSL transformation
+     * @param context
+     * @param generateGAID
+     * @return updated Element
+     * @throws Exception
+     */
+    Element updateFixedInfo(String schema, Optional<Integer> metadataId, String uuid, Element md, String parentUuid,
+            UpdateDatestamp updateDatestamp, ServiceContext context, boolean generateGAID) throws Exception;
 
     /**
      * You should not use a direct flush. If you need to use this to properly run your code, you are missing something. Check the

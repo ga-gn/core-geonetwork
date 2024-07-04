@@ -261,6 +261,18 @@
         </a>
       </li>
 
+      <li data-ng-if="user.isUserAdminOrMore()">
+        <a
+          href=""
+          data-ng-click="mdService.bulkDOICreate(searchResults.selectionBucket)"
+          data-gn-confirm-click="{{'createDoiForRecord' | translate:searchResults}}"
+        >
+          <i class="fa fa-external-link"></i>&nbsp;<span translate
+            >doiCreationTaskCreateAction</span
+          >
+        </a>
+      </li>
+
       <!--Custom actions-->
       <li data-ng-repeat="a in customActions">
         <a href="" data-ng-click="a.fn()">

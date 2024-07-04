@@ -51,6 +51,7 @@ import org.fao.geonet.kernel.datamanager.IMetadataUtils;
 import org.fao.geonet.kernel.mef.MEFLib;
 import org.fao.geonet.lib.Lib;
 import org.fao.geonet.repository.MetadataRepository;
+import org.fao.geonet.utils.FilePathChecker;
 import org.fao.geonet.utils.Log;
 import org.fao.geonet.utils.Xml;
 import org.jdom.Attribute;
@@ -359,6 +360,141 @@ public class MetadataApi {
             metadata.getUuid(),
             isJson ? "json" : "xml"
         ));
+        return isJson ? Xml.getJSON(xml) : xml;
+    }
+
+    @io.swagger.v3.oas.annotations.Operation(summary = "Get a metadata record as XML or JSON",
+        description = "")
+    @RequestMapping(value =
+        {
+            "/{metadataUuid}/formatters/xml/transform",
+            "/{metadataUuid}/formatters/json/transform"
+        },
+        method = RequestMethod.GET,
+        produces = {
+            MediaType.APPLICATION_XML_VALUE,
+            MediaType.APPLICATION_JSON_VALUE
+        })
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Return the record."),
+        @ApiResponse(responseCode = "403", description = ApiParams.API_RESPONSE_NOT_ALLOWED_CAN_VIEW)
+    })
+    public
+    @ResponseBody
+    Object get2014RecordAs(
+        @Parameter(
+            description = API_PARAM_RECORD_UUID,
+            required = true)
+        @PathVariable
+        String metadataUuid,
+        @Parameter(description = "Add XSD schema location based on standard configuration " +
+            "(see schema-ident.xml).",
+            required = false)
+        @RequestParam(required = false, defaultValue = "true")
+        boolean addSchemaLocation,
+        @Parameter(description = "Increase record popularity",
+            required = false)
+        @RequestParam(required = false, defaultValue = "true")
+        boolean increasePopularity,
+        @Parameter(description = "Add geonet:info details",
+            required = false)
+        @RequestParam(required = false, defaultValue = "false")
+        boolean withInfo,
+        @Parameter(description = "Download as a file",
+            required = false)
+        @RequestParam(required = false, defaultValue = "false")
+        boolean attachment,
+        @Parameter(description = "Download the approved version",
+            required = false)
+        @RequestParam(required = false, defaultValue = "true")
+        boolean approved,
+        @RequestHeader(
+            value = HttpHeaders.ACCEPT,
+            defaultValue = MediaType.APPLICATION_XML_VALUE
+        )
+        String acceptHeader,
+        HttpServletResponse response,
+        HttpServletRequest request
+    )
+        throws Exception {
+        AbstractMetadata metadata;
+        try {
+            metadata = ApiUtils.canViewRecord(metadataUuid, request);
+        } catch (ResourceNotFoundException e) {
+            Log.debug(API.LOG_MODULE_NAME, e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            Log.debug(API.LOG_MODULE_NAME, e.getMessage(), e);
+            throw new NotAllowedException(ApiParams.API_RESPONSE_NOT_ALLOWED_CAN_VIEW);
+        }
+        ServiceContext context = ApiUtils.createServiceContext(request);
+        try {
+            Lib.resource.checkPrivilege(context,
+                String.valueOf(metadata.getId()),
+                ReservedOperation.view);
+        } catch (Exception e) {
+            // TODO: i18n
+            // TODO: Report exception in JSON format
+            Log.debug(API.LOG_MODULE_NAME, e.getMessage(), e);
+            throw new NotAllowedException(ApiParams.API_RESPONSE_NOT_ALLOWED_CAN_VIEW);
+
+        }
+
+        boolean withValidationErrors = false;
+        boolean keepXlinkAttributes = false;
+        boolean forEditing = false;
+
+        String mdId = String.valueOf(metadata.getId());
+
+        //Here we just care if we need the approved version explicitly.
+        //ApiUtils.canViewRecord already filtered draft for non editors.
+        if (approved) {
+            mdId = String.valueOf(metadataRepository.findOneByUuid(metadata.getUuid()).getId());
+
+            // Only increase popularity for the no working copy
+            if (increasePopularity) {
+                dataManager.increasePopularity(context, mdId + "");
+            }
+        }
+
+        Element xml = withInfo ?
+            dataManager.getMetadata(context, mdId, forEditing,
+                withValidationErrors, keepXlinkAttributes) :
+            dataManager.getMetadataNoInfo(context, mdId + "");
+
+        if (addSchemaLocation) {
+            Attribute schemaLocAtt = schemaManager.getSchemaLocation(
+                metadata.getDataInfo().getSchemaId(), context);
+
+            if (schemaLocAtt != null) {
+                if (xml.getAttribute(
+                    schemaLocAtt.getName(),
+                    schemaLocAtt.getNamespace()) == null) {
+                    xml.setAttribute(schemaLocAtt);
+                    // make sure namespace declaration for schemalocation is present -
+                    // remove it first (does nothing if not there) then add it
+                    xml.removeNamespaceDeclaration(schemaLocAtt.getNamespace());
+                    xml.addNamespaceDeclaration(schemaLocAtt.getNamespace());
+                }
+            }
+        }
+
+        boolean isJson = acceptHeader.contains(MediaType.APPLICATION_JSON_VALUE);
+
+        String mode = (attachment) ? "attachment" : "inline";
+        response.setHeader("Content-Disposition", String.format(
+            mode + "; filename=\"%s.%s\"",
+            metadata.getUuid(),
+            isJson ? "json" : "xml"
+        ));
+
+        String transformWith = "schema:iso19115-3.2018:convert/ISO19139/toISO19115-3.2014";
+        FilePathChecker.verify(transformWith);
+        Path xslFile = dataDirectory.getXsltConversion(transformWith);
+        if (Files.exists(xslFile)) {
+            xml = Xml.transform(xml, xslFile);
+        }
+
         return isJson ? Xml.getJSON(xml) : xml;
     }
 

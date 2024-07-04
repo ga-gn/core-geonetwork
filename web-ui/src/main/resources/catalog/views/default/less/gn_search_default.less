@@ -32,7 +32,7 @@
   display: none;
 }
 a {
-  color: #0a69f6;
+  color: #00718B;
 }
 .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus {
   outline-offset: 0px;
@@ -50,7 +50,7 @@ a {
   clear: both;
   flex-grow: 1;
   position: relative;
-  padding-bottom: calc(~"@{gn-bottombar-height} + 10px");
+  padding-bottom: 10px;
   .badge {
       margin-right: 5px;
       background-color: #333;
@@ -285,4 +285,14 @@ gn-wps-process-form {
       padding: 13px 16px;
     }
   }
+}
+
+.alert-msg {
+  overflow-y: scroll;
+  max-height: 350px;
+  scrollbar-width: auto;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
 }

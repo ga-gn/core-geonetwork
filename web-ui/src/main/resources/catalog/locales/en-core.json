@@ -479,7 +479,7 @@
     "createDoiForRecord-help": "DOI can be created on public records only. Once created the DOI is associated with a landing page for the record which is inserted in the record distribution section.",
     "doiCreationTaskCheckAction": "Check pre-conditions",
     "doiCreationTaskCheckAction-help": "Check that a record can be submitted to DataCite for DOI creation. DataCite API endpoint is configured in the catalogue settings, DataCite requires some fields to be populated, record must be public and provide a conversion to the DataCite format.",
-    "doiCreationTaskCreateAction": "Create DOI",
+    "doiCreationTaskCreateAction": "Create/Update DOI",
     "doiCreationTaskUpdateAction": "Update DOI",
     "doiViewLink": "Check DOI URL",
     "doi": "DOI",

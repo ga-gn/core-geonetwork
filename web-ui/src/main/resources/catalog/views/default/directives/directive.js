@@ -247,11 +247,11 @@
            */
           scope.displayPublicationOption = function (md, user, pubOption) {
             return (
-              md.canReview &&
-              md.draft != "y" &&
-              md.mdStatus != 3 &&
-              ((md.isPublished(pubOption) && user.canUnpublishMetadata()) ||
-                (!md.isPublished(pubOption) && user.canPublishMetadata()))
+              md?.canReview &&
+              md?.draft != "y" &&
+              md?.mdStatus != 3 &&
+              ((md?.isPublished(pubOption) && user.canUnpublishMetadata()) ||
+                (!md?.isPublished(pubOption) && user.canPublishMetadata()))
             );
           };
 

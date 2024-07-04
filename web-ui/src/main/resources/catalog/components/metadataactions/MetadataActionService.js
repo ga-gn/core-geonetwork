@@ -458,7 +458,14 @@
        * @param {string} flag
        * @return {*}
        */
-      this.publish = function (md, bucket, flag, scope, publicationType) {
+      this.publish = function (
+        md,
+        bucket,
+        flag,
+        scope,
+        publicationType,
+        internalPublish = false
+      ) {
         if (md) {
           flag = md.isPublished(publicationType) ? "off" : "on";
         }
@@ -482,7 +489,8 @@
             angular.isDefined(md) ? undefined : bucket,
             onOrOff,
             $rootScope.user,
-            publicationType.name === "default" ? "" : publicationType.name
+            publicationType.name === "default" ? "" : publicationType.name,
+            internalPublish
           )
           .then(
             function (response) {
@@ -652,6 +660,53 @@
             $rootScope.$broadcast("operationOnSelectionStop");
             $rootScope.$broadcast("search");
           });
+      };
+
+      function reportHTML(data) {
+        var holder = document.createElement("div");
+
+        angular.forEach(data, function (value, key) {
+          var str = document.createElement("strong");
+          str.innerText = "eCatId: " + key + ", ";
+          var p = document.createElement("p");
+          p.innerText = value;
+          holder.appendChild(str);
+          holder.appendChild(p);
+        });
+
+        return holder;
+      }
+
+      function checkDOICreateCompleted() {
+        // Check if completed
+        return $http.get("../api/records/doi/status").then(function (res) {
+          var isCompleted = res.data;
+          if (!isCompleted) {
+            $timeout(checkDOICreateCompleted, 1000);
+          } else {
+            $rootScope.$broadcast("operationOnSelectionStop");
+            $rootScope.$broadcast("resetSearch");
+            return $http.get("../api/records/doi/report").then(function (report) {
+              var holder = reportHTML(report.data);
+              $rootScope.$broadcast("StatusUpdated", {
+                title: "Bulk DOI creation report",
+                message: holder.innerHTML,
+                timeout: 500
+              });
+            });
+          }
+        });
+      }
+
+      /**
+       * Bulk DOI creation
+       */
+      this.bulkDOICreate = function (bucket) {
+        $rootScope.$broadcast("operationOnSelectionStart");
+        $http.put("../api/records/doi/bulk?bucket=" + bucket).then(function () {
+          console.log("bulk DOI Create....");
+          checkDOICreateCompleted();
+        });
       };
 
       /**
