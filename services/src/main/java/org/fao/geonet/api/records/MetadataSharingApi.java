@@ -43,6 +43,7 @@ import org.fao.geonet.api.records.model.*;
 import org.fao.geonet.api.tools.i18n.LanguageUtils;
 import org.fao.geonet.config.IPublicationConfig;
 import org.fao.geonet.config.PublicationOption;
+import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.domain.*;
 import org.fao.geonet.domain.utils.ObjectJSONUtils;
 import org.fao.geonet.events.history.RecordGroupOwnerChangeEvent;
@@ -50,6 +51,7 @@ import org.fao.geonet.events.history.RecordOwnerChangeEvent;
 import org.fao.geonet.events.history.RecordPrivilegesChangeEvent;
 import org.fao.geonet.kernel.AccessManager;
 import org.fao.geonet.kernel.DataManager;
+import org.fao.geonet.kernel.SchemaManager;
 import org.fao.geonet.kernel.datamanager.*;
 import org.fao.geonet.kernel.search.IndexingMode;
 import org.fao.geonet.kernel.setting.SettingManager;
@@ -61,6 +63,8 @@ import org.fao.geonet.repository.specification.UserGroupSpecs;
 import org.fao.geonet.util.MetadataPublicationMailNotifier;
 import org.fao.geonet.util.UserUtil;
 import org.fao.geonet.util.WorkflowUtil;
+import org.fao.geonet.utils.Xml;
+import org.jdom.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Sort;
@@ -74,6 +78,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -156,6 +161,9 @@ public class MetadataSharingApi {
      */
     @Autowired
     private IPublicationConfig publicationConfig;
+
+    @Autowired
+    private SchemaManager schemaManager;
 
     public static Vector<OperationAllowedId> retrievePrivileges(ServiceContext context, String id, Integer userId, Integer groupId) {
 
@@ -1157,6 +1165,8 @@ public class MetadataSharingApi {
 
         SharingParameter sharing = buildSharingForPublicationConfig(publish, publicationType, internalPublish);
 
+        addPublicationDate(context, String.valueOf(metadata.getId()));
+
         List<GroupOperations> privileges = sharing.getPrivileges();
         List<MetadataPublicationNotificationInfo> metadataListToNotifyPublication = new ArrayList<>();
         boolean notifyByEmail = StringUtils.isNoneEmpty(sm.getValue(SYSTEM_METADATAPRIVS_PUBLICATION_NOTIFICATIONLEVEL));
@@ -1224,6 +1234,8 @@ public class MetadataSharingApi {
                     for (Operation o : operationList) {
                         operationMap.put(o.getName(), o.getId());
                     }
+
+                    addPublicationDate(context, String.valueOf(metadata.getId()));
 
                     List<GroupOperations> privileges = sharing.getPrivileges();
                     List<GroupOperations> allGroupPrivileges = new ArrayList<>();
@@ -1513,5 +1525,16 @@ public class MetadataSharingApi {
         public void setOperation(String operation) {
             this.operation = operation;
         }
+    }
+
+    private void addPublicationDate(ServiceContext serviceContext, String id) throws Exception {
+        String schema = dataManager.getMetadataSchema(id);
+        String publicationDate = new ISODate().toString();
+        Element metadata = dataManager.getMetadata(id);
+        Map<String, Object> xslParameters = new HashMap<String, Object>();
+        xslParameters.put("date", publicationDate);
+        Path path = schemaManager.getSchemaDir(schema).resolve("process").resolve(Geonet.File.PUBLICATION);
+        metadata = Xml.transform(metadata, path, xslParameters);
+        dataManager.updateMetadata(serviceContext, id, metadata, false, false,  serviceContext.getLanguage(), publicationDate, false, IndexingMode.full);
     }
 }
