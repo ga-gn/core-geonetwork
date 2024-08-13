@@ -123,7 +123,7 @@ public final class Geonet {
         public static final String METADATA_BLANK = "blanks/metadata-schema";
         public static final String ENCRYPTOR_CONFIGURATION = "encryptor.properties";
         public static final int METADATA_MAX_BLANKS = 20;
-        public static final String PUBLICATION = "add-publication.xsl";
+        public static final String PUBLICATION_DISTRIBUTOR = "add-publication-distributor.xsl";
 
     }
 

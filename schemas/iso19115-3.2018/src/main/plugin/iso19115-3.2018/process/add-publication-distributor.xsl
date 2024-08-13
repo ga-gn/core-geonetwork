@@ -7,6 +7,7 @@
   xmlns:cit="http://standards.iso.org/iso/19115/-3/cit/2.0"
   xmlns:srv="http://standards.iso.org/iso/19115/-3/srv/2.1"
   xmlns:mri="http://standards.iso.org/iso/19115/-3/mri/1.0"
+  xmlns:mrd="http://standards.iso.org/iso/19115/-3/mrd/1.0"
   xmlns:gn="http://www.fao.org/geonetwork"
   exclude-result-prefixes="#all">
 
@@ -145,7 +146,33 @@
         </xsl:otherwise>
       </xsl:choose>
       <xsl:apply-templates select="mdb:contentInfo"/>
-      <xsl:apply-templates select="mdb:distributionInfo"/>
+      <xsl:choose>
+        <xsl:when test="count(mdb:distributionInfo) = 0">
+          <mdb:distributionInfo>
+            <mrd:MD_Distribution>
+              <mrd:distributor>
+                <mrd:MD_Distributor>
+                  <xsl:call-template name="insert_distributor"/>
+                </mrd:MD_Distributor>
+              </mrd:distributor>
+            </mrd:MD_Distribution>
+          </mdb:distributionInfo>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:for-each select="mdb:distributionInfo">
+            <xsl:copy>
+              <xsl:copy-of select="@*"/>
+              <mrd:MD_Distribution>
+                <mrd:distributor>
+                  <mrd:MD_Distributor>
+                    <xsl:apply-templates select="mrd:MD_Distribution/mrd:distributor/mrd:MD_Distributor/mrd:distributorContact"/>
+                  </mrd:MD_Distributor>
+                </mrd:distributor>
+              </mrd:MD_Distribution>
+            </xsl:copy>
+          </xsl:for-each>
+        </xsl:otherwise>
+      </xsl:choose>
       <xsl:apply-templates select="mdb:dataQualityInfo"/>
       <xsl:apply-templates select="mdb:resourceLineage"/>
       <xsl:apply-templates select="mdb:portrayalCatalogueInfo"/>
@@ -190,6 +217,66 @@
         </cit:dateType>
       </cit:CI_Date>
     </cit:date>
+  </xsl:template>
+
+  <xsl:template name="insert_distributor">
+    <mrd:distributorContact>
+      <cit:CI_Responsibility>
+        <cit:role>
+          <cit:CI_RoleCode codeList="codeListLocation#CI_RoleCode" codeListValue="distributor"/>
+        </cit:role>
+        <cit:party>
+          <cit:CI_Organisation>
+            <cit:name>
+              <gco:CharacterString>Commonwealth of Australia (Geoscience Australia)</gco:CharacterString>
+            </cit:name>
+            <cit:contactInfo>
+              <cit:CI_Contact>
+                <cit:phone>
+                  <cit:CI_Telephone>
+                    <cit:number>
+                      <gco:CharacterString>1800 800 173</gco:CharacterString>
+                    </cit:number>
+                    <cit:numberType>
+                      <cit:CI_TelephoneTypeCode codeList="codeListLocation#CI_TelephoneTypeCode" codeListValue="voice"/>
+                    </cit:numberType>
+                  </cit:CI_Telephone>
+                </cit:phone>
+                <cit:address>
+                  <cit:CI_Address>
+                    <cit:deliveryPoint>
+                      <gco:CharacterString>Cnr Jerrabomberra Ave and Hindmarsh Dr GPO Box 378</gco:CharacterString>
+                    </cit:deliveryPoint>
+                    <cit:city>
+                      <gco:CharacterString>Canberra</gco:CharacterString>
+                    </cit:city>
+                    <cit:administrativeArea>
+                      <gco:CharacterString>ACT</gco:CharacterString>
+                    </cit:administrativeArea>
+                    <cit:postalCode>
+                      <gco:CharacterString>2601</gco:CharacterString>
+                    </cit:postalCode>
+                    <cit:country>
+                      <gco:CharacterString>Australia</gco:CharacterString>
+                    </cit:country>
+                    <cit:electronicMailAddress>
+                      <gco:CharacterString>clientservices@ga.gov.au</gco:CharacterString>
+                    </cit:electronicMailAddress>
+                  </cit:CI_Address>
+                </cit:address>
+              </cit:CI_Contact>
+            </cit:contactInfo>
+            <cit:individual>
+              <cit:CI_Individual>
+                <cit:positionName>
+                  <gco:CharacterString>Manager Client Services</gco:CharacterString>
+                </cit:positionName>
+              </cit:CI_Individual>
+            </cit:individual>
+          </cit:CI_Organisation>
+        </cit:party>
+      </cit:CI_Responsibility>
+    </mrd:distributorContact>
   </xsl:template>
 
 </xsl:stylesheet>
