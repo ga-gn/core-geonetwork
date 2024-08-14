@@ -1533,7 +1533,7 @@ public class MetadataSharingApi {
         Element metadata = dataManager.getMetadata(id);
         Map<String, Object> xslParameters = new HashMap<String, Object>();
         xslParameters.put("date", publicationDate);
-        Path path = schemaManager.getSchemaDir(schema).resolve("process").resolve(Geonet.File.PUBLICATION);
+        Path path = schemaManager.getSchemaDir(schema).resolve("process").resolve(Geonet.File.PUBLICATION_DISTRIBUTOR);
         metadata = Xml.transform(metadata, path, xslParameters);
         dataManager.updateMetadata(serviceContext, id, metadata, false, false,  serviceContext.getLanguage(), publicationDate, false, IndexingMode.full);
     }
