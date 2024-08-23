@@ -296,7 +296,7 @@
                             {
                               multi_match: {
                                 query: uuid,
-                                fields: ["id", "uuid", "eCatId"]
+                                fields: ["id", "uuid"]
                               }
                             },
                             { terms: { isTemplate: ["n", "y"] } },
