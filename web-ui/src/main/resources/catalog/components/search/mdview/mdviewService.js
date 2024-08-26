@@ -326,9 +326,11 @@
                         //If returned more than one, maybe we are looking for the draft
                         var i = 0;
 
-                        r.data.hits.hits
-                          .filter((record) => record._source.uuid === uuid)
-                          .forEach(function (md, index) {
+                        const metadataSearchResult = r.data.hits.hits.filter(
+                          (record) =>
+                            record._source.uuid === uuid || record._source.eCatId === uuid
+                        );
+                        metadataSearchResult.forEach(function (md, index) {
                           if (getDraft && md._source.draft == "y") {
                             //This will only happen if the draft exists
                             //and the user can see it
@@ -341,7 +343,7 @@
                         });
 
                         var metadata = [];
-                        metadata.push(new Metadata(r.data.hits.hits[i]));
+                        metadata.push(new Metadata(metadataSearchResult[i]));
 
                         data = { metadata: metadata };
                         //Keep the search results (gnMdViewObj.records)
