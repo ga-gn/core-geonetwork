@@ -296,7 +296,7 @@
                             {
                               multi_match: {
                                 query: uuid,
-                                fields: ["id", "uuid"]
+                                fields: ["id", "uuid", "eCatId"]
                               }
                             },
                             { terms: { isTemplate: ["n", "y"] } },
@@ -326,7 +326,9 @@
                         //If returned more than one, maybe we are looking for the draft
                         var i = 0;
 
-                        r.data.hits.hits.forEach(function (md, index) {
+                        r.data.hits.hits
+                          .filter((record) => record._source.uuid === uuid)
+                          .forEach(function (md, index) {
                           if (getDraft && md._source.draft == "y") {
                             //This will only happen if the draft exists
                             //and the user can see it
