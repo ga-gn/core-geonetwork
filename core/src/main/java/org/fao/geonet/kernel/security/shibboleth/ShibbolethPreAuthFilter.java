@@ -21,6 +21,7 @@
 package org.fao.geonet.kernel.security.shibboleth;
 
 import org.fao.geonet.ApplicationContextHolder;
+import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.kernel.security.shibboleth.ShibbolethUserUtils.MinimalUser;
 import org.fao.geonet.utils.Log;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -140,33 +141,8 @@ public class ShibbolethPreAuthFilter extends GenericFilterBean {
 
                     HttpServletResponse hresp = (HttpServletResponse) response;
 
-                    if (requestCache != null) {
-                        String redirect = null;
-
-                        SavedRequest savedReq = requestCache.getRequest(hreq,
-                            hresp);
-                        if (savedReq != null) {
-                            redirect = savedReq.getRedirectUrl();
-                            Log.debug(Log.JEEVES,
-                                "Found saved request location: " + redirect);
-                        } else {
-                            Log.debug(Log.JEEVES, "No saved request found");
-                        }
-
-                        if (redirect != null) {
-                            Log.info(Log.JEEVES, "Redirecting to " + redirect);
-
-                            // Removing original request, since we want to
-                            // retain current headers.
-                            // If request remains in cache, requestCacheFilter
-                            // will reinstate the original headers and we don't
-                            // want it.
-                            requestCache.removeRequest(hreq, hresp);
-
-                            hresp.sendRedirect(redirect);
-                            return; // no further chain processing allowed
-                        }
-                    }
+                    hresp.sendRedirect("/".concat(Geonet.GEONETWORK));
+                    return;
 
                 } else {
                     Log.warning(Log.JEEVES,

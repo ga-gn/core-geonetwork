@@ -82,17 +82,17 @@
   </li>
   <!-- not logged in -->
   <li
-    class="dropdown signin-dropdown"
-    data-ng-if="!authenticated && service !== 'catalog.signin' && service !== 'new.account' && !isShowLoginAsLink && !isDisableLoginForm"
+    data-ng-if="!authenticated &&
+    service !== 'catalog.signin' &&
+    service !== 'new.account' &&
+    !isShowLoginAsLink && !isDisableLoginForm &&
+    isIntranet"
   >
     <a
-      href="{{gnCfg.mods.authentication.signinUrl | signInLink}}"
+      href="{{gnCfg.mods.authentication.signinUrl}}"
       title="{{'signIn'|translate}}"
       class="dropdown-toggle gn-menuheader-xs"
       data-ng-keypress="$event"
-      data-toggle="dropdown"
-      aria-haspopup="true"
-      data-ng-mouseover="focusLoginPopup()"
     >
       <span class="fa fa-fw fa-sign-in hidden-xs-ga"></span>
       {{'signIn' | translate}}
