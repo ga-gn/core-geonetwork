@@ -1203,7 +1203,7 @@
           },
           authentication: {
             enabled: true,
-            signinUrl: "../../{{node}}/{{lang}}/catalog.signin",
+            signinUrl: "../../srv/eng/shib.user.login",
             signoutUrl: "../../signout"
           },
           page: {
@@ -1667,6 +1667,7 @@
       $scope.isExternalViewerEnabled = gnExternalViewer.isEnabled();
       $scope.externalViewerUrl = gnExternalViewer.getBaseUrl();
       $scope.publicationOptions = [];
+      $scope.isIntranet = gnGlobalSettings.isIntranet;
 
       $http.get("../api/records/sharing/options").then(function (response) {
         $scope.publicationOptions = response.data;

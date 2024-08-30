@@ -77,38 +77,35 @@
 			value="${shibbolethConfiguration.hideLogin}" />
 	</bean>
 
-	<bean id="filterChainFilters" class="java.util.ArrayList">
-		<constructor-arg
-			ref="#{ '${shibbolethConfiguration.hideLogin}' == 'true' ? 'shibbolethFilterChanFiltersExclusive' : 'shibbolethFilterChanFiltersInclusive' }">
-		</constructor-arg>
-	</bean>
+  <bean id="shibbolethAuthenticationEntryPoint"
+        class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+    <constructor-arg name="loginFormUrl" value="/srv/eng/catalog.signin"/>
+  </bean>
 
-	<util:list id="shibbolethFilterChanFiltersExclusive">
-		<ref bean="securityContextPersistenceFilter" />
-		<ref bean="logoutFilter" />
-		<ref bean="shibbolethPreAuthFilter" />
-		<ref bean="requestCacheFilter" />
-		<ref bean="anonymousFilter" />
-		<ref bean="sessionMgmtFilter" />
-		<ref bean="exceptionTranslationFilter" />
-		<ref bean="filterSecurityInterceptor" />
-	</util:list>
+  <alias name="shibbolethAuthenticationEntryPoint" alias="defaultAuthenticationEntryPoint" />
 
-	<!-- This list should be kept updated based on the one on config-security-core.xml -->
-	<util:list id="shibbolethFilterChanFiltersInclusive">
-		<ref bean="securityContextPersistenceFilter" />
-		<!-- To disable csrf security (not recommended) comment the following line -->
-		<ref bean="csrfFilter" />
-		<!-- To disable csrf security (not recommended) comment the upper line -->
-		<ref bean="logoutFilter" />
-		<ref bean="preAuthenticationFilter" />
-		<ref bean="shibbolethPreAuthFilter" />
-		<ref bean="basicAuthenticationFilter" />
-		<ref bean="formLoginFilter" />
-		<ref bean="requestCacheFilter" />
-		<ref bean="anonymousFilter" />
-		<ref bean="sessionMgmtFilter" />
-		<ref bean="exceptionTranslationFilter" />
-		<ref bean="filterSecurityInterceptor" />
-	</util:list>
+  <alias name="shibbolethFilterChainImplementation" alias="shibbolethFilterChainPlaceholder" />
+
+  <bean id="shibbolethFilterChainImplementation" class="org.springframework.security.web.DefaultSecurityFilterChain">
+    <constructor-arg>
+      <bean class="org.springframework.security.web.util.matcher.AntPathRequestMatcher">
+        <constructor-arg value="/srv/eng/shib.user.login"/>
+      </bean>
+    </constructor-arg>
+    <constructor-arg>
+      <ref bean="shibbolethFilterList"/>
+    </constructor-arg>
+  </bean>
+  <bean id="shibbolethFilterList" class="java.util.ArrayList">
+    <constructor-arg>
+      <list>
+        <ref bean="securityContextPersistenceFilter"/>
+        <ref bean="logoutFilter"/>
+        <ref bean="shibbolethPreAuthFilter"/>
+        <ref bean="sessionMgmtFilter"/>
+        <ref bean="exceptionTranslationFilter"/>
+        <ref bean="filterSecurityInterceptor"/>
+      </list>
+    </constructor-arg>
+  </bean>
 </beans>
