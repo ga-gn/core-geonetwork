@@ -536,7 +536,7 @@
                      <cit:onlineResource>
                         <cit:CI_OnlineResource>
                            <cit:linkage>
-                              <gco:CharacterString>https://www.protectivesecurity.gov.au/Pages/default.aspx</gco:CharacterString>
+                              <gco:CharacterString>https://www.protectivesecurity.gov.au/publications-library/policy-8-classification-system</gco:CharacterString>
                            </cit:linkage>
                            <cit:protocol>
                               <gco:CharacterString xsi:type="gco:CodeType" codeSpace="http://pid.geoscience.gov.au/def/schema/ga/ISO19115-3-2016/codelist/ga_profile_codelists.xml#gapCI_ProtocolTypeCode">WWW:LINK-1.0-http--link</gco:CharacterString>
@@ -555,7 +555,7 @@
          </mri:resourceConstraints>
          <!--  End 2021112 updates https://gajira.atlassian.net/browse/ECAT-511  -->
          <mri:defaultLocale>
-            <lan:PT_Locale id="EN">
+            <lan:PT_Locale id="ENG">
                <lan:language>
                   <lan:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="eng"/>
                </lan:language>
@@ -586,7 +586,7 @@
                <cit:onlineResource>
                   <cit:CI_OnlineResource>
                      <cit:linkage>
-                        <gco:CharacterString>https://www.protectivesecurity.gov.au/Pages/default.aspx</gco:CharacterString>
+                        <gco:CharacterString>https://www.protectivesecurity.gov.au/publications-library/policy-8-classification-system</gco:CharacterString>
                      </cit:linkage>
                   </cit:CI_OnlineResource>
                </cit:onlineResource>

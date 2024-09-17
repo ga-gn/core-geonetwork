@@ -34,7 +34,7 @@
         <span class="fa fa-fw fa-upload"></span><span translate>ImportRecord</span>
       </a>
     </li>
-    <li class="gn-menuitem-xs" role="menuitem">
+    <li class="gn-menuitem-xs" role="menuitem" data-ng-if="user.canImportMetadata()">
       <a data-gn-active-tb-item="{{gnCfg.mods.editor.appUrl}}#/directory">
         <span class="fa fa-fw fa-bookmark"></span><span translate>directoryManager</span>
       </a>
