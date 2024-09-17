@@ -3300,6 +3300,69 @@
       is a
       part
     </description>
+    <helper sort="false">
+      <option value="1:1 000 000 offshore resource map series">1:1 000 000 offshore resource map series</option>
+      <option value="1:250 000 geological series - explanatory notes">1:250 000 geological series - explanatory notes</option>
+      <option value="4 mile geological series">4 mile geological series</option>
+      <option value="AGSO Journal of Australian Geology and Geophysics">AGSO Journal of Australian Geology and Geophysics</option>
+      <option value="AGSO Research Newsletter">AGSO Research Newsletter</option>
+      <option value="AGU Fall Meeting 2013, 9-13 December 2013">AGU Fall Meeting 2013, 9-13 December 2013</option>
+      <option value="Australia 1:1 000 000 general reference topographic map series">Australia 1:1 000 000 general reference topographic map series</option>
+      <option value="Australia 1:1 000 000 geophysical interpretation series">Australia 1:1 000 000 geophysical interpretation series</option>
+      <option value="Australia 1:100 000 geological series">Australia 1:100 000 geological series</option>
+      <option value="Australia 1:100 000 regolith-landform series">Australia 1:100 000 regolith-landform series</option>
+      <option value="Australia 1:100 000 special geological series">Australia 1:100 000 special geological series</option>
+      <option value="Australia 1:100 000 stream-sedimnet geochemistry series">Australia 1:100 000 stream-sedimnet geochemistry series</option>
+      <option value="Australia 1:100 000 topographic survey">Australia 1:100 000 topographic survey</option>
+      <option value="Australia 1:250 000 basement geology series ">Australia 1:250 000 basement geology series </option>
+      <option value="Australia 1:250 000 geological series">Australia 1:250 000 geological series</option>
+      <option value="Australia 1:250 000 interpreted geology">Australia 1:250 000 interpreted geology</option>
+      <option value="Australia 1:250 000 regolith-landform series">Australia 1:250 000 regolith-landform series</option>
+      <option value="Australia 1:250 000 solid geology">Australia 1:250 000 solid geology</option>
+      <option value="Australia 1:250 000 total magnetic intensity pixel map series">Australia 1:250 000 total magnetic intensity pixel map series</option>
+      <option value="Australia 1:250 000 total magnetic intensity">Australia 1:250 000 total magnetic intensity</option>
+      <option value="Australian Antarctic Magazine">Australian Antarctic Magazine</option>
+      <option value="Australian Journal of Earth Sciences">Australian Journal of Earth Sciences</option>
+      <option value="Australian Maritime Boundaries - Treaties">Australian Maritime Boundaries - Treaties</option>
+      <option value="Australia's Mineral Resource Assessment series">Australia's Mineral Resource Assessment series</option>
+      <option value="Basin Biozonation and Stratigraphy Chart Series">Basin Biozonation and Stratigraphy Chart Series</option>
+      <option value="BMR Journal of Australian Geology and Geophysics">BMR Journal of Australian Geology and Geophysics</option>
+      <option value="BMR Research Newsletter">BMR Research Newsletter</option>
+      <option value="Bulletin of the Seismological Society of America">Bulletin of the Seismological Society of America</option>
+      <option value="Bulletin">Bulletin</option>
+      <option value="Confidential record">Confidential record</option>
+      <option value="Earth and Planetary Science Letters">Earth and Planetary Science Letters</option>
+      <option value="Earthquake Spectra">Earthquake Spectra</option>
+      <option value="Economic Geology">Economic Geology</option>
+      <option value="Educational Booklet">Educational Booklet</option>
+      <option value="Frontiers in Earth Science">Frontiers in Earth Science</option>
+      <option value="Geoenvironmental Disasters ">Geoenvironmental Disasters</option>
+      <option value="Geological Society London Special Publications">Geological Society London Special Publications</option>
+      <option value="Geophysical Journal International">Geophysical Journal International</option>
+      <option value="Geophysical Research Letters">Geophysical Research Letters</option>
+      <option value="Geoscience Letters">Geoscience Letters</option>
+      <option value="Geosciences">Geosciences</option>
+      <option value="International Map of the World (IMW)">International Map of the World (IMW)</option>
+      <option value="Journal of Earthquake Engineering">Journal of Earthquake Engineering</option>
+      <option value="Journal of Geochemical Exploration">Journal of Geochemical Exploration</option>
+      <option value="Marine Geology">Marine Geology</option>
+      <option value="Murray Basin hydrogeological map series">Murray Basin hydrogeological map series</option>
+      <option value="National topographic map series">National topographic map series</option>
+      <option value="NATMAP topographic 1:25 000 series">NATMAP topographic 1:25 000 series</option>
+      <option value="NATMAP topographic 1:250 000 series : Australia">NATMAP topographic 1:250 000 series : Australia</option>
+      <option value="NATMAP topographic map 1:25 000">NATMAP topographic map 1:25 000</option>
+      <option value="Nature Geoscience">Nature Geoscience</option>
+      <option value="Preview">Preview</option>
+      <option value="Professional Opinion">Professional Opinion</option>
+      <option value="Pure and Applied Geophysics">Pure and Applied Geophysics</option>
+      <option value="R502">R502</option>
+      <option value="Record">Record</option>
+      <option value="Report">Report</option>
+      <option value="Scientific Reports ">Scientific Reports</option>
+      <option value="Tectonophysics">Tectonophysics</option>
+      <option value="The Australian Geologist">The Australian Geologist</option>
+      <option value="SGA Newsletter">SGA Newsletter</option>
+    </helper>
   </element>
   <element name="mri:name" context="mri:MD_CodeDomain" id="537.0">
     <label>Name</label>

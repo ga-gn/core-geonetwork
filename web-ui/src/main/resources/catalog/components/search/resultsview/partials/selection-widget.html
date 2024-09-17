@@ -75,7 +75,7 @@
       <li class="divider" data-ng-if="user.isConnected()"></li>
       <li
         data-ng-show="!excludePattern.test('updatePrivileges')"
-        data-ng-if="user.isEditorOrMore()"
+        data-ng-if="user.isAdministrator()"
       >
         <a
           href=""
@@ -122,7 +122,7 @@
       </li>
       <li
         data-ng-show="!excludePattern.test('submit')"
-        data-ng-if="user.isEditorOrMore() && isMdWorkflowEnable"
+        data-ng-if="user.isAdministrator() && isMdWorkflowEnable"
       >
         <a
           href=""
@@ -157,7 +157,7 @@
       <li class="divider" data-ng-if="user.isConnected()"></li>
       <li
         data-ng-show="!excludePattern.test('validate')"
-        data-ng-if="user.isEditorOrMore()"
+        data-ng-if="user.isAdministrator()"
       >
         <a
           href=""
@@ -239,7 +239,7 @@
       </li>
       <li
         data-ng-show="!excludePattern.test('delete')"
-        data-ng-if="user.isEditorOrMore()"
+        data-ng-if="user.isAdministrator()"
       >
         <a
           href=""
