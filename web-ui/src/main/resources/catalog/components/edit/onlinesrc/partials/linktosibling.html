@@ -66,6 +66,7 @@
                 data-ng-click="addToSelection(md, config.associationType, config.initiativeType)"
               >
                 {{md.resourceTitle}}
+                <strong data-ng-if="md.eCatId">({{md.eCatId}})</strong>
                 <span class="fa fa-plus pull-right"></span>
               </a>
             </div>

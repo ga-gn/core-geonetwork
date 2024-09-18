@@ -185,6 +185,7 @@
               data-ng-if="user.canImportMetadata()"
               class="btn btn-default btn-block gn-margin-bottom"
               title="{{'ImportRecord' | translate}}"
+              ng-if="user.isAdministratorOrMore()"
             >
               <i class="fa fa-fw fa-upload" /><span
                 class="hidden-xs hidden-sm hidden-md"
@@ -196,7 +197,7 @@
               href="#/directory"
               class="btn btn-default btn-block gn-margin-bottom"
               title="{{'directoryManager' | translate}}"
-              ng-if="user.isEditorOrMore()"
+              ng-if="user.isAdministratorOrMore()"
             >
               <i class="fa fa-fw fa-bookmark" /><span
                 class="hidden-xs hidden-sm hidden-md"
@@ -208,7 +209,7 @@
               href="#/batchedit"
               class="btn btn-default btn-block gn-margin-bottom"
               title="{{'batchEditing' | translate}}"
-              ng-if="user.isEditorOrMore()"
+              ng-if="user.isAdministratorOrMore()"
             >
               <i class="fa fa-fw fa-pencil" /><span
                 class="hidden-xs hidden-sm hidden-md"
