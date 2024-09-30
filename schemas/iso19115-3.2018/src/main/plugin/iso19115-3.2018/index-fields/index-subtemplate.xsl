@@ -101,7 +101,7 @@
     <xsl:variable name="org"
                   select="normalize-space(cit:party/cit:CI_Organisation/cit:name/gco:CharacterString)"/>
     <xsl:variable name="name"
-                  select="string-join(.//cit:individual/cit:CI_Individual/cit:name/gco:CharacterString, ', ')"/>
+                  select="normalize-space(cit:party/cit:CI_Individual/cit:name/gco:CharacterString)"/>
     <xsl:variable name="mail"
                   select="string-join(.//cit:CI_Address/cit:electronicMailAddress/gco:CharacterString, ', ')"/>
 

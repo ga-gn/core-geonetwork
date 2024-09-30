@@ -42,5 +42,8 @@
     data-types="parent"
   ></div>
 
-  <p data-ng-bind-html="(mdView.current.record.resourceAbstract) | linky | newlines"></p>
+  <div
+    class="abstract-view"
+    data-ng-bind-html="mdView.current.record.resourceAbstract | newlines"
+  ></div>
 </div>
