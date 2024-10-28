@@ -35,6 +35,10 @@
       <uuid>
         <xsl:value-of select="gn:info/uuid"/>
       </uuid>
+      <eCatId>
+        <xsl:value-of
+          select="mdb:alternativeMetadataReference/*/cit:identifier/*/mcc:code" />
+      </eCatId>
       <title>
         <xsl:apply-templates mode="localised"
                              select="mdb:identificationInfo/*/mri:citation/*/cit:title">
