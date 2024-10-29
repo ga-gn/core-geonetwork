@@ -73,3 +73,36 @@
     </ul>
   </div>
 </div>
+
+<div>
+  <div data-ng-if="mdView.current.record.keyword" class="gn-margin-bottom flex-row">
+    <span class="badge badge-rounded" title="{{keyword | translate}}">
+      <i class="fa fa-fw fa-tags"></i>
+    </span>
+    <div>
+      <h3 data-translate="">keyword</h3>
+      <div data-ng-repeat="c in mdView.current.record.keyword">
+        <p>{{c}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div
+    data-ng-if="mdView.current.record.allKeywords.th_ANZRCFieldsofResearch.keywords"
+    class="gn-margin-bottom flex-row"
+  >
+    <span class="badge badge-rounded" title="{{anzrcFieldsOfResearch | translate}}">
+      <i class="fa fa-fw fa-tags"></i>
+    </span>
+    <div>
+      <h3 data-translate="">ANZRC Fields Of Research</h3>
+      <div
+        data-ng-repeat="c in mdView.current.record.allKeywords.th_ANZRCFieldsofResearch.keywords"
+      >
+        <p>{{c.default}}</p>
+      </div>
+    </div>
+  </div>
+</div>
