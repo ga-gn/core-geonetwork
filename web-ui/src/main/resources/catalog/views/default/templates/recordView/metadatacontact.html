@@ -1,8 +1,17 @@
-<div data-ng-if="mdView.current.record.contact">
-  <div
-    data-gn-metadata-contacts="mdView.current.record.contact"
-    data-gn-mode="role"
-    data-layout="icon"
-  />
+<div class="gn-md-side-calendar gn-margin-bottom">
+  <span class="badge badge-rounded" title="{{'pointOfContact' | translate}}">
+    <i class="fa fa-fw fa-calendar"></i>
+  </span>
+  <h3 data-translate="">pointOfContact</h3>
+  <p>{{mdView.current.record.contact[0].organisationObject.default}}</p>
+  <p>{{mdView.current.record.contact[0].address}}</p>
+  <a href="mailto:{{mdView.current.record.contact[0].email}}">
+    {{mdView.current.record.contact[0].email}}
+    ({{mdView.current.record.contact[0].position}})
+  </a>
+  <p>{{mdView.current.record.contact[0].phone}}</p>
+  <p>{{mdView.current.record.contactForResource[0].individual}}</p>
+  <p>{{mdView.current.record.contactForResource[1].individual}}</p>
+  <p>{{mdView.current.record.contact[1].individual}}</p>
 </div>
 <div data-ng-if="showCitation" data-gn-metadata-citation="mdView.current.record" />
