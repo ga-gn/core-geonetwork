@@ -178,6 +178,30 @@
         <xsl:value-of select="mdb:alternativeMetadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:codeSpace/gco:CharacterString='eCatId']/mcc:code/gco:CharacterString" />
       </eCatId>
 
+      <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='author']]/cit:party/cit:CI_Individual/cit:name/gco:CharacterString">
+        <author>
+          <xsl:value-of select="."/>
+        </author>
+      </xsl:for-each>
+
+      <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:descriptiveKeywords/mri:MD_Keywords/mri:keyword/gco:CharacterString">
+        <keyword>
+          <xsl:value-of select="."/>
+        </keyword>
+      </xsl:for-each>
+
+      <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceConstraints[1]/mco:MD_LegalConstraints/mco:reference/cit:CI_Citation/cit:title/gco:CharacterString">
+        <legalconstraints>
+          <xsl:value-of select="."/>
+        </legalconstraints>
+      </xsl:for-each>
+
+      <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceConstraints[1]/mco:MD_LegalConstraints/mco:reference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource/cit:linkage/gco:CharacterString">
+        <legalconstraintslinkage>
+          <xsl:value-of select="."/>
+        </legalconstraintslinkage>
+      </xsl:for-each>
+
       <xsl:copy-of select="gn-fn-index:add-field('metadataIdentifier', $identifier)"/>
 
       <!--<xsl:if test="$pointOfTruthURLPattern != ''">
@@ -1320,7 +1344,7 @@
     <xsl:variable name="email"
                   select="(.//cit:contactInfo/*/cit:address/*/cit:electronicMailAddress/gco:CharacterString)[1]"/>
     <xsl:variable name="phone"
-                  select="(./cit:contactInfo/*/cit:phone/*/cit:number[normalize-space(.) != '']/*/text())[1]"/>
+                  select="(.//cit:contactInfo/cit:CI_Contact/cit:phone/*/cit:number/gco:CharacterString)[1]"/>
     <xsl:variable name="individualName"
                   select="(.//cit:CI_Individual/cit:name/gco:CharacterString/text())[1]"/>
     <xsl:variable name="positionName"

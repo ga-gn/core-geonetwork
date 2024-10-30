@@ -36,29 +36,54 @@
       </p>
     </div>
   </div>
-</div>
 
-<div>
-  <div
-    data-ng-repeat="(key, t) in mdView.current.record.allKeywords"
-    data-ng-if="(user.canEditRecord(mdView.current.record)
-                 && viewConfig.internalThesaurus
-                 && viewConfig.internalThesaurus.indexOf(key) !== -1)
-                || highlightedThesaurus.indexOf(key) === -1"
-    class="gn-margin-bottom flex-row"
-  >
-    <span class="badge badge-rounded">
-      <i class="fa fa-fw fa-tags"></i>
+  <!-- Author-->
+  <div data-ng-if="mdView.current.record.author" class="gn-margin-bottom flex-row">
+    <span class="badge badge-rounded" title="{{author | translate}}">
+      <i class="fa fa-fw fa-info"></i>
     </span>
     <div>
-      <h3 data-translate="">{{(t.title || key) | translate}}</h3>
+      <h3 data-translate="">author</h3>
+      <ul class="gn-comma-list">
+        <div data-ng-repeat="a in mdView.current.record.author">
+          <p>{{a | translate}}</p>
+        </div>
+      </ul>
+    </div>
+  </div>
 
-      <div data-gn-keyword-badges="mdView.current.record" data-thesaurus="key" />
+  <!-- Licence-->
+  <div
+    data-ng-if="mdView.current.record.legalconstraints"
+    class="gn-margin-bottom flex-row"
+  >
+    <span class="badge badge-rounded" title="{{licence | translate}}">
+      <i class="fa fa-fw fa-info"></i>
+    </span>
+    <div>
+      <h3 data-translate="">licence</h3>
+      <ul class="gn-comma-list">
+        <p>{{mdView.current.record.legalconstraints | translate}}</p>
+        <span data-ng-bind-html="mdView.current.record.legalconstraintslinkage | linky" />
+      </ul>
     </div>
   </div>
 </div>
 
 <div>
+  <!-- Purpose-->
+  <div data-ng-if="mdView.current.record.purposeObject" class="gn-margin-bottom flex-row">
+    <span class="badge badge-rounded" title="{{purpose | translate}}">
+      <i class="fa fa-fw fa-info"></i>
+    </span>
+    <div>
+      <h3 data-translate="">purpose</h3>
+      <ul class="gn-comma-list">
+        <p>{{mdView.current.record.purposeObject.default | translate}}</p>
+      </ul>
+    </div>
+  </div>
+
   <!-- Resource identifier-->
   <div
     data-ng-if="mdView.current.record.resourceIdentifier"
