@@ -269,6 +269,11 @@
 
       // TODO: Previous record should be stored on the client side
       $scope.mdView = mdView;
+
+      $scope.isArray = function (obj) {
+        return angular.isArray(obj);
+      };
+
       gnMdView.initMdView();
 
       $scope.goToSearch = function (any) {
