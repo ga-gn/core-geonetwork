@@ -45,8 +45,13 @@
     <div>
       <h3 data-translate="">author</h3>
       <ul class="gn-comma-list">
-        <div data-ng-repeat="a in mdView.current.record.author">
-          <p>{{a | translate}}</p>
+        <div ng-if="isArray(mdView.current.record.author)">
+          <div data-ng-repeat="a in mdView.current.record.author">
+            <p>{{a | translate}}</p>
+          </div>
+        </div>
+        <div ng-if="!isArray(mdView.current.record.author)">
+          <p>{{mdView.current.record.author | translate}}</p>
         </div>
       </ul>
     </div>

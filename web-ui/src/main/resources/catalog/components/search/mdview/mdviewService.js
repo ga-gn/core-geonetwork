@@ -346,12 +346,25 @@
                         metadata.push(new Metadata(metadataSearchResult[i]));
 
                         data = { metadata: metadata };
-                        data.metadata[0].keyword = data.metadata[0].keyword.filter(
-                          (k) =>
-                            !data.metadata[0].allKeywords.th_ANZRCFieldsofResearch.keywords
-                              .map((a) => a.default)
-                              .includes(k)
-                        );
+
+                        if (
+                          data.metadata[0].keyword &&
+                          data.metadata[0].allKeywords?.th_ANZRCFieldsofResearch?.keywords
+                        ) {
+                          data.metadata[0].keyword = data.metadata[0].keyword?.filter(
+                            (k) =>
+                              !data.metadata[0].allKeywords.th_ANZRCFieldsofResearch.keywords
+                                .map((a) => a.default)
+                                .includes(k)
+                          );
+                        }
+                        if (data.metadata[0].keyword) {
+                          data.metadata[0].keyword = data.metadata[0].keyword.filter(
+                            (key) =>
+                              !["Published_External", "Published_Internal"].includes(key)
+                          );
+                        }
+
                         //Keep the search results (gnMdViewObj.records)
                         // that.feedMd(0, undefined, data.metadata);
                         //and the trace of where in the search result we are

@@ -184,7 +184,7 @@
         </author>
       </xsl:for-each>
 
-      <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:descriptiveKeywords/mri:MD_Keywords/mri:keyword/gco:CharacterString">
+      <xsl:for-each select="mdb:identificationInfo/*/mri:descriptiveKeywords/mri:MD_Keywords/mri:keyword/gco:CharacterString">
         <keyword>
           <xsl:value-of select="."/>
         </keyword>
