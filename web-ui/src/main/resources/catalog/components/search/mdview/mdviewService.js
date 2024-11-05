@@ -347,12 +347,21 @@
 
                         data = { metadata: metadata };
 
-                        if (data.metadata[0].keyword) {
+                        if (
+                          data.metadata[0].keyword &&
+                          data.metadata[0].allKeywords?.th_ANZRCFieldsofResearch?.keywords
+                        ) {
                           data.metadata[0].keyword = data.metadata[0].keyword?.filter(
                             (k) =>
                               !data.metadata[0].allKeywords.th_ANZRCFieldsofResearch.keywords
                                 .map((a) => a.default)
                                 .includes(k)
+                          );
+                        }
+                        if (data.metadata[0].keyword) {
+                          data.metadata[0].keyword = data.metadata[0].keyword.filter(
+                            (key) =>
+                              !["Published_External", "Published_Internal"].includes(key)
                           );
                         }
 
