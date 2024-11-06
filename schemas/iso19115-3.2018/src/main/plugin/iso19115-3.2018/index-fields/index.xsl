@@ -190,13 +190,13 @@
         </keyword>
       </xsl:for-each>
 
-      <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceConstraints[1]/mco:MD_LegalConstraints/mco:reference/cit:CI_Citation/cit:title/gco:CharacterString">
+      <xsl:for-each select="mdb:identificationInfo/*/mri:resourceConstraints[1]/mco:MD_LegalConstraints/mco:reference/cit:CI_Citation/cit:title/gco:CharacterString">
         <legalconstraints>
           <xsl:value-of select="."/>
         </legalconstraints>
       </xsl:for-each>
 
-      <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceConstraints[1]/mco:MD_LegalConstraints/mco:reference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource/cit:linkage/gco:CharacterString">
+      <xsl:for-each select="mdb:identificationInfo/*/mri:resourceConstraints[1]/mco:MD_LegalConstraints/mco:reference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource/cit:linkage/gco:CharacterString">
         <legalconstraintslinkage>
           <xsl:value-of select="."/>
         </legalconstraintslinkage>
