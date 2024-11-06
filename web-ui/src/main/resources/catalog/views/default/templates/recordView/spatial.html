@@ -81,7 +81,7 @@
     </span>
     <div>
       <h3 data-translate="">keyword</h3>
-      <div data-ng-repeat="c in mdView.current.record.keyword">
+      <div data-ng-repeat="c in mdView.current.record.keyword track by $index">
         <p>{{c}}</p>
       </div>
     </div>
