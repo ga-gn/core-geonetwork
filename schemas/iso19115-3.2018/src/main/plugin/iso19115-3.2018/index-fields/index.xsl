@@ -1284,11 +1284,11 @@
             <xsl:copy-of select="gn-fn-index:build-record-link(
                                 $code, $xlink, mri:metadataReference/@xlink:title, 'parent')"/>
           </xsl:if>
-          <xsl:if test="$associationType = $childrenAssociatedResourceType">
+          <!-- <xsl:if test="$associationType = $childrenAssociatedResourceType">
             <childUuid><xsl:value-of select="$code"/></childUuid>
             <xsl:copy-of select="gn-fn-index:build-record-link(
                                 $code, $xlink, mri:metadataReference/@xlink:title, 'children')"/>
-          </xsl:if>
+          </xsl:if> -->
 
           <xsl:variable name="initiativeType"
                         select="mri:initiativeType/*/@codeListValue"/>
