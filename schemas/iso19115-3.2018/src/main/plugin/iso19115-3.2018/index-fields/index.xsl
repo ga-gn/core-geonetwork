@@ -202,6 +202,18 @@
         </legalconstraintslinkage>
       </xsl:for-each>
 
+      <xsl:for-each select="mdb:identificationInfo/*/mri:citation/cit:CI_Citation/cit:series/cit:CI_Series/cit:name/gco:CharacterString">
+        <seriesName>
+          <xsl:value-of select="."/>
+        </seriesName>
+      </xsl:for-each>
+
+      <xsl:for-each select="mdb:identificationInfo/*/mri:citation/cit:CI_Citation/cit:series/cit:CI_Series/cit:issueIdentification/gco:CharacterString">
+        <issueIdentification>
+          <xsl:value-of select="."/>
+        </issueIdentification>
+      </xsl:for-each>
+
       <xsl:copy-of select="gn-fn-index:add-field('metadataIdentifier', $identifier)"/>
 
       <!--<xsl:if test="$pointOfTruthURLPattern != ''">
