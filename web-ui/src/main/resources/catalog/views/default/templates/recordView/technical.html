@@ -87,6 +87,22 @@
     </div>
   </div>
 
+  <!-- Scope Name-->
+  <div
+    data-ng-if="mdView.current.record.resourceTypeNameObject.default"
+    class="gn-margin-bottom flex-row"
+  >
+    <span class="badge badge-rounded" title="{{scopeName | translate}}">
+      <i class="fa fa-fw fa-info"></i>
+    </span>
+    <div>
+      <h3 data-translate="">scopeName</h3>
+      <ul class="gn-comma-list">
+        <p>{{mdView.current.record.resourceTypeNameObject.default | translate}}</p>
+      </ul>
+    </div>
+  </div>
+
   <!-- Bounding Box-->
   <div data-ng-if="mdView.current.record.geom" class="gn-margin-bottom flex-row">
     <span class="badge badge-rounded" title="{{boundingBox | translate}}">
@@ -126,6 +142,35 @@
       <h3 data-translate="">purpose</h3>
       <ul class="gn-comma-list">
         <p>{{mdView.current.record.purposeObject.default | translate}}</p>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Series Name-->
+  <div data-ng-if="mdView.current.record.seriesName" class="gn-margin-bottom flex-row">
+    <span class="badge badge-rounded" title="{{seriesName | translate}}">
+      <i class="fa fa-fw fa-info"></i>
+    </span>
+    <div>
+      <h3 data-translate="">seriesName</h3>
+      <ul class="gn-comma-list">
+        <p>{{mdView.current.record.seriesName | translate}}</p>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Issue Identification-->
+  <div
+    data-ng-if="mdView.current.record.issueIdentification"
+    class="gn-margin-bottom flex-row"
+  >
+    <span class="badge badge-rounded" title="{{issueIdentification | translate}}">
+      <i class="fa fa-fw fa-info"></i>
+    </span>
+    <div>
+      <h3 data-translate="">issueIdentification</h3>
+      <ul class="gn-comma-list">
+        <p>{{mdView.current.record.issueIdentification | translate}}</p>
       </ul>
     </div>
   </div>
