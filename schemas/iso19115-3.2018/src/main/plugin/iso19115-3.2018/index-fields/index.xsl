@@ -184,6 +184,12 @@
         </author>
       </xsl:for-each>
 
+      <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='coAuthor']]/cit:party/cit:CI_Individual/cit:name/gco:CharacterString">
+        <coAuthor>
+          <xsl:value-of select="."/>
+        </coAuthor>
+      </xsl:for-each>
+
       <xsl:for-each select="mdb:identificationInfo/*/mri:descriptiveKeywords/mri:MD_Keywords/mri:keyword/gco:CharacterString">
         <keyword>
           <xsl:value-of select="."/>
@@ -212,6 +218,14 @@
         <issueIdentification>
           <xsl:value-of select="."/>
         </issueIdentification>
+      </xsl:for-each>
+
+      <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:associatedResource/mri:MD_AssociatedResource">
+        <associatedResource type="object">{
+          "associationType": "<xsl:value-of select="mri:associationType/mri:DS_AssociationTypeCode/@codeListValue"/>",
+          "associatetitle": "<xsl:value-of select="mri:metadataReference/cit:CI_Citation/cit:title/gco:CharacterString"/>",
+          "associatelinkage": "<xsl:value-of select="mri:metadataReference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource/cit:linkage/gco:CharacterString"/>"
+        }</associatedResource>
       </xsl:for-each>
 
       <xsl:copy-of select="gn-fn-index:add-field('metadataIdentifier', $identifier)"/>
