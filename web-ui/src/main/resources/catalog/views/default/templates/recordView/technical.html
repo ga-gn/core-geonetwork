@@ -57,6 +57,26 @@
     </div>
   </div>
 
+  <!-- coAuthor-->
+  <div data-ng-if="mdView.current.record.coAuthor" class="gn-margin-bottom flex-row">
+    <span class="badge badge-rounded" title="{{coAuthor | translate}}">
+      <i class="fa fa-fw fa-info"></i>
+    </span>
+    <div>
+      <h3 data-translate="">coAuthor</h3>
+      <ul class="gn-comma-list">
+        <div ng-if="isArray(mdView.current.record.coAuthor)">
+          <div data-ng-repeat="a in mdView.current.record.coAuthor">
+            <p>{{a | translate}}</p>
+          </div>
+        </div>
+        <div ng-if="!isArray(mdView.current.record.coAuthor)">
+          <p>{{mdView.current.record.coAuthor | translate}}</p>
+        </div>
+      </ul>
+    </div>
+  </div>
+
   <!-- Licence-->
   <div
     data-ng-if="mdView.current.record.legalconstraints"
@@ -171,6 +191,26 @@
       <h3 data-translate="">issueIdentification</h3>
       <ul class="gn-comma-list">
         <p>{{mdView.current.record.issueIdentification | translate}}</p>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Associations-->
+  <div
+    data-ng-if="mdView.current.record.associatedResource"
+    class="gn-margin-bottom flex-row"
+  >
+    <span class="badge badge-rounded" title="{{associations | translate}}">
+      <i class="fa fa-fw fa-info"></i>
+    </span>
+    <div>
+      <h3 data-translate="">associations</h3>
+      <ul>
+        <li data-ng-repeat="a in mdView.current.record.associatedResource">
+          {{a.associatetitle | translate}}<br />
+          <span data-ng-bind-html="a.associatelinkage | linky" /><br />
+          {{a.associationType | translate}}
+        </li>
       </ul>
     </div>
   </div>
