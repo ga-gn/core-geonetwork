@@ -205,13 +205,26 @@
     </span>
     <div>
       <h3 data-translate="">associations</h3>
-      <ul>
-        <li data-ng-repeat="a in mdView.current.record.associatedResource">
-          {{a.associatetitle | translate}}<br />
-          <span data-ng-bind-html="a.associatelinkage | linky" /><br />
-          {{a.associationType | translate}}
-        </li>
-      </ul>
+      <div ng-if="isArray(mdView.current.record.associatedResource)">
+        <ul>
+          <li data-ng-repeat="a in mdView.current.record.associatedResource">
+            {{a.associatetitle | translate}}<br />
+            <span data-ng-bind-html="a.associatelinkage | linky" /><br />
+            {{a.associationType | translate}}
+          </li>
+        </ul>
+      </div>
+      <div ng-if="!isArray(mdView.current.record.associatedResource)">
+        <ul class="gn-comma-list">
+          <p>
+            {{mdView.current.record.associatedResource.associatetitle | translate}}<br />
+            <span
+              data-ng-bind-html="mdView.current.record.associatedResource.associatelinkage | linky"
+            /><br />
+            {{mdView.current.record.associatedResource.associationType | translate}}
+          </p>
+        </ul>
+      </div>
     </div>
   </div>
 
