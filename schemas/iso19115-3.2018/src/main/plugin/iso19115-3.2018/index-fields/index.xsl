@@ -228,6 +228,23 @@
         }</associatedResource>
       </xsl:for-each>
 
+      <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:pointOfContact">
+        <pointOfContact type="object">{
+          "role": "<xsl:value-of select="cit:CI_Responsibility/cit:role/cit:CI_RoleCode/@codeListValue"/>",
+          "organisationName": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:name/gco:CharacterString"/>",
+          "organisationEmail": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:contactInfo/cit:CI_Contact/cit:address/cit:CI_Address/cit:electronicMailAddress/gco:CharacterString"/>",
+          "organisationPhone": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:contactInfo/cit:CI_Contact/cit:phone/cit:CI_Telephone/cit:number/gco:CharacterString"/>",
+          "organisationDeliveryPoint": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:contactInfo/cit:CI_Contact/cit:address/cit:CI_Address/cit:deliveryPoint/gco:CharacterString"/>",
+          "organisationCity": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:contactInfo/cit:CI_Contact/cit:address/cit:CI_Address/cit:city/gco:CharacterString"/>",
+          "organisationAdministrativeArea": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:contactInfo/cit:CI_Contact/cit:address/cit:CI_Address/cit:administrativeArea/gco:CharacterString"/>",
+          "organisationPostCode": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:contactInfo/cit:CI_Contact/cit:address/cit:CI_Address/cit:postalCode/gco:CharacterString"/>",
+          "organisationCountry": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:contactInfo/cit:CI_Contact/cit:address/cit:CI_Address/cit:country/gco:CharacterString"/>",
+          "organisationPositionName": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:individual/cit:CI_Individual/cit:positionName/gco:CharacterString"/>",
+          "individualName": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Individual/cit:name/gco:CharacterString"/>",
+          "individualCity": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Individual/cit:contactInfo/cit:CI_Contact/cit:address/cit:CI_Address/cit:city/gco:CharacterString"/>"
+        }</pointOfContact>
+      </xsl:for-each>
+
       <xsl:copy-of select="gn-fn-index:add-field('metadataIdentifier', $identifier)"/>
 
       <!--<xsl:if test="$pointOfTruthURLPattern != ''">
