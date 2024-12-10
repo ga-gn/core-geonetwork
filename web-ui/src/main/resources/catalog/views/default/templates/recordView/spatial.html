@@ -74,35 +74,35 @@
   </div>
 </div>
 
-<div>
-  <div data-ng-if="mdView.current.record.keyword" class="gn-margin-bottom flex-row">
-    <span class="badge badge-rounded" title="{{keyword | translate}}">
-      <i class="fa fa-fw fa-tags"></i>
-    </span>
-    <div>
-      <h3 data-translate="">keyword</h3>
-      <div data-ng-repeat="c in mdView.current.record.keyword track by $index">
-        <p>{{c}}</p>
+<div
+  data-ng-if="mdView.current.record.keywordsAll && isArray(mdView.current.record.keywords)"
+>
+  <div data-ng-repeat="t in mdView.current.record.keywordsAll track by $index">
+    <div class="gn-margin-bottom flex-row">
+      <span class="badge badge-rounded" title="{{t.typeName | translate}}">
+        <i class="fa fa-fw fa-tags"></i>
+      </span>
+      <div>
+        <h3>{{t.typeName}}</h3>
+        <div data-ng-repeat="k in t.list track by $index">
+          <p>{{k.keyword}}</p>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<div>
-  <div
-    data-ng-if="mdView.current.record.allKeywords.th_ANZRCFieldsofResearch.keywords"
-    class="gn-margin-bottom flex-row"
-  >
-    <span class="badge badge-rounded" title="{{anzrcFieldsOfResearch | translate}}">
+<div data-ng-if="!isArray(mdView.current.record.keywords)">
+  <div class="gn-margin-bottom flex-row">
+    <span
+      class="badge badge-rounded"
+      title="{{mdView.current.record.keywords.thesaurusName | translate}}"
+    >
       <i class="fa fa-fw fa-tags"></i>
     </span>
     <div>
-      <h3 data-translate="">ANZRC Fields Of Research</h3>
-      <div
-        data-ng-repeat="c in mdView.current.record.allKeywords.th_ANZRCFieldsofResearch.keywords"
-      >
-        <p>{{c.default}}</p>
-      </div>
+      <h3>{{mdView.current.record.keywords.thesaurusName}}</h3>
+      <p>{{mdView.current.record.keywords.keyword}}</p>
     </div>
   </div>
 </div>
