@@ -348,21 +348,55 @@
                         data = { metadata: metadata };
 
                         if (
-                          data.metadata[0].keyword &&
-                          data.metadata[0].allKeywords?.th_ANZRCFieldsofResearch?.keywords
+                          data.metadata[0].keywords &&
+                          angular.isArray(data.metadata[0].keywords)
                         ) {
-                          data.metadata[0].keyword = data.metadata[0].keyword?.filter(
-                            (k) =>
-                              !data.metadata[0].allKeywords.th_ANZRCFieldsofResearch.keywords
-                                .map((a) => a.default)
-                                .includes(k)
+                          const typeList = [];
+                          data.metadata[0].keywords.forEach((keyword) => {
+                            const typeNames = typeList.map((type) => type.typeName);
+                            if (typeNames.indexOf(keyword.thesaurusName) === -1) {
+                              typeList.push({
+                                typeName: keyword.thesaurusName,
+                                list: []
+                              });
+                            }
+                          });
+                          typeList.forEach((type) => {
+                            type.list = data.metadata[0].keywords.filter(
+                              (keyword) =>
+                                keyword.thesaurusName === type.typeName &&
+                                !["Published_External", "Published_Internal"].includes(
+                                  keyword.keyword
+                                )
+                            );
+                          });
+                          const keywordsType = typeList.find(
+                            (type) => type.typeName === ""
                           );
+                          if (keywordsType) {
+                            keywordsType.typeName = "Keywords";
+                          }
+                          const anzrcType = typeList.find(
+                            (type) =>
+                              type.typeName === "theme.ANZRC Fields of Research.rdf"
+                          );
+                          if (anzrcType) {
+                            anzrcType.typeName = "ANZRC Fields Of Research";
+                          }
+                          data.metadata[0].keywordsAll = typeList;
                         }
-                        if (data.metadata[0].keyword) {
-                          data.metadata[0].keyword = data.metadata[0].keyword.filter(
-                            (key) =>
-                              !["Published_External", "Published_Internal"].includes(key)
-                          );
+
+                        if (!angular.isArray(data.metadata[0].keywords)) {
+                          if (data.metadata[0].keywords.thesaurusName === "") {
+                            data.metadata[0].keywords.thesaurusName = "Keywords";
+                          }
+                          if (
+                            data.metadata[0].keywords.thesaurusName ===
+                            "theme.ANZRC Fields of Research.rdf"
+                          ) {
+                            data.metadata[0].keywords.thesaurusName =
+                              "ANZRC Fields Of Research";
+                          }
                         }
 
                         //Keep the search results (gnMdViewObj.records)
