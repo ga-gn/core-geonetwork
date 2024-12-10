@@ -577,8 +577,8 @@
       </header>
       <row>
         <col xpath="cit:role"/>
-        <col xpath="cit:party/cit:CI_Organisation/cit:name"/>
-        <col xpath="cit:party/*/cit:contactInfo/*/cit:address/*/cit:electronicMailAddress"/>
+        <col xpath="cit:party/*/cit:name"/>
+        <col xpath="cit:party/*/cit:contactInfo/*"/>
         <col del=".."/>
       </row>
     </table>

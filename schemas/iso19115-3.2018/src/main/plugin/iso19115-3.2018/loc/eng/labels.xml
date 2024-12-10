@@ -1294,7 +1294,7 @@
     <_condition></_condition>
   </element>
   <element name="cit:CI_Organisation" id="385.0">
-    <label>Organisation</label>
+    <label>Organisation / Individual Name</label>
     <description iso="true">Class of information about the party if the party is
       an organization
     </description>
@@ -2738,8 +2738,8 @@
     <description>Date of the edition (YYYY-MM-DD)</description>
   </element>
   <element name="cit:electronicMailAddress" id="394.0">
-    <label>Electronic mail address</label>
-    <description>Address of the electronic mailbox of the responsible
+    <label>Details</label>
+    <description>Details of the responsible
       organization or
       individual
     </description>
