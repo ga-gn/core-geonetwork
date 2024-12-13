@@ -576,9 +576,9 @@ public class Importer {
         if (metadataExist && uuidAction == MEFLib.UuidAction.NOTHING) {
             throw new UnAuthorizedException("Record already exists. Change the import mode to overwrite or generating a new UUID.", null);
         } else if (metadataExist && uuidAction == MEFLib.UuidAction.OVERWRITE){
-            if (isMdWorkflowEnable) {
-                throw new UnAuthorizedException("Overwrite mode is not allowed when workflow is enabled. Use the metadata editor.", null);
-            }
+            // if (isMdWorkflowEnable) {
+            //     throw new UnAuthorizedException("Overwrite mode is not allowed when workflow is enabled. Use the metadata editor.", null);
+            // }
 
             String recordToUpdateId = dm.getMetadataId(uuid);
             if (dm.getAccessManager().canEdit(context, recordToUpdateId)) {
