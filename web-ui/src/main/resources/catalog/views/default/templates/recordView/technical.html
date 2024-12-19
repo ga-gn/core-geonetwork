@@ -242,7 +242,7 @@
     <div>
       <h3 data-translate="">identifier</h3>
       <div data-ng-repeat="i in mdView.current.record.resourceIdentifier">
-        <p>{{i.code | translate}}</p>
+        <p>{{i.link ? i.link : i.code | translate}}</p>
       </div>
     </div>
   </div>
