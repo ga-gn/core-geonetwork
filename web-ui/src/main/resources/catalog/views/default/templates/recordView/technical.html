@@ -211,18 +211,36 @@
       <div ng-if="isArray(mdView.current.record.associatedResource)">
         <ul>
           <li data-ng-repeat="a in mdView.current.record.associatedResource">
-            {{a.associatetitle | translate}}<br />
-            <span data-ng-bind-html="a.associatelinkage | linky" /><br />
-            {{a.associationType | translate}}
+            <div ng-if="a.associatelinkage">
+              {{a.associatetitle | translate}}<br />
+              <span data-ng-bind-html="a.associatelinkage | linky" /><br />
+              {{a.associationType | translate}}
+            </div>
+            <div ng-if="!a.associatelinkage && a.metadataReference">
+              {{a.initiativeType | translate}}<br />
+              <span
+                data-ng-bind-html="a.metadataReference.replace('api/records', 'eng/catalog.search#/metadata') | linky"
+              /><br />
+              {{a.associationType | translate}}
+            </div>
           </li>
         </ul>
       </div>
       <div ng-if="!isArray(mdView.current.record.associatedResource)">
         <ul class="gn-comma-list">
-          <p>
+          <p ng-if="mdView.current.record.associatedResource.associatelinkage">
             {{mdView.current.record.associatedResource.associatetitle | translate}}<br />
             <span
               data-ng-bind-html="mdView.current.record.associatedResource.associatelinkage | linky"
+            /><br />
+            {{mdView.current.record.associatedResource.associationType | translate}}
+          </p>
+          <p
+            ng-if="!mdView.current.record.associatedResource.associatelinkage && mdView.current.record.associatedResource.metadataReference"
+          >
+            {{mdView.current.record.associatedResource.initiativeType | translate}}<br />
+            <span
+              data-ng-bind-html="mdView.current.record.associatedResource.metadataReference.replace('api/records', 'eng/catalog.search#/metadata') | linky"
             /><br />
             {{mdView.current.record.associatedResource.associationType | translate}}
           </p>
@@ -242,7 +260,7 @@
     <div>
       <h3 data-translate="">identifier</h3>
       <div data-ng-repeat="i in mdView.current.record.resourceIdentifier">
-        <p>{{i.code | translate}}</p>
+        <p>{{i.link ? i.link : i.code | translate}}</p>
       </div>
     </div>
   </div>

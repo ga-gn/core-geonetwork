@@ -193,7 +193,8 @@
       <xsl:for-each select="mdb:identificationInfo/*/mri:descriptiveKeywords/mri:MD_Keywords">
         <keywords type="object">{
           "keyword": "<xsl:value-of select="mri:keyword/gco:CharacterString"/>",
-          "thesaurusName": "<xsl:value-of select="mri:thesaurusName/cit:CI_Citation/cit:title/gco:CharacterString"/>"
+          "thesaurusName": "<xsl:value-of select="mri:thesaurusName/cit:CI_Citation/cit:title/gco:CharacterString"/>",
+          "thesaurusNameNew": "<xsl:value-of select="mri:thesaurusName/cit:CI_Citation/cit:title/gcx:Anchor"/>"
         }</keywords>
       </xsl:for-each>
 
@@ -225,7 +226,9 @@
         <associatedResource type="object">{
           "associationType": "<xsl:value-of select="mri:associationType/mri:DS_AssociationTypeCode/@codeListValue"/>",
           "associatetitle": "<xsl:value-of select="mri:metadataReference/cit:CI_Citation/cit:title/gco:CharacterString"/>",
-          "associatelinkage": "<xsl:value-of select="mri:metadataReference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource/cit:linkage/gco:CharacterString"/>"
+          "associatelinkage": "<xsl:value-of select="mri:metadataReference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource/cit:linkage/gco:CharacterString"/>",
+          "metadataReference": "<xsl:value-of select="mri:metadataReference/@xlink:href"/>",
+          "initiativeType": "<xsl:value-of select="mri:initiativeType/mri:DS_InitiativeTypeCode/@codeListValue"/>"
         }</associatedResource>
       </xsl:for-each>
 
