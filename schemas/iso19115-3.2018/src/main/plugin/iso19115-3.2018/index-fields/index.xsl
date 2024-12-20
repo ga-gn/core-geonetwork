@@ -226,7 +226,9 @@
         <associatedResource type="object">{
           "associationType": "<xsl:value-of select="mri:associationType/mri:DS_AssociationTypeCode/@codeListValue"/>",
           "associatetitle": "<xsl:value-of select="mri:metadataReference/cit:CI_Citation/cit:title/gco:CharacterString"/>",
-          "associatelinkage": "<xsl:value-of select="mri:metadataReference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource/cit:linkage/gco:CharacterString"/>"
+          "associatelinkage": "<xsl:value-of select="mri:metadataReference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource/cit:linkage/gco:CharacterString"/>",
+          "metadataReference": "<xsl:value-of select="mri:metadataReference/@xlink:href"/>",
+          "initiativeType": "<xsl:value-of select="mri:initiativeType/mri:DS_InitiativeTypeCode/@codeListValue"/>"
         }</associatedResource>
       </xsl:for-each>
 
