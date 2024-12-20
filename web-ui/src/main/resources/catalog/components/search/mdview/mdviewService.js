@@ -351,6 +351,11 @@
                           data.metadata[0].keywords &&
                           angular.isArray(data.metadata[0].keywords)
                         ) {
+                          data.metadata[0].keywords.forEach((keyword) => {
+                            if (!keyword.thesaurusName && keyword.thesaurusNameNew) {
+                              keyword.thesaurusName = keyword.thesaurusNameNew;
+                            }
+                          });
                           const typeList = [];
                           data.metadata[0].keywords.forEach((keyword) => {
                             const typeNames = typeList.map((type) => type.typeName);
@@ -386,7 +391,17 @@
                           data.metadata[0].keywordsAll = typeList;
                         }
 
-                        if (!angular.isArray(data.metadata[0].keywords)) {
+                        if (
+                          data.metadata[0].keywords &&
+                          !angular.isArray(data.metadata[0].keywords)
+                        ) {
+                          if (
+                            !data.metadata[0].keywords.thesaurusName &&
+                            data.metadata[0].keywords.thesaurusNameNew
+                          ) {
+                            data.metadata[0].keywords.thesaurusName =
+                              data.metadata[0].keywords.thesaurusNameNew;
+                          }
                           if (data.metadata[0].keywords.thesaurusName === "") {
                             data.metadata[0].keywords.thesaurusName = "Keywords";
                           }

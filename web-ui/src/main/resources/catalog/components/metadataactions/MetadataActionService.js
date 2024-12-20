@@ -594,7 +594,11 @@
        */
       this.getPermalink = function (md) {
         $http.get("../api/records/" + md.getUuid() + "/permalink").then(function (r) {
-          gnUtilityService.displayPermalink(md.resourceTitle, r.data);
+          const pidResource = md.resourceIdentifier.find((ri) =>
+            ri.code.startsWith("https://pid")
+          );
+          const url = pidResource ? pidResource.code : r.data;
+          gnUtilityService.displayPermalink(md.resourceTitle, url);
         });
       };
 
