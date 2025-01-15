@@ -347,6 +347,22 @@
 
                         data = { metadata: metadata };
 
+                        data.metadata[0].keywords = [];
+                        if (
+                          !angular.isArray(data.metadata[0].datasetKeywords) &&
+                          data.metadata[0].serviceKeywords.length > 1
+                        ) {
+                          data.metadata[0].serviceKeywords.forEach((serviceKeyword) => {
+                            data.metadata[0].keywords.push({
+                              keyword: serviceKeyword,
+                              thesaurusName: "",
+                              thesaurusNameNew: ""
+                            });
+                          });
+                        } else {
+                          data.metadata[0].keywords = data.metadata[0].datasetKeywords;
+                        }
+
                         if (
                           data.metadata[0].keywords &&
                           angular.isArray(data.metadata[0].keywords)

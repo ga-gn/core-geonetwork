@@ -191,11 +191,17 @@
       </xsl:for-each>
 
       <xsl:for-each select="mdb:identificationInfo/*/mri:descriptiveKeywords/mri:MD_Keywords">
-        <keywords type="object">{
+        <datasetKeywords type="object">{
           "keyword": "<xsl:value-of select="mri:keyword/gco:CharacterString"/>",
           "thesaurusName": "<xsl:value-of select="mri:thesaurusName/cit:CI_Citation/cit:title/gco:CharacterString"/>",
           "thesaurusNameNew": "<xsl:value-of select="mri:thesaurusName/cit:CI_Citation/cit:title/gcx:Anchor"/>"
-        }</keywords>
+        }</datasetKeywords>
+      </xsl:for-each>
+
+      <xsl:for-each select="mdb:identificationInfo/*/mri:descriptiveKeywords/mri:MD_Keywords/mri:keyword/gco:CharacterString">
+        <serviceKeywords>
+          <xsl:value-of select="."/>
+        </serviceKeywords>
       </xsl:for-each>
 
       <xsl:for-each select="mdb:identificationInfo/*/mri:resourceConstraints[1]/mco:MD_LegalConstraints/mco:reference/cit:CI_Citation/cit:title/gco:CharacterString">
