@@ -347,6 +347,22 @@
 
                         data = { metadata: metadata };
 
+                        data.metadata[0].keywords = [];
+                        if (
+                          !angular.isArray(data.metadata[0].datasetKeywords) &&
+                          data.metadata[0].serviceKeywords.length > 1
+                        ) {
+                          data.metadata[0].serviceKeywords.forEach((serviceKeyword) => {
+                            data.metadata[0].keywords.push({
+                              keyword: serviceKeyword,
+                              thesaurusName: "",
+                              thesaurusNameNew: ""
+                            });
+                          });
+                        } else {
+                          data.metadata[0].keywords = data.metadata[0].datasetKeywords;
+                        }
+
                         if (
                           data.metadata[0].keywords &&
                           angular.isArray(data.metadata[0].keywords)
@@ -412,6 +428,25 @@
                             data.metadata[0].keywords.thesaurusName =
                               "ANZRC Fields Of Research";
                           }
+                        }
+
+                        if (
+                          data.metadata[0].resourceType &&
+                          (!data.metadata[0].resourceIdentifier ||
+                            data.metadata[0].resourceIdentifier.length === 0)
+                        ) {
+                          data.metadata[0].resourceIdentifier = [];
+                          const resourceIdentifier = {
+                            code:
+                              data.metadata[0].resourceType[0] === "dataset"
+                                ? "https://pid.geoscience.gov.au/dataset/ga/" +
+                                  data.metadata[0].eCatId
+                                : "https://pid.geoscience.gov.au/service/ga/" +
+                                  data.metadata[0].eCatId,
+                            codeSpace: "Geoscience Australia Persistent Identifier",
+                            link: ""
+                          };
+                          data.metadata[0].resourceIdentifier.push(resourceIdentifier);
                         }
 
                         //Keep the search results (gnMdViewObj.records)
