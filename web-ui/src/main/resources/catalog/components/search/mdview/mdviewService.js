@@ -414,6 +414,25 @@
                           }
                         }
 
+                        if (
+                          data.metadata[0].resourceType &&
+                          (!data.metadata[0].resourceIdentifier ||
+                            data.metadata[0].resourceIdentifier.length === 0)
+                        ) {
+                          data.metadata[0].resourceIdentifier = [];
+                          const resourceIdentifier = {
+                            code:
+                              data.metadata[0].resourceType[0] === "dataset"
+                                ? "https://pid.geoscience.gov.au/dataset/ga/" +
+                                  data.metadata[0].eCatId
+                                : "https://pid.geoscience.gov.au/service/ga/" +
+                                  data.metadata[0].eCatId,
+                            codeSpace: "Geoscience Australia Persistent Identifier",
+                            link: ""
+                          };
+                          data.metadata[0].resourceIdentifier.push(resourceIdentifier);
+                        }
+
                         //Keep the search results (gnMdViewObj.records)
                         // that.feedMd(0, undefined, data.metadata);
                         //and the trace of where in the search result we are

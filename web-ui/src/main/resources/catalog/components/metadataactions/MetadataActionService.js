@@ -594,7 +594,7 @@
        */
       this.getPermalink = function (md) {
         $http.get("../api/records/" + md.getUuid() + "/permalink").then(function (r) {
-          const pidResource = md.resourceIdentifier.find((ri) =>
+          const pidResource = md.resourceIdentifier?.find((ri) =>
             ri.code.startsWith("https://pid")
           );
           const url = pidResource ? pidResource.code : r.data;
