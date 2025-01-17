@@ -74,9 +74,7 @@
   </div>
 </div>
 
-<div
-  data-ng-if="mdView.current.record.keywordsAll && isArray(mdView.current.record.keywords)"
->
+<div data-ng-if="mdView.current.record.keywordsAll">
   <div data-ng-repeat="t in mdView.current.record.keywordsAll track by $index">
     <div class="gn-margin-bottom flex-row">
       <span class="badge badge-rounded" title="{{t.typeName | translate}}">
@@ -85,24 +83,9 @@
       <div>
         <h3>{{t.typeName}}</h3>
         <div data-ng-repeat="k in t.list track by $index">
-          <p>{{k.keyword}}</p>
+          <p>{{k}}</p>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<div data-ng-if="!isArray(mdView.current.record.keywords)">
-  <div class="gn-margin-bottom flex-row">
-    <span
-      class="badge badge-rounded"
-      title="{{mdView.current.record.keywords.thesaurusName | translate}}"
-    >
-      <i class="fa fa-fw fa-tags"></i>
-    </span>
-    <div>
-      <h3>{{mdView.current.record.keywords.thesaurusName}}</h3>
-      <p>{{mdView.current.record.keywords.keyword}}</p>
     </div>
   </div>
 </div>
