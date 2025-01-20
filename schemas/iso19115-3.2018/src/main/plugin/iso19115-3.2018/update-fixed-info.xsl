@@ -175,6 +175,32 @@
         </xsl:otherwise>
       </xsl:choose>
 
+      <!-- Add metadataProfile if it doesn't exist -->
+      <xsl:choose>
+        <xsl:when test="not(mdb:metadataProfile)">
+          <mdb:metadataProfile>
+            <cit:CI_Citation>
+              <cit:title>
+                <gco:CharacterString>Geoscience Australia Community Metadata Profile of ISO 19115-1:2014</gco:CharacterString>
+              </cit:title>
+              <cit:edition>
+                <gco:CharacterString>Version 2.0, September 2018</gco:CharacterString>
+              </cit:edition>
+              <cit:identifier>
+                <mcc:MD_Identifier>
+                  <mcc:code>
+                    <gco:CharacterString>https://pid.geoscience.gov.au/dataset/ga/122551</gco:CharacterString>
+                  </mcc:code>
+                </mcc:MD_Identifier>
+              </cit:identifier>
+            </cit:CI_Citation>
+          </mdb:metadataProfile>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates select="mdb:metadataProfile"/>
+        </xsl:otherwise>
+      </xsl:choose>
+
       <!-- Add gaid if specified as alternativeMetadataReference, otherwise copy existing reference to gaid
 			     NOTE: If you change the codeSpace, you must also change it in index.xsl, layout/layout-custom-fields.xsl, extract-ga-id.xsl
 					 and in the ISO19139-to-ISO19115-3 conversion script in web/src/main/webapp/xsl/conversion/import
@@ -207,7 +233,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 
-      <xsl:apply-templates select="mdb:metadataProfile"/>
+      <!-- <xsl:apply-templates select="mdb:metadataProfile"/> -->
       <!-- <xsl:apply-templates select="mdb:alternativeMetadataReference"/> -->
       <xsl:apply-templates select="mdb:otherLocale[*/lan:language/*/@codeListValue != $mainLanguage]"/>
       <xsl:apply-templates select="mdb:metadataLinkage"/>
