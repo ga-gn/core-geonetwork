@@ -193,6 +193,10 @@
       <xsl:for-each select="mdb:identificationInfo/*/mri:descriptiveKeywords/mri:MD_Keywords">
         <keywords type="object">{
           "keyword": "<xsl:value-of select="mri:keyword/gco:CharacterString"/>",
+          "multiKeywords": "<xsl:for-each select="mri:keyword/gco:CharacterString">
+              <xsl:value-of select="."/>
+              <xsl:if test="position() != last()">;</xsl:if>
+          </xsl:for-each>",
           "thesaurusName": "<xsl:value-of select="mri:thesaurusName/cit:CI_Citation/cit:title/gco:CharacterString"/>",
           "thesaurusNameNew": "<xsl:value-of select="mri:thesaurusName/cit:CI_Citation/cit:title/gcx:Anchor"/>"
         }</keywords>

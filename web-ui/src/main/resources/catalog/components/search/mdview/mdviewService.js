@@ -347,17 +347,27 @@
 
                         data = { metadata: metadata };
 
+                        data.metadata[0].keywordsArray = [];
                         if (
                           data.metadata[0].keywords &&
-                          angular.isArray(data.metadata[0].keywords)
+                          !angular.isArray(data.metadata[0].keywords)
                         ) {
-                          data.metadata[0].keywords.forEach((keyword) => {
+                          data.metadata[0].keywordsArray.push(data.metadata[0].keywords);
+                        } else if (data.metadata[0].keywords) {
+                          data.metadata[0].keywordsArray = data.metadata[0].keywords;
+                        }
+                        data.metadata[0].keywordsArray.forEach((keywordItem) => {
+                          keywordItem.keywordsList = keywordItem.multiKeywords.split(";");
+                        });
+
+                        if (data.metadata[0].keywordsArray) {
+                          data.metadata[0].keywordsArray.forEach((keyword) => {
                             if (!keyword.thesaurusName && keyword.thesaurusNameNew) {
                               keyword.thesaurusName = keyword.thesaurusNameNew;
                             }
                           });
                           const typeList = [];
-                          data.metadata[0].keywords.forEach((keyword) => {
+                          data.metadata[0].keywordsArray.forEach((keyword) => {
                             const typeNames = typeList.map((type) => type.typeName);
                             if (typeNames.indexOf(keyword.thesaurusName) === -1) {
                               typeList.push({
@@ -367,13 +377,16 @@
                             }
                           });
                           typeList.forEach((type) => {
-                            type.list = data.metadata[0].keywords.filter(
-                              (keyword) =>
-                                keyword.thesaurusName === type.typeName &&
-                                !["Published_External", "Published_Internal"].includes(
-                                  keyword.keyword
-                                )
-                            );
+                            type.list = data.metadata[0].keywordsArray
+                              .filter(
+                                (keyword) =>
+                                  keyword.thesaurusName === type.typeName &&
+                                  !["Published_External", "Published_Internal"].includes(
+                                    keyword.keyword
+                                  )
+                              )
+                              .map((keywordItem) => keywordItem.keywordsList)
+                              .flat(1);
                           });
                           const keywordsType = typeList.find(
                             (type) => type.typeName === ""
@@ -392,26 +405,22 @@
                         }
 
                         if (
-                          data.metadata[0].keywords &&
-                          !angular.isArray(data.metadata[0].keywords)
+                          data.metadata[0].resourceType &&
+                          (!data.metadata[0].resourceIdentifier ||
+                            data.metadata[0].resourceIdentifier.length === 0)
                         ) {
-                          if (
-                            !data.metadata[0].keywords.thesaurusName &&
-                            data.metadata[0].keywords.thesaurusNameNew
-                          ) {
-                            data.metadata[0].keywords.thesaurusName =
-                              data.metadata[0].keywords.thesaurusNameNew;
-                          }
-                          if (data.metadata[0].keywords.thesaurusName === "") {
-                            data.metadata[0].keywords.thesaurusName = "Keywords";
-                          }
-                          if (
-                            data.metadata[0].keywords.thesaurusName ===
-                            "theme.ANZRC Fields of Research.rdf"
-                          ) {
-                            data.metadata[0].keywords.thesaurusName =
-                              "ANZRC Fields Of Research";
-                          }
+                          data.metadata[0].resourceIdentifier = [];
+                          const resourceIdentifier = {
+                            code:
+                              data.metadata[0].resourceType[0] === "dataset"
+                                ? "https://pid.geoscience.gov.au/dataset/ga/" +
+                                  data.metadata[0].eCatId
+                                : "https://pid.geoscience.gov.au/service/ga/" +
+                                  data.metadata[0].eCatId,
+                            codeSpace: "Geoscience Australia Persistent Identifier",
+                            link: ""
+                          };
+                          data.metadata[0].resourceIdentifier.push(resourceIdentifier);
                         }
 
                         //Keep the search results (gnMdViewObj.records)
