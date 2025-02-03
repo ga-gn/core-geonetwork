@@ -381,7 +381,7 @@
                               .filter(
                                 (keyword) =>
                                   keyword.thesaurusName === type.typeName &&
-                                  !["Published_External", "Published_Internal"].includes(
+                                  !["Published_External", "Published_Internal", "Retired_Internal"].includes(
                                     keyword.keyword
                                   )
                               )
