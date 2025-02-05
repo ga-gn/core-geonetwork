@@ -175,6 +175,8 @@
         </xsl:otherwise>
       </xsl:choose>
 
+      <xsl:apply-templates select="mdb:metadataProfile"/>
+
       <!-- Add gaid if specified as alternativeMetadataReference, otherwise copy existing reference to gaid
 			     NOTE: If you change the codeSpace, you must also change it in index.xsl, layout/layout-custom-fields.xsl, extract-ga-id.xsl
 					 and in the ISO19139-to-ISO19115-3 conversion script in web/src/main/webapp/xsl/conversion/import
@@ -207,7 +209,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 
-      <xsl:apply-templates select="mdb:metadataProfile"/>
+      <!-- <xsl:apply-templates select="mdb:metadataProfile"/> -->
       <!-- <xsl:apply-templates select="mdb:alternativeMetadataReference"/> -->
       <xsl:apply-templates select="mdb:otherLocale[*/lan:language/*/@codeListValue != $mainLanguage]"/>
       <xsl:apply-templates select="mdb:metadataLinkage"/>

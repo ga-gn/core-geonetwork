@@ -381,9 +381,11 @@
                               .filter(
                                 (keyword) =>
                                   keyword.thesaurusName === type.typeName &&
-                                  !["Published_External", "Published_Internal", "Retired_Internal"].includes(
-                                    keyword.keyword
-                                  )
+                                  ![
+                                    "Published_External",
+                                    "Published_Internal",
+                                    "Retired_Internal"
+                                  ].includes(keyword.keyword)
                               )
                               .map((keywordItem) => keywordItem.keywordsList)
                               .flat(1);
