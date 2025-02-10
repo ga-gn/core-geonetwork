@@ -1584,8 +1584,8 @@
       <sch:report test="$hasName or $hasMdRef"
                   diagnostics="rule.mri.associatedresource-success-en                       rule.mri.associatedresource-success-fr"/>
 
-      <sch:assert test="$hasNoDuplicate"
-                  diagnostics="rule.mri.associatedresourceduplicated-failure-en rule.mri.associatedresourceduplicated-failure-fr"/>
+      <!-- <sch:assert test="$hasNoDuplicate"
+                  diagnostics="rule.mri.associatedresourceduplicated-failure-en rule.mri.associatedresourceduplicated-failure-fr"/> -->
 
     </sch:rule>
 
