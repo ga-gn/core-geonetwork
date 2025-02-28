@@ -4,19 +4,22 @@
 
 .gn-bottom-bar {
   height: @gn-bottombar-height;
-  color: @gn-bottombar-color !important;
-  position: fixed;
+  @media (max-width: 1200px) {
+    height: auto;
+  }
+  text-align: center;
   bottom: 0;
   overflow: hidden;
   width: 100%;
   margin-bottom: 0;
   border-radius: 0;
   border-width: 1px 0 0 0;
-  background: @gn-bottombar-background;
+  background: linear-gradient(#0E3747, #00718B);
+  color: #fff;
   border-color: @gn-bottombar-border-color;
   z-index: 98;
   a {
-    color: @gn-bottombar-color !important;
+    color: #fff !important;
     &:hover {
       color: @gn-bottombar-color-hover !important;
       background-color: @gn-bottombar-background-hover !important;

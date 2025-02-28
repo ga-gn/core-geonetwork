@@ -116,6 +116,8 @@
   <!-- URL for services - may not be defined FIXME or use fullURL instead -->
   <xsl:variable name="siteURL" select="/root/gui/siteURL"/>
 
+  <xsl:variable name="isIntranet" select="util:isIntranet()"/>
+
   <xsl:variable name="nodeUrl"
                 select="util:getSettingValue('nodeUrl')"/>
 

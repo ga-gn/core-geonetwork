@@ -128,6 +128,8 @@ div[gn-transfer-ownership] * .list-group {
   border-radius: 0px;
   padding: 0 20px;
   .navbar-collapse {
+    width: 95%;
+    margin-left: 15px;
     padding-left: 0;
     padding-right: 0;
   }
@@ -296,13 +298,13 @@ a {
  * Logo in nav bar can't be big
  */
 .gn-logo {
-  max-height: 24px;
+  max-height: 73px;
+  width: 250px;
   margin: -12px 0px 0px 0px;
-  @media (max-width: @screen-md-max) {
-    margin-top: -6px;
-  }
-  @media (max-width: @screen-xs-max) {
+  @media (max-width: 1255px) {
     margin-top: 0;
+    height: 50px;
+    width: 175px;
   }
 }
 
@@ -316,6 +318,22 @@ a {
 .gn-stack,
 .gn-code {
   white-space: normal;
+}
+
+.footer-list {
+  margin: 15px;
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+  @media (max-width: 790px) {
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+  }
+}
+
+.block-group {
+  margin-bottom: 15px;
 }
 
 div.gn-scroll-spy {
@@ -1226,6 +1244,10 @@ gn-md-type-inspire-validation-widget {
     font-size: 16px;
   }
 
+  @media (max-width: 1255px) {
+    min-height: 50px;
+  }
+
   // handle hover dropdowns for editor and admin menu (only if not on mobile)
   @media (min-width: @screen-sm-min) {
     li.dropdown-hover {
@@ -1694,4 +1716,16 @@ html {
   left: 1.75em;
   top: 1.9em;
   color: green;
+}
+
+.hidden-xs-ga {
+  @media (max-width: 1255px) {
+    .responsive-invisibility();
+  }
+}
+
+.hidden-ga {
+  @media (min-width: 1255px) {
+    .responsive-invisibility();
+  }
 }

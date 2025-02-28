@@ -422,6 +422,8 @@ public class EsHTTPProxy {
         source.add(Geonet.IndexFieldNames.GROUP_OWNER);
         source.add(Geonet.IndexFieldNames.OWNER);
         source.add(Geonet.IndexFieldNames.ID);
+        source.add(Geonet.IndexFieldNames.ECAT_ID);
+        source.add(Geonet.IndexFieldNames.UUID);
     }
 
     private void addFilterToQuery(ServiceContext context,
@@ -640,13 +642,13 @@ public class EsHTTPProxy {
                 }
 
                 // Remove fields with privileges info
-                if (doc.has("_source")) {
-                    ObjectNode sourceNode = (ObjectNode) doc.get("_source");
+                // if (doc.has("_source")) {
+                //     ObjectNode sourceNode = (ObjectNode) doc.get("_source");
 
-                    for (ReservedOperation o : ReservedOperation.values()) {
-                        sourceNode.remove("op" + o.getId());
-                    }
-                }
+                //     for (ReservedOperation o : ReservedOperation.values()) {
+                //         sourceNode.remove("op" + o.getId());
+                //     }
+                // }
             });
         } else {
             JsonStreamUtils.addInfoToDocsMSearch(parser, generator, doc -> {

@@ -21,6 +21,11 @@
   <!-- Readonly elements -->
   <xsl:template mode="mode-iso19115-3.2018"
                 match="mdb:metadataIdentifier/mcc:MD_Identifier/mcc:code|
+                       mdb:metadataIdentifier/mcc:MD_Identifier/mcc:codeSpace|
+                       mdb:alternativeMetadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:code|
+                       mdb:alternativeMetadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:codeSpace|
+                       mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:code|
+                       mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:codeSpace|
                        mdb:dateInfo/cit:CI_Date[cit:dateType/cit:CI_DateTypeCode = 'revision']/cit:date|
                        mdb:dateInfo/cit:CI_Date[cit:dateType/cit:CI_DateTypeCode = 'revision']/cit:dateType"
                 priority="2000">

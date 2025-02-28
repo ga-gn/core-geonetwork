@@ -324,6 +324,8 @@
     <entry key="series">Dataset</entry>
     <entry key="service">Service</entry>
     <entry key="software">Software</entry>
+    <entry key="document">Text</entry>
+    <entry key="collection">Collection</entry>
   </xsl:variable>
   <xsl:template mode="toDatacite"
                 match="mdb:metadataScope/*/mdb:resourceScope/*/@codeListValue">

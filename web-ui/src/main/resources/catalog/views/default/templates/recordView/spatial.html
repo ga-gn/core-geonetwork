@@ -73,3 +73,19 @@
     </ul>
   </div>
 </div>
+
+<div data-ng-if="mdView.current.record.keywordsAll">
+  <div data-ng-repeat="t in mdView.current.record.keywordsAll track by $index">
+    <div class="gn-margin-bottom flex-row">
+      <span class="badge badge-rounded" title="{{t.typeName | translate}}">
+        <i class="fa fa-fw fa-tags"></i>
+      </span>
+      <div>
+        <h3>{{t.typeName}}</h3>
+        <div data-ng-repeat="k in t.list track by $index">
+          <p>{{k}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

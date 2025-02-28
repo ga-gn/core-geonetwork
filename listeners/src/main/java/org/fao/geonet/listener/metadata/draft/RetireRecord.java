@@ -81,12 +81,7 @@ public class RetireRecord implements ApplicationListener<MetadataStatusChanged> 
                         Log.trace(Geonet.DATA_MANAGER,
                             "Unpublishing retired record (ID=" + event.getMd().getId() + ").");
 
-                        metadataOperations.forceUnsetOperation(context, event.getMd().getId(), ReservedGroup.all.getId(), ReservedOperation.download.getId());
-                        metadataOperations.forceUnsetOperation(context, event.getMd().getId(), ReservedGroup.all.getId(), ReservedOperation.dynamic.getId());
-                        metadataOperations.forceUnsetOperation(context, event.getMd().getId(), ReservedGroup.all.getId(), ReservedOperation.editing.getId());
-                        metadataOperations.forceUnsetOperation(context, event.getMd().getId(), ReservedGroup.all.getId(), ReservedOperation.featured.getId());
-                        metadataOperations.forceUnsetOperation(context, event.getMd().getId(), ReservedGroup.all.getId(), ReservedOperation.view.getId());
-                        metadataOperations.forceUnsetOperation(context, event.getMd().getId(), ReservedGroup.all.getId(), ReservedOperation.notify.getId());
+                        metadataOperations.deleteMetadataOper(Integer.toString(event.getMd().getId()), false);
 
                         metadataIndexer.indexMetadata(Arrays.asList(String.valueOf(event.getMd().getId())));
 

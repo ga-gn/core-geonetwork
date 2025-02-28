@@ -175,8 +175,66 @@
         </xsl:otherwise>
       </xsl:choose>
 
-      <xsl:apply-templates select="mdb:metadataProfile"/>
-      <xsl:apply-templates select="mdb:alternativeMetadataReference"/>
+      <!-- Add metadataProfile if it doesn't exist -->
+      <xsl:choose>
+        <xsl:when test="not(mdb:metadataProfile)">
+          <mdb:metadataProfile>
+            <cit:CI_Citation>
+              <cit:title>
+                <gco:CharacterString>Geoscience Australia Community Metadata Profile of ISO 19115-1:2014</gco:CharacterString>
+              </cit:title>
+              <cit:edition>
+                <gco:CharacterString>Version 2.0, September 2018</gco:CharacterString>
+              </cit:edition>
+              <cit:identifier>
+                <mcc:MD_Identifier>
+                  <mcc:code>
+                    <gco:CharacterString>https://pid.geoscience.gov.au/dataset/ga/122551</gco:CharacterString>
+                  </mcc:code>
+                </mcc:MD_Identifier>
+              </cit:identifier>
+            </cit:CI_Citation>
+          </mdb:metadataProfile>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates select="mdb:metadataProfile"/>
+        </xsl:otherwise>
+      </xsl:choose>
+
+      <!-- Add gaid if specified as alternativeMetadataReference, otherwise copy existing reference to gaid
+			     NOTE: If you change the codeSpace, you must also change it in index.xsl, layout/layout-custom-fields.xsl, extract-ga-id.xsl
+					 and in the ISO19139-to-ISO19115-3 conversion script in web/src/main/webapp/xsl/conversion/import
+					 This codeSpace value is the way in which the ga-id is recognized. -->
+			<xsl:choose>
+				<xsl:when test="/root/env/gaid">
+					<mdb:alternativeMetadataReference>
+						<cit:CI_Citation>
+							<cit:title>
+								<gco:CharacterString>Geoscience Australia Products Catalogue (eCat) – Short identifier for metadata record.</gco:CharacterString>
+							</cit:title>
+							<cit:identifier>
+								<mcc:MD_Identifier>
+									<mcc:code>
+										<gco:CharacterString>
+											<xsl:value-of select="/root/env/gaid" />
+										</gco:CharacterString>
+									</mcc:code>
+									<mcc:codeSpace>
+										<gco:CharacterString>eCatId</gco:CharacterString>
+									</mcc:codeSpace>
+								</mcc:MD_Identifier>
+							</cit:identifier>
+						</cit:CI_Citation>
+					</mdb:alternativeMetadataReference>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:copy-of
+						select="mdb:alternativeMetadataReference[cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:codeSpace/gco:CharacterString='eCatId']" />
+				</xsl:otherwise>
+			</xsl:choose>
+
+      <!-- <xsl:apply-templates select="mdb:metadataProfile"/> -->
+      <!-- <xsl:apply-templates select="mdb:alternativeMetadataReference"/> -->
       <xsl:apply-templates select="mdb:otherLocale[*/lan:language/*/@codeListValue != $mainLanguage]"/>
       <xsl:apply-templates select="mdb:metadataLinkage"/>
 
@@ -218,6 +276,45 @@
       <xsl:apply-templates select="mdb:acquisitionInformation"/>
     </xsl:copy>
   </xsl:template>
+
+  <xsl:template match="cit:CI_Citation/cit:identifier[mcc:MD_Identifier/mcc:codeSpace/gco:CharacterString = 'Geoscience Australia Persistent Identifier']">
+	  <xsl:variable name="codelistvalue" select="//mdb:metadataScope/mdb:MD_MetadataScope/mdb:resourceScope/mcc:MD_ScopeCode/@codeListValue" />
+		<xsl:copy>
+			<mcc:MD_Identifier>
+				<mcc:code>
+					<gco:CharacterString>
+						<xsl:choose>
+							<xsl:when test="/root/env/gaid">
+								<xsl:variable name="ecatId" select="/root/env/gaid" />
+								<xsl:choose>
+									<xsl:when test="$codelistvalue='service'">
+										<xsl:value-of select="concat('https://pid.geoscience.gov.au/', 'service', '/ga/', $ecatId)" />
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="concat('https://pid.geoscience.gov.au/', 'dataset', '/ga/', $ecatId)" />
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:variable name="ecatId" select="//mdb:alternativeMetadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:codeSpace/gco:CharacterString='eCatId']/mcc:code/gco:CharacterString" />
+								<xsl:choose>
+									<xsl:when test="$codelistvalue='service'">
+										<xsl:value-of select="concat('https://pid.geoscience.gov.au/', 'service', '/ga/', $ecatId)" />
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="concat('https://pid.geoscience.gov.au/', 'dataset', '/ga/', $ecatId)" />
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:otherwise>
+						</xsl:choose>
+					</gco:CharacterString>
+				</mcc:code>
+				<mcc:codeSpace>
+					<gco:CharacterString>Geoscience Australia Persistent Identifier</gco:CharacterString>
+				</mcc:codeSpace>
+			</mcc:MD_Identifier>
+		</xsl:copy>
+	</xsl:template>
 
   <!-- Update revision date -->
   <xsl:template match="mdb:dateInfo[cit:CI_Date/cit:dateType/cit:CI_DateTypeCode/@codeListValue='lastUpdate']">

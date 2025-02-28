@@ -42,6 +42,8 @@ import org.fao.geonet.kernel.DataManager;
 import org.fao.geonet.kernel.GeonetworkDataDirectory;
 import org.fao.geonet.kernel.datamanager.IMetadataManager;
 import org.fao.geonet.kernel.datamanager.IMetadataUtils;
+import org.fao.geonet.kernel.search.MetaSearcher;
+import org.fao.geonet.kernel.search.SearcherType;
 import org.fao.geonet.kernel.datamanager.IMetadataValidator;
 import org.fao.geonet.kernel.search.IndexingMode;
 import org.fao.geonet.kernel.setting.SettingManager;
@@ -53,6 +55,7 @@ import org.fao.geonet.utils.Xml;
 import org.fao.oaipmh.exceptions.BadArgumentException;
 import org.jdom.Element;
 import org.springframework.context.ApplicationContext;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Nonnull;
 import java.io.InputStream;
@@ -486,6 +489,7 @@ public class Importer {
         GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
         DataManager dm = gc.getBean(DataManager.class);
         IMetadataManager metadataManager = gc.getBean(IMetadataManager.class);
+        String gaid = "";
 
         if (uuid == null || uuid.equals("") || uuidAction == MEFLib.UuidAction.GENERATEUUID) {
             String newuuid = UUID.randomUUID().toString();
@@ -496,6 +500,13 @@ public class Importer {
 
             // --- set uuid inside metadata
             md.add(index, dm.setUUID(schema, uuid, md.get(index)));
+
+            if (MetadataType.METADATA.equals(isTemplate)) {
+                //create new eCatId
+                gaid = dm.getGAID();
+                //set gaid inside metadata
+                md.add(index, dm.setGAID(schema, gaid, md.get(index)));
+            }
         } else {
             if (sourceName == null)
                 sourceName = "???";
@@ -513,6 +524,49 @@ public class Importer {
             }
         }
 
+        if (uuidAction != MEFLib.UuidAction.GENERATEUUID && MetadataType.METADATA.equals(isTemplate)) {
+            gaid = dm.extractGAID(schema, md.get(index));
+            //If eCatId is non-numeric, set as empty
+            if (!gaid.isEmpty() && !org.apache.commons.lang.StringUtils.isNumeric(gaid))
+                gaid = "";
+
+            boolean isExist = false;
+            Log.debug(Geonet.DATA_MANAGER, "Metadata with eCatId "+ gaid + " exist: " + isExist);
+            try {
+                boolean uuidExist = dm.existsMetadataUuid(uuid);
+                String oldGaid = "";
+                boolean sameGaid = false;
+
+                if (uuidAction == MEFLib.UuidAction.OVERWRITE && uuidExist) {
+                    String mId = dm.getMetadataId(uuid);
+                    Element metadata = dm.getMetadata(mId);
+                    if (uuidExist) {
+                        oldGaid = dm.extractGAID(schema, metadata);
+                        if (oldGaid.equals(gaid))
+                            sameGaid = true;
+                        gaid = oldGaid;
+                        Log.debug(Geonet.DATA_MANAGER, "Set old eCatId: " + gaid);
+                    }
+                }
+
+                if (isExist && !gaid.isEmpty() && !sameGaid) {
+                    throw new IllegalArgumentException(" Existing metadata with eCatId " + gaid + " could not be deleted. Current transaction is aborted.");
+                } else {
+                    if (gaid.isEmpty()) {
+                        gaid = dm.getGAID();
+                        Log.debug(Geonet.DATA_MANAGER, "Generated new eCatId: " + gaid);
+                    }
+                }
+
+                // --- set gaid inside metadata
+                md.add(index, dm.setGAID(schema, gaid, md.get(index)));
+            } catch(IllegalArgumentException iae) {
+                throw new IllegalArgumentException(iae.getMessage());
+            } catch(Exception e) {
+                throw new Exception(" Error is: " + e.getMessage());
+            }
+        }
+
         boolean metadataExist = dm.existsMetadataUuid(uuid);
 
         SettingManager settingManager = gc.getBean(SettingManager.class);
@@ -522,9 +576,9 @@ public class Importer {
         if (metadataExist && uuidAction == MEFLib.UuidAction.NOTHING) {
             throw new UnAuthorizedException("Record already exists. Change the import mode to overwrite or generating a new UUID.", null);
         } else if (metadataExist && uuidAction == MEFLib.UuidAction.OVERWRITE){
-            if (isMdWorkflowEnable) {
-                throw new UnAuthorizedException("Overwrite mode is not allowed when workflow is enabled. Use the metadata editor.", null);
-            }
+            // if (isMdWorkflowEnable) {
+            //     throw new UnAuthorizedException("Overwrite mode is not allowed when workflow is enabled. Use the metadata editor.", null);
+            // }
 
             String recordToUpdateId = dm.getMetadataId(uuid);
             if (dm.getAccessManager().canEdit(context, recordToUpdateId)) {

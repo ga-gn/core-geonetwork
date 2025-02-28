@@ -192,7 +192,7 @@
             // Full text but more boost on title match
             // * Search in languages depending on the strategy selected
             queryBase:
-              'any.${searchLang}:(${any}) OR any.common:(${any}) OR resourceTitleObject.${searchLang}:(${any})^2 OR resourceTitleObject.\\*:"${any}"^6',
+              'any.${searchLang}:(${any}) OR any.common:(${any}) OR eCatId:(${any}) OR resourceTitleObject.${searchLang}:(${any})^2 OR resourceTitleObject.\\*:"${any}"^6',
             queryBaseOptions: {
               default_operator: "AND"
             },
@@ -1203,7 +1203,7 @@
           },
           authentication: {
             enabled: true,
-            signinUrl: "../../{{node}}/{{lang}}/catalog.signin",
+            signinUrl: "../../srv/eng/shib.user.login",
             signoutUrl: "../../signout"
           },
           page: {
@@ -1667,6 +1667,7 @@
       $scope.isExternalViewerEnabled = gnExternalViewer.isEnabled();
       $scope.externalViewerUrl = gnExternalViewer.getBaseUrl();
       $scope.publicationOptions = [];
+      $scope.isIntranet = gnGlobalSettings.isIntranet;
 
       $http.get("../api/records/sharing/options").then(function (response) {
         $scope.publicationOptions = response.data;

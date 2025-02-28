@@ -1,6 +1,17 @@
 <div data-ng-if="mdView.current.record.lineage">
   <h2 data-translate="">lineage</h2>
-  <p data-ng-bind-html="mdView.current.record.lineage | linky | newlines" />
+  <div
+    class="abstract-view"
+    data-ng-bind-html="mdView.current.record.lineage | newlines"
+  ></div>
+</div>
+
+<div data-ng-if="mdView.current.record.purposeObject">
+  <h2 data-translate="">purpose</h2>
+  <div
+    class="abstract-view"
+    data-ng-bind-html="mdView.current.record.purposeObject.default | newlines"
+  ></div>
 </div>
 
 <div data-ng-if="mdView.current.record.sourceDescription">

@@ -174,6 +174,84 @@
       <document>
         <!--<xsl:value-of select="saxon:serialize(., 'default-serialize-mode')"/>-->
       </document>
+      <eCatId>
+        <xsl:value-of select="mdb:alternativeMetadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:codeSpace/gco:CharacterString='eCatId']/mcc:code/gco:CharacterString" />
+      </eCatId>
+
+      <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='author']]/cit:party/cit:CI_Individual/cit:name/gco:CharacterString">
+        <author>
+          <xsl:value-of select="."/>
+        </author>
+      </xsl:for-each>
+
+      <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='coAuthor']]/cit:party/cit:CI_Individual/cit:name/gco:CharacterString">
+        <coAuthor>
+          <xsl:value-of select="."/>
+        </coAuthor>
+      </xsl:for-each>
+
+      <xsl:for-each select="mdb:identificationInfo/*/mri:descriptiveKeywords/mri:MD_Keywords">
+        <keywords type="object">{
+          "keyword": "<xsl:value-of select="mri:keyword/gco:CharacterString"/>",
+          "multiKeywords": "<xsl:for-each select="mri:keyword/gco:CharacterString">
+              <xsl:value-of select="."/>
+              <xsl:if test="position() != last()">;</xsl:if>
+          </xsl:for-each>",
+          "thesaurusName": "<xsl:value-of select="mri:thesaurusName/cit:CI_Citation/cit:title/gco:CharacterString"/>",
+          "thesaurusNameNew": "<xsl:value-of select="mri:thesaurusName/cit:CI_Citation/cit:title/gcx:Anchor"/>"
+        }</keywords>
+      </xsl:for-each>
+
+      <xsl:for-each select="mdb:identificationInfo/*/mri:resourceConstraints[1]/mco:MD_LegalConstraints/mco:reference/cit:CI_Citation/cit:title/gco:CharacterString">
+        <legalconstraints>
+          <xsl:value-of select="."/>
+        </legalconstraints>
+      </xsl:for-each>
+
+      <xsl:for-each select="mdb:identificationInfo/*/mri:resourceConstraints[1]/mco:MD_LegalConstraints/mco:reference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource/cit:linkage/gco:CharacterString">
+        <legalconstraintslinkage>
+          <xsl:value-of select="."/>
+        </legalconstraintslinkage>
+      </xsl:for-each>
+
+      <xsl:for-each select="mdb:identificationInfo/*/mri:citation/cit:CI_Citation/cit:series/cit:CI_Series/cit:name/gco:CharacterString">
+        <seriesName>
+          <xsl:value-of select="."/>
+        </seriesName>
+      </xsl:for-each>
+
+      <xsl:for-each select="mdb:identificationInfo/*/mri:citation/cit:CI_Citation/cit:series/cit:CI_Series/cit:issueIdentification/gco:CharacterString">
+        <issueIdentification>
+          <xsl:value-of select="."/>
+        </issueIdentification>
+      </xsl:for-each>
+
+      <xsl:for-each select="mdb:identificationInfo/*/mri:associatedResource/mri:MD_AssociatedResource">
+        <associatedResource type="object">{
+          "associationType": "<xsl:value-of select="mri:associationType/mri:DS_AssociationTypeCode/@codeListValue"/>",
+          "associatetitle": "<xsl:value-of select="mri:metadataReference/cit:CI_Citation/cit:title/gco:CharacterString"/>",
+          "associatelinkage": "<xsl:value-of select="mri:metadataReference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource/cit:linkage/gco:CharacterString"/>",
+          "metadataReference": "<xsl:value-of select="mri:metadataReference/@xlink:href"/>",
+          "initiativeType": "<xsl:value-of select="mri:initiativeType/mri:DS_InitiativeTypeCode/@codeListValue"/>"
+        }</associatedResource>
+      </xsl:for-each>
+
+      <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact">
+        <pointOfContact type="object">{
+          "role": "<xsl:value-of select="cit:CI_Responsibility/cit:role/cit:CI_RoleCode/@codeListValue"/>",
+          "organisationName": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:name/gco:CharacterString"/>",
+          "organisationEmail": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:contactInfo/cit:CI_Contact/cit:address/cit:CI_Address/cit:electronicMailAddress/gco:CharacterString"/>",
+          "organisationPhone": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:contactInfo/cit:CI_Contact/cit:phone/cit:CI_Telephone/cit:number/gco:CharacterString"/>",
+          "organisationDeliveryPoint": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:contactInfo/cit:CI_Contact/cit:address/cit:CI_Address/cit:deliveryPoint/gco:CharacterString"/>",
+          "organisationCity": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:contactInfo/cit:CI_Contact/cit:address/cit:CI_Address/cit:city/gco:CharacterString"/>",
+          "organisationAdministrativeArea": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:contactInfo/cit:CI_Contact/cit:address/cit:CI_Address/cit:administrativeArea/gco:CharacterString"/>",
+          "organisationPostCode": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:contactInfo/cit:CI_Contact/cit:address/cit:CI_Address/cit:postalCode/gco:CharacterString"/>",
+          "organisationCountry": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:contactInfo/cit:CI_Contact/cit:address/cit:CI_Address/cit:country/gco:CharacterString"/>",
+          "organisationPositionName": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:individual/cit:CI_Individual/cit:positionName/gco:CharacterString"/>",
+          "individualName": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Individual/cit:name/gco:CharacterString"/>",
+          "individualCity": "<xsl:value-of select="cit:CI_Responsibility/cit:party/cit:CI_Individual/cit:contactInfo/cit:CI_Contact/cit:address/cit:CI_Address/cit:city/gco:CharacterString"/>"
+        }</pointOfContact>
+      </xsl:for-each>
 
       <xsl:copy-of select="gn-fn-index:add-field('metadataIdentifier', $identifier)"/>
 
@@ -1257,11 +1335,11 @@
             <xsl:copy-of select="gn-fn-index:build-record-link(
                                 $code, $xlink, mri:metadataReference/@xlink:title, 'parent')"/>
           </xsl:if>
-          <xsl:if test="$associationType = $childrenAssociatedResourceType">
+          <!-- <xsl:if test="$associationType = $childrenAssociatedResourceType">
             <childUuid><xsl:value-of select="$code"/></childUuid>
             <xsl:copy-of select="gn-fn-index:build-record-link(
                                 $code, $xlink, mri:metadataReference/@xlink:title, 'children')"/>
-          </xsl:if>
+          </xsl:if> -->
 
           <xsl:variable name="initiativeType"
                         select="mri:initiativeType/*/@codeListValue"/>
@@ -1271,9 +1349,9 @@
               <p name="initiativeType" value="{$initiativeType}"/>
             </properties>
           </xsl:variable>
-          <xsl:copy-of select="gn-fn-index:build-record-link(
+          <!-- <xsl:copy-of select="gn-fn-index:build-record-link(
                                 $code, $xlink, mri:metadataReference/@xlink:title,
-                                'siblings', $properties)"/>
+                                'siblings', $properties)"/> -->
           <agg_associated><xsl:value-of select="$code"/></agg_associated>
           <xsl:element name="{concat('agg_associated_', $associationType)}"><xsl:value-of select="$code"/></xsl:element>
         </xsl:if>
@@ -1317,7 +1395,7 @@
     <xsl:variable name="email"
                   select="(.//cit:contactInfo/*/cit:address/*/cit:electronicMailAddress/gco:CharacterString)[1]"/>
     <xsl:variable name="phone"
-                  select="(./cit:contactInfo/*/cit:phone/*/cit:number[normalize-space(.) != '']/*/text())[1]"/>
+                  select="(.//cit:contactInfo/cit:CI_Contact/cit:phone/*/cit:number/gco:CharacterString)[1]"/>
     <xsl:variable name="individualName"
                   select="(.//cit:CI_Individual/cit:name/gco:CharacterString/text())[1]"/>
     <xsl:variable name="positionName"

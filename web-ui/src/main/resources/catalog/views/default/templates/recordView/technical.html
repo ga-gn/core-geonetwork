@@ -36,29 +36,206 @@
       </p>
     </div>
   </div>
-</div>
 
-<div>
-  <div
-    data-ng-repeat="(key, t) in mdView.current.record.allKeywords"
-    data-ng-if="(user.canEditRecord(mdView.current.record)
-                 && viewConfig.internalThesaurus
-                 && viewConfig.internalThesaurus.indexOf(key) !== -1)
-                || highlightedThesaurus.indexOf(key) === -1"
-    class="gn-margin-bottom flex-row"
-  >
-    <span class="badge badge-rounded">
-      <i class="fa fa-fw fa-tags"></i>
+  <!-- Author-->
+  <div data-ng-if="mdView.current.record.author" class="gn-margin-bottom flex-row">
+    <span class="badge badge-rounded" title="{{author | translate}}">
+      <i class="fa fa-fw fa-info"></i>
     </span>
     <div>
-      <h3 data-translate="">{{(t.title || key) | translate}}</h3>
+      <h3 data-translate="">author</h3>
+      <ul class="gn-comma-list">
+        <div ng-if="isArray(mdView.current.record.author)">
+          <div data-ng-repeat="a in mdView.current.record.author">
+            <p>{{a | translate}}</p>
+          </div>
+        </div>
+        <div ng-if="!isArray(mdView.current.record.author)">
+          <p>{{mdView.current.record.author | translate}}</p>
+        </div>
+      </ul>
+    </div>
+  </div>
 
-      <div data-gn-keyword-badges="mdView.current.record" data-thesaurus="key" />
+  <!-- coAuthor-->
+  <div data-ng-if="mdView.current.record.coAuthor" class="gn-margin-bottom flex-row">
+    <span class="badge badge-rounded" title="{{coAuthor | translate}}">
+      <i class="fa fa-fw fa-info"></i>
+    </span>
+    <div>
+      <h3 data-translate="">coAuthor</h3>
+      <ul class="gn-comma-list">
+        <div ng-if="isArray(mdView.current.record.coAuthor)">
+          <div data-ng-repeat="a in mdView.current.record.coAuthor">
+            <p>{{a | translate}}</p>
+          </div>
+        </div>
+        <div ng-if="!isArray(mdView.current.record.coAuthor)">
+          <p>{{mdView.current.record.coAuthor | translate}}</p>
+        </div>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Licence-->
+  <div
+    data-ng-if="mdView.current.record.legalconstraints"
+    class="gn-margin-bottom flex-row"
+  >
+    <span class="badge badge-rounded" title="{{licence | translate}}">
+      <i class="fa fa-fw fa-info"></i>
+    </span>
+    <div>
+      <h3 data-translate="">licence</h3>
+      <ul class="gn-comma-list">
+        <p>{{mdView.current.record.legalconstraints | translate}}</p>
+        <span data-ng-bind-html="mdView.current.record.legalconstraintslinkage | linky" />
+      </ul>
+    </div>
+  </div>
+
+  <!-- Resource Type-->
+  <div
+    data-ng-if="mdView.current.record.cl_resourceScope"
+    class="gn-margin-bottom flex-row"
+  >
+    <span class="badge badge-rounded" title="{{scopeCode | translate}}">
+      <i class="fa fa-fw fa-info"></i>
+    </span>
+    <div>
+      <h3 data-translate="">scopeCode</h3>
+      <ul class="gn-comma-list">
+        <p>{{mdView.current.record.cl_resourceScope[0].default | translate}}</p>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Scope Name-->
+  <div
+    data-ng-if="mdView.current.record.resourceTypeNameObject.default"
+    class="gn-margin-bottom flex-row"
+  >
+    <span class="badge badge-rounded" title="{{scopeName | translate}}">
+      <i class="fa fa-fw fa-info"></i>
+    </span>
+    <div>
+      <h3 data-translate="">scopeName</h3>
+      <ul class="gn-comma-list">
+        <p>{{mdView.current.record.resourceTypeNameObject.default | translate}}</p>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bounding Box-->
+  <div data-ng-if="mdView.current.record.geom" class="gn-margin-bottom flex-row">
+    <span class="badge badge-rounded" title="{{boundingBox | translate}}">
+      <i class="fa fa-fw fa-info"></i>
+    </span>
+    <div>
+      <h3 data-translate="">boundingBox</h3>
+      <ul class="gn-comma-list">
+        <p>
+          west longitude : {{mdView.current.record.geom[0].coordinates[0][0][0] |
+          translate}}
+        </p>
+        <p>
+          south latitude : {{mdView.current.record.geom[0].coordinates[0][0][1] |
+          translate}}
+        </p>
+        <p>
+          east longitude : {{mdView.current.record.geom[0].coordinates[0][2][0] |
+          translate}}
+        </p>
+        <p>
+          north latitude : {{mdView.current.record.geom[0].coordinates[0][2][1] |
+          translate}}
+        </p>
+      </ul>
     </div>
   </div>
 </div>
 
 <div>
+  <!-- Series Name-->
+  <div data-ng-if="mdView.current.record.seriesName" class="gn-margin-bottom flex-row">
+    <span class="badge badge-rounded" title="{{seriesName | translate}}">
+      <i class="fa fa-fw fa-info"></i>
+    </span>
+    <div>
+      <h3 data-translate="">seriesName</h3>
+      <ul class="gn-comma-list">
+        <p>{{mdView.current.record.seriesName | translate}}</p>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Issue Identification-->
+  <div
+    data-ng-if="mdView.current.record.issueIdentification"
+    class="gn-margin-bottom flex-row"
+  >
+    <span class="badge badge-rounded" title="{{issueIdentification | translate}}">
+      <i class="fa fa-fw fa-info"></i>
+    </span>
+    <div>
+      <h3 data-translate="">issueIdentification</h3>
+      <ul class="gn-comma-list">
+        <p>{{mdView.current.record.issueIdentification | translate}}</p>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Associations-->
+  <div
+    data-ng-if="mdView.current.record.associatedResource"
+    class="gn-margin-bottom flex-row"
+  >
+    <span class="badge badge-rounded" title="{{associations | translate}}">
+      <i class="fa fa-fw fa-info"></i>
+    </span>
+    <div>
+      <h3 data-translate="">associations</h3>
+      <div ng-if="isArray(mdView.current.record.associatedResource)">
+        <ul>
+          <li data-ng-repeat="a in mdView.current.record.associatedResource">
+            <div ng-if="a.associatelinkage">
+              {{a.associatetitle | translate}}<br />
+              <span data-ng-bind-html="a.associatelinkage | linky" /><br />
+              {{a.associationType | translate}}
+            </div>
+            <div ng-if="!a.associatelinkage && a.metadataReference">
+              {{a.initiativeType | translate}}<br />
+              <span
+                data-ng-bind-html="a.metadataReference.replace('api/records', 'eng/catalog.search#/metadata') | linky"
+              /><br />
+              {{a.associationType | translate}}
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div ng-if="!isArray(mdView.current.record.associatedResource)">
+        <ul class="gn-comma-list">
+          <p ng-if="mdView.current.record.associatedResource.associatelinkage">
+            {{mdView.current.record.associatedResource.associatetitle | translate}}<br />
+            <span
+              data-ng-bind-html="mdView.current.record.associatedResource.associatelinkage | linky"
+            /><br />
+            {{mdView.current.record.associatedResource.associationType | translate}}
+          </p>
+          <p
+            ng-if="!mdView.current.record.associatedResource.associatelinkage && mdView.current.record.associatedResource.metadataReference"
+          >
+            {{mdView.current.record.associatedResource.initiativeType | translate}}<br />
+            <span
+              data-ng-bind-html="mdView.current.record.associatedResource.metadataReference.replace('api/records', 'eng/catalog.search#/metadata') | linky"
+            /><br />
+            {{mdView.current.record.associatedResource.associationType | translate}}
+          </p>
+        </ul>
+      </div>
+    </div>
+  </div>
+
   <!-- Resource identifier-->
   <div
     data-ng-if="mdView.current.record.resourceIdentifier"
@@ -69,11 +246,9 @@
     </span>
     <div>
       <h3 data-translate="">identifier</h3>
-      <ul class="gn-comma-list">
-        <li data-ng-repeat="i in mdView.current.record.resourceIdentifier">
-          <span data-ng-bind-html="i.code | linky" />
-        </li>
-      </ul>
+      <div data-ng-repeat="i in mdView.current.record.resourceIdentifier">
+        <p>{{i.link ? i.link : i.code | translate}}</p>
+      </div>
     </div>
   </div>
 

@@ -199,7 +199,7 @@
         if (!gnMdViewObj.usingFormatter && md.draft !== "y") {
           $http.post("../api/records/" + md.uuid + "/popularity");
         }
-        this.setLocationUuid(md.uuid, formatter);
+        this.setLocationUuid(md.eCatId, formatter);
         gnMdViewObj.recordsLoaded = true;
       };
 
@@ -296,7 +296,7 @@
                             {
                               multi_match: {
                                 query: uuid,
-                                fields: ["id", "uuid"]
+                                fields: ["id", "uuid", "eCatId"]
                               }
                             },
                             { terms: { isTemplate: ["n", "y"] } },
@@ -326,7 +326,11 @@
                         //If returned more than one, maybe we are looking for the draft
                         var i = 0;
 
-                        r.data.hits.hits.forEach(function (md, index) {
+                        const metadataSearchResult = r.data.hits.hits.filter(
+                          (record) =>
+                            record._source.uuid === uuid || record._source.eCatId === uuid
+                        );
+                        metadataSearchResult.forEach(function (md, index) {
                           if (getDraft && md._source.draft == "y") {
                             //This will only happen if the draft exists
                             //and the user can see it
@@ -339,9 +343,86 @@
                         });
 
                         var metadata = [];
-                        metadata.push(new Metadata(r.data.hits.hits[i]));
+                        metadata.push(new Metadata(metadataSearchResult[i]));
 
                         data = { metadata: metadata };
+
+                        data.metadata[0].keywordsArray = [];
+                        if (
+                          data.metadata[0].keywords &&
+                          !angular.isArray(data.metadata[0].keywords)
+                        ) {
+                          data.metadata[0].keywordsArray.push(data.metadata[0].keywords);
+                        } else if (data.metadata[0].keywords) {
+                          data.metadata[0].keywordsArray = data.metadata[0].keywords;
+                        }
+                        data.metadata[0].keywordsArray.forEach((keywordItem) => {
+                          keywordItem.keywordsList = keywordItem.multiKeywords.split(";");
+                        });
+
+                        if (data.metadata[0].keywordsArray) {
+                          data.metadata[0].keywordsArray.forEach((keyword) => {
+                            if (!keyword.thesaurusName && keyword.thesaurusNameNew) {
+                              keyword.thesaurusName = keyword.thesaurusNameNew;
+                            }
+                          });
+                          const typeList = [];
+                          data.metadata[0].keywordsArray.forEach((keyword) => {
+                            const typeNames = typeList.map((type) => type.typeName);
+                            if (typeNames.indexOf(keyword.thesaurusName) === -1) {
+                              typeList.push({
+                                typeName: keyword.thesaurusName,
+                                list: []
+                              });
+                            }
+                          });
+                          typeList.forEach((type) => {
+                            type.list = data.metadata[0].keywordsArray
+                              .filter(
+                                (keyword) =>
+                                  keyword.thesaurusName === type.typeName &&
+                                  !["Published_External", "Published_Internal", "Retired_Internal"].includes(
+                                    keyword.keyword
+                                  )
+                              )
+                              .map((keywordItem) => keywordItem.keywordsList)
+                              .flat(1);
+                          });
+                          const keywordsType = typeList.find(
+                            (type) => type.typeName === ""
+                          );
+                          if (keywordsType) {
+                            keywordsType.typeName = "Keywords";
+                          }
+                          const anzrcType = typeList.find(
+                            (type) =>
+                              type.typeName === "theme.ANZRC Fields of Research.rdf"
+                          );
+                          if (anzrcType) {
+                            anzrcType.typeName = "ANZRC Fields Of Research";
+                          }
+                          data.metadata[0].keywordsAll = typeList;
+                        }
+
+                        if (
+                          data.metadata[0].resourceType &&
+                          (!data.metadata[0].resourceIdentifier ||
+                            data.metadata[0].resourceIdentifier.length === 0)
+                        ) {
+                          data.metadata[0].resourceIdentifier = [];
+                          const resourceIdentifier = {
+                            code:
+                              data.metadata[0].resourceType[0] === "dataset"
+                                ? "https://pid.geoscience.gov.au/dataset/ga/" +
+                                  data.metadata[0].eCatId
+                                : "https://pid.geoscience.gov.au/service/ga/" +
+                                  data.metadata[0].eCatId,
+                            codeSpace: "Geoscience Australia Persistent Identifier",
+                            link: ""
+                          };
+                          data.metadata[0].resourceIdentifier.push(resourceIdentifier);
+                        }
+
                         //Keep the search results (gnMdViewObj.records)
                         // that.feedMd(0, undefined, data.metadata);
                         //and the trace of where in the search result we are

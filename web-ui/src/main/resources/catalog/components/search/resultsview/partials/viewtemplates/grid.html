@@ -73,6 +73,17 @@
         <!-- Handle string and array results -->
         {{[].concat(md[searchResultContact || 'OrgForResource'])[0]}}
       </div>
+      <div class="gn-md-contact">
+        eCat ID: {{md.eCatId}}
+        <b
+          data-ng-show="authenticated || isIntranet()"
+          ng-style="{ 'color' : (((isArray(md.op0)) && (md.op0.includes('1'))) || (md.op0 === '1')) ? '#5cb85c' : md.statusWorkflow === 'draft' ? '#ffc107' : md.statusWorkflow === 'approved' ? '#3277B3' : '#d9534f' }"
+        >
+          - {{(((isArray(md.op0)) && (md.op0.includes("1"))) || (md.op0 === "1")) ?
+          'External' : 'Internal'}} - {{md.statusWorkflow ? md.statusWorkflow : 'Workflow
+          not active'}}
+        </b>
+      </div>
     </div>
     <!-- /.gn-card-body -->
 

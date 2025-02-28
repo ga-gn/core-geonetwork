@@ -75,6 +75,7 @@
     "gnSearchSettings",
     "gnMetadataActions",
     "gnConfig",
+    "gnGlobalSettings",
     "gnConfigService",
     function (
       $compile,
@@ -83,6 +84,7 @@
       gnSearchSettings,
       gnMetadataActions,
       gnConfig,
+      gnGlobalSettings,
       gnConfigService
     ) {
       return {
@@ -102,6 +104,14 @@
             staticMaps: "fa-globe",
             datasets: "fa-file",
             interactiveResources: "fa-rss"
+          };
+
+          scope.isArray = function (obj) {
+            return angular.isArray(obj);
+          };
+
+          scope.isIntranet = function () {
+            return gnGlobalSettings.isIntranet;
           };
 
           if (scope.map) {

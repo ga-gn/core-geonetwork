@@ -1,8 +1,81 @@
-<div data-ng-if="mdView.current.record.contact">
+<div class="gn-md-side-calendar gn-margin-bottom">
+  <!-- Point of Contact-->
   <div
-    data-gn-metadata-contacts="mdView.current.record.contact"
-    data-gn-mode="role"
-    data-layout="icon"
-  />
+    data-ng-if="mdView.current.record.pointOfContact"
+    class="gn-margin-bottom flex-row"
+  >
+    <div>
+      <h3 data-translate="">Contact for the resource</h3>
+      <div ng-if="isArray(mdView.current.record.pointOfContact)">
+        <ul>
+          <li data-ng-repeat="a in mdView.current.record.pointOfContact">
+            <h5>{{a.role | translate}}<br /></h5>
+            <strong data-ng-if="a.individualName">
+              {{a.individualName | translate}}<br />
+            </strong>
+            <div data-ng-if="a.individualCity">
+              {{a.individualCity | translate}}<br />
+            </div>
+            <strong data-ng-if="a.organisationName">
+              {{a.organisationName | translate}}<br />
+            </strong>
+            <div data-ng-if="a.organisationEmail">
+              <a href="mailto:{{a.organisationEmail}}">
+                {{a.organisationEmail}} ({{a.organisationPositionName}})
+              </a>
+            </div>
+            <div data-ng-if="a.organisationPhone">
+              {{a.organisationPhone | translate}}<br />
+            </div>
+            <div data-ng-if="a.organisationDeliveryPoint">
+              {{a.organisationDeliveryPoint | translate}}<br />
+            </div>
+            <div data-ng-if="a.organisationAdministrativeArea">
+              {{a.organisationAdministrativeArea | translate}} {{a.organisationCity |
+              translate}} {{a.organisationCountry | translate}} {{a.organisationPostCode |
+              translate}}<br />
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div ng-if="!isArray(mdView.current.record.pointOfContact)">
+        <ul class="gn-comma-list">
+          <h5>{{mdView.current.record.pointOfContact.role | translate}}<br /></h5>
+          <strong data-ng-if="mdView.current.record.pointOfContact.individualName">
+            {{mdView.current.record.pointOfContact.individualName | translate}}<br />
+          </strong>
+          <div data-ng-if="mdView.current.record.pointOfContact.individualCity">
+            {{mdView.current.record.pointOfContact.individualCity | translate}}<br />
+          </div>
+          <strong data-ng-if="mdView.current.record.pointOfContact.organisationName">
+            {{mdView.current.record.pointOfContact.organisationName | translate}}<br />
+          </strong>
+          <div data-ng-if="mdView.current.record.pointOfContact.organisationEmail">
+            <a href="mailto:{{mdView.current.record.pointOfContact.organisationEmail}}">
+              {{mdView.current.record.pointOfContact.organisationEmail}}
+              ({{mdView.current.record.pointOfContact.organisationPositionName}})
+            </a>
+          </div>
+          <div data-ng-if="mdView.current.record.pointOfContact.organisationPhone">
+            {{mdView.current.record.pointOfContact.organisationPhone | translate}}<br />
+          </div>
+          <div
+            data-ng-if="mdView.current.record.pointOfContact.organisationDeliveryPoint"
+          >
+            {{mdView.current.record.pointOfContact.organisationDeliveryPoint | translate}}
+          </div>
+          <div
+            data-ng-if="mdView.current.record.pointOfContact.organisationAdministrativeArea"
+          >
+            {{mdView.current.record.pointOfContact.organisationAdministrativeArea |
+            translate}} {{mdView.current.record.pointOfContact.organisationCity |
+            translate}} {{mdView.current.record.pointOfContact.organisationCountry |
+            translate}} {{mdView.current.record.pointOfContact.organisationPostCode |
+            translate}}<br />
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
 <div data-ng-if="showCitation" data-gn-metadata-citation="mdView.current.record" />

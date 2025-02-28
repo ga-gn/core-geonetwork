@@ -43,6 +43,7 @@ import org.fao.geonet.api.records.model.*;
 import org.fao.geonet.api.tools.i18n.LanguageUtils;
 import org.fao.geonet.config.IPublicationConfig;
 import org.fao.geonet.config.PublicationOption;
+import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.domain.*;
 import org.fao.geonet.domain.utils.ObjectJSONUtils;
 import org.fao.geonet.events.history.RecordGroupOwnerChangeEvent;
@@ -50,6 +51,7 @@ import org.fao.geonet.events.history.RecordOwnerChangeEvent;
 import org.fao.geonet.events.history.RecordPrivilegesChangeEvent;
 import org.fao.geonet.kernel.AccessManager;
 import org.fao.geonet.kernel.DataManager;
+import org.fao.geonet.kernel.SchemaManager;
 import org.fao.geonet.kernel.datamanager.*;
 import org.fao.geonet.kernel.search.IndexingMode;
 import org.fao.geonet.kernel.setting.SettingManager;
@@ -61,6 +63,8 @@ import org.fao.geonet.repository.specification.UserGroupSpecs;
 import org.fao.geonet.util.MetadataPublicationMailNotifier;
 import org.fao.geonet.util.UserUtil;
 import org.fao.geonet.util.WorkflowUtil;
+import org.fao.geonet.utils.Xml;
+import org.jdom.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Sort;
@@ -74,6 +78,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -157,6 +162,9 @@ public class MetadataSharingApi {
     @Autowired
     private IPublicationConfig publicationConfig;
 
+    @Autowired
+    private SchemaManager schemaManager;
+
     public static Vector<OperationAllowedId> retrievePrivileges(ServiceContext context, String id, Integer userId, Integer groupId) {
 
         OperationAllowedRepository opAllowRepo = context.getBean(OperationAllowedRepository.class);
@@ -215,6 +223,10 @@ public class MetadataSharingApi {
             description = "Publication type",
             required = false)
         String publicationType,
+        @Parameter(
+            description = "Internal publish",
+            required = false)
+        Boolean internalPublish,
         @Parameter(hidden = true)
         HttpSession session,
         HttpServletRequest request
@@ -228,7 +240,11 @@ public class MetadataSharingApi {
             publicationType = DEFAULT_PUBLICATION_TYPE_NAME;
         }
 
-        shareMetadataWithReservedGroup(metadataUuid, true, publicationType, session, request);
+        if (internalPublish == null) {
+            internalPublish = false;
+        }
+
+        shareMetadataWithReservedGroup(metadataUuid, true, publicationType, session, request, internalPublish);
     }
 
     @io.swagger.v3.oas.annotations.Operation(
@@ -1114,6 +1130,10 @@ public class MetadataSharingApi {
 
     }
 
+    private void shareMetadataWithReservedGroup(String metadataUuid, boolean publish, String publicationType,
+    HttpSession session, HttpServletRequest request) throws Exception {
+        shareMetadataWithReservedGroup(metadataUuid, publish, publicationType, session, request, false);
+    }
 
     /**
      * Shares a metadata based on the publicationConfig to publish/unpublish it.
@@ -1125,7 +1145,7 @@ public class MetadataSharingApi {
      * @throws Exception
      */
     private void shareMetadataWithReservedGroup(String metadataUuid, boolean publish, String publicationType,
-                                           HttpSession session, HttpServletRequest request) throws Exception {
+                                           HttpSession session, HttpServletRequest request, boolean internalPublish) throws Exception {
         AbstractMetadata metadata = ApiUtils.canEditRecord(metadataUuid, request);
         ApplicationContext appContext = ApplicationContextHolder.get();
         ServiceContext context = ApiUtils.createServiceContext(request);
@@ -1143,7 +1163,9 @@ public class MetadataSharingApi {
             operationMap.put(o.getName(), o.getId());
         }
 
-        SharingParameter sharing = buildSharingForPublicationConfig(publish, publicationType);
+        SharingParameter sharing = buildSharingForPublicationConfig(publish, publicationType, internalPublish);
+
+        addPublicationDate(context, String.valueOf(metadata.getId()));
 
         List<GroupOperations> privileges = sharing.getPrivileges();
         List<MetadataPublicationNotificationInfo> metadataListToNotifyPublication = new ArrayList<>();
@@ -1213,6 +1235,8 @@ public class MetadataSharingApi {
                         operationMap.put(o.getName(), o.getId());
                     }
 
+                    addPublicationDate(context, String.valueOf(metadata.getId()));
+
                     List<GroupOperations> privileges = sharing.getPrivileges();
                     List<GroupOperations> allGroupPrivileges = new ArrayList<>();
 
@@ -1270,6 +1294,9 @@ public class MetadataSharingApi {
         return report;
     }
 
+    private SharingParameter buildSharingForPublicationConfig(boolean publish, String configName) {
+        return buildSharingForPublicationConfig(publish, configName, false);
+    }
 
     /**
      * Creates a ref {@link SharingParameter} object with privileges to publih/un-publish
@@ -1278,7 +1305,7 @@ public class MetadataSharingApi {
      * @param publish Flag to add/remove sharing privileges.
      * @return
      */
-    private SharingParameter buildSharingForPublicationConfig(boolean publish, String configName) {
+    private SharingParameter buildSharingForPublicationConfig(boolean publish, String configName, boolean internalPublish) {
         SharingParameter sharing = new SharingParameter();
         sharing.setClear(false);
 
@@ -1301,7 +1328,18 @@ public class MetadataSharingApi {
                 operations.put(operation.toString(), publish);
             }
             privReservedGroup.setOperations(operations);
-            privilegesList.add(privReservedGroup);
+            if (!internalPublish) {
+                privilegesList.add(privReservedGroup);
+            } else {
+                Group editorGroup = groupRepository.findByName("editors_all");
+
+                if (editorGroup != null) {
+                    GroupOperations editorGroupOperations = new GroupOperations();
+                    editorGroupOperations.setGroup(editorGroup.getId());
+                    editorGroupOperations.setOperations(operations);
+                    privilegesList.add(editorGroupOperations);
+                }
+            }
 
             // Process the additional publication group(s) and operations
             Iterator<Map.Entry<ReservedGroup, List<ReservedOperation>>> it2 =
@@ -1487,5 +1525,16 @@ public class MetadataSharingApi {
         public void setOperation(String operation) {
             this.operation = operation;
         }
+    }
+
+    private void addPublicationDate(ServiceContext serviceContext, String id) throws Exception {
+        String schema = dataManager.getMetadataSchema(id);
+        String publicationDate = new ISODate().toString();
+        Element metadata = dataManager.getMetadata(id);
+        Map<String, Object> xslParameters = new HashMap<String, Object>();
+        xslParameters.put("date", publicationDate);
+        Path path = schemaManager.getSchemaDir(schema).resolve("process").resolve(Geonet.File.PUBLICATION_DISTRIBUTOR);
+        metadata = Xml.transform(metadata, path, xslParameters);
+        dataManager.updateMetadata(serviceContext, id, metadata, false, false,  serviceContext.getLanguage(), publicationDate, false, IndexingMode.full);
     }
 }
