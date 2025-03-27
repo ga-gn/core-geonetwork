@@ -146,33 +146,12 @@
         </xsl:otherwise>
       </xsl:choose>
       <xsl:apply-templates select="mdb:contentInfo"/>
-      <xsl:choose>
-        <xsl:when test="count(mdb:distributionInfo) = 0">
-          <mdb:distributionInfo>
-            <mrd:MD_Distribution>
-              <mrd:distributor>
-                <mrd:MD_Distributor>
-                  <xsl:call-template name="insert_distributor"/>
-                </mrd:MD_Distributor>
-              </mrd:distributor>
-            </mrd:MD_Distribution>
-          </mdb:distributionInfo>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:for-each select="mdb:distributionInfo">
-            <xsl:copy>
-              <xsl:copy-of select="@*"/>
-              <mrd:MD_Distribution>
-                <mrd:distributor>
-                  <mrd:MD_Distributor>
-                    <xsl:apply-templates select="mrd:MD_Distribution/mrd:distributor/mrd:MD_Distributor/mrd:distributorContact"/>
-                  </mrd:MD_Distributor>
-                </mrd:distributor>
-              </mrd:MD_Distribution>
-            </xsl:copy>
-          </xsl:for-each>
-        </xsl:otherwise>
-      </xsl:choose>
+
+      <xsl:apply-templates select="mdb:distributionInfo"/>
+      <xsl:if test="count(/mdb:MD_Metadata/mdb:distributionInfo/mrd:MD_Distribution/mrd:distributor/mrd:MD_Distributor/mrd:distributorContact/cit:CI_Responsibility/cit:role/cit:CI_RoleCode[@codeListValue='distributor']) &lt; 1">
+        <xsl:call-template name="insert_distributor"/>
+      </xsl:if>
+
       <xsl:apply-templates select="mdb:dataQualityInfo"/>
       <xsl:apply-templates select="mdb:resourceLineage"/>
       <xsl:apply-templates select="mdb:portrayalCatalogueInfo"/>
@@ -220,7 +199,11 @@
   </xsl:template>
 
   <xsl:template name="insert_distributor">
-    <mrd:distributorContact>
+    <mdb:distributionInfo>
+      <mrd:MD_Distribution>
+        <mrd:distributor>
+          <mrd:MD_Distributor>
+            <mrd:distributorContact>
       <cit:CI_Responsibility>
         <cit:role>
           <cit:CI_RoleCode codeList="codeListLocation#CI_RoleCode" codeListValue="distributor"/>
@@ -277,6 +260,10 @@
         </cit:party>
       </cit:CI_Responsibility>
     </mrd:distributorContact>
+    </mrd:MD_Distributor>
+    </mrd:distributor>
+    </mrd:MD_Distribution>
+    </mdb:distributionInfo>
   </xsl:template>
 
 </xsl:stylesheet>
