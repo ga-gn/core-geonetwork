@@ -44,6 +44,9 @@
     </span>
     <div>
       <h3 data-translate="">resourceVerticalRange</h3>
+      <p data-ng-show="mdView.current.record.verticalCode">
+        {{mdView.current.record.verticalCode | translate}}
+      </p>
       <div
         class="flex flex-row flex-align-center gn-vertical-range"
         data-ng-repeat="range in mdView.current.record.resourceVerticalRange"

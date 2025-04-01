@@ -236,6 +236,12 @@
         }</associatedResource>
       </xsl:for-each>
 
+      <xsl:for-each select="mdb:identificationInfo/*/mri:extent/gex:EX_Extent/gex:verticalElement/gex:EX_VerticalExtent/gex:verticalCRSId/mrs:MD_ReferenceSystem/mrs:referenceSystemIdentifier/mcc:MD_Identifier/mcc:code/gco:CharacterString">
+        <verticalCode>
+          <xsl:value-of select="."/>
+        </verticalCode>
+      </xsl:for-each>
+
       <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact">
         <pointOfContact type="object">{
           "role": "<xsl:value-of select="cit:CI_Responsibility/cit:role/cit:CI_RoleCode/@codeListValue"/>",
