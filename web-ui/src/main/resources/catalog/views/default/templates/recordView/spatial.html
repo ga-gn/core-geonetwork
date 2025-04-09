@@ -74,6 +74,38 @@
   </div>
 </div>
 
+<!-- Vertical extent reference system-->
+<div data-ng-if="mdView.current.record.verticalCode" class="gn-margin-bottom flex-row">
+  <span class="badge badge-rounded" title="{{'verticalReferenceSystem' | translate}}">
+    <i class="fa fa-fw fa-language"></i>
+  </span>
+  <div>
+    <h3 data-translate="">verticalReferenceSystem</h3>
+    <ul class="gn-comma-list">
+      <p>{{mdView.current.record.verticalCode | translate}}</p>
+    </ul>
+  </div>
+</div>
+
+<!-- Vertical extent-->
+<div
+  data-ng-if="mdView.current.record.resourceVerticalRange"
+  class="gn-margin-bottom flex-row"
+>
+  <span class="badge badge-rounded" title="{{'verticalExtent' | translate}}">
+    <i class="fa fa-fw fa-language"></i>
+  </span>
+  <div>
+    <h3 data-translate="">verticalExtent</h3>
+    <ul class="gn-comma-list">
+      <div data-ng-repeat="a in mdView.current.record.resourceVerticalRange">
+        <p>{{a.lte | translate}}</p>
+        <p>{{a.gte | translate}}</p>
+      </div>
+    </ul>
+  </div>
+</div>
+
 <div data-ng-if="mdView.current.record.keywordsAll">
   <div data-ng-repeat="t in mdView.current.record.keywordsAll track by $index">
     <div class="gn-margin-bottom flex-row">
