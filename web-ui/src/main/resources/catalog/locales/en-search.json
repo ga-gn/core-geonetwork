@@ -17,6 +17,8 @@
   "coAuthor": "CoAuthor",
   "boundingBox": "Geographical Bounding Box",
   "eCatId": "eCat ID",
+  "verticalReferenceSystem": "Vertical reference system",
+  "verticalExtent": "Vertical extent",
   "abstract": "Abstract",
   "topiccat": "Topic(s)",
   "contact": "Contact",
