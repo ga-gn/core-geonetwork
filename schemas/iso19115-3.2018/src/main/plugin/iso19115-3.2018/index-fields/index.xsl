@@ -949,11 +949,8 @@
 
             <xsl:if test="$min castable as xs:double">
               <resourceVerticalRange type="object">{
-                "gte": <xsl:value-of select="normalize-space($min)"/>
-                <xsl:if test="$max castable as xs:double
-                              and xs:double($min) &lt; xs:double($max)">
-                  ,"lte": <xsl:value-of select="normalize-space($max)"/>
-                </xsl:if>
+                "gte": <xsl:value-of select="normalize-space($min)"/>,
+                "lte": <xsl:value-of select="normalize-space($max)"/>
                 }</resourceVerticalRange>
             </xsl:if>
           </xsl:for-each>
