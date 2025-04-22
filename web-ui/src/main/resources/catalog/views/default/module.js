@@ -103,10 +103,10 @@
         configId: "home",
         params: {
           isTemplate: "n",
-          sortBy: "mdStatusChangeDate",
+          sortBy: "publicationDateForRecord",
           sortOrder: "desc",
           from: 1,
-          to: 12
+          to: 20
         }
       };
     }
