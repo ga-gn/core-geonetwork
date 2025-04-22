@@ -184,6 +184,12 @@
         </author>
       </xsl:for-each>
 
+      <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:date/cit:CI_Date[cit:dateType/cit:CI_DateTypeCode[@codeListValue='publication']]/cit:date/gco:DateTime">
+        <publicationDateForRecord>
+          <xsl:value-of select="."/>
+        </publicationDateForRecord>
+      </xsl:for-each>
+
       <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='coAuthor']]/cit:party/cit:CI_Individual/cit:name/gco:CharacterString">
         <coAuthor>
           <xsl:value-of select="."/>
