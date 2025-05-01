@@ -92,14 +92,21 @@
       $scope.searchObj = {
         permalink: false,
         internal: true,
-        filters: gnSearchSettings.filters,
+        filters: [
+          {
+            query_string: {
+              query: "(isPublishedToAll:true)",
+              default_operator: "AND"
+            }
+          }
+        ],
         configId: "home",
         params: {
           isTemplate: "n",
-          sortBy: "createDate",
+          sortBy: "publicationDateForRecord",
           sortOrder: "desc",
           from: 1,
-          to: 12
+          to: 20
         }
       };
     }

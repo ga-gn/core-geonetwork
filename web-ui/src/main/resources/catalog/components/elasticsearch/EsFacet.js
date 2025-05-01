@@ -109,7 +109,9 @@
               "inspire*",
               "resource*",
               "image*",
-              "tag*"
+              "tag*",
+              "mdStatus",
+              "mdStatusChangeDate"
             ]
           },
           script_fields: defaultScriptedFields
