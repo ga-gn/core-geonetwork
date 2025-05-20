@@ -464,7 +464,12 @@ public class DraftMetadataUtils extends BaseMetadataUtils {
                 source = md.getSourceInfo().getSourceId().toString();
             }
             if (md.getSourceInfo().getGroupOwner() != null) {
-                groupOwner = md.getSourceInfo().getGroupOwner().toString();
+                Group group = groupRepository.findByName("editors_all");
+                if (group != null) {
+                    groupOwner = String.valueOf(group.getId());
+                } else if (md.getSourceInfo().getGroupOwner() != null) {
+                    groupOwner = md.getSourceInfo().getGroupOwner().toString();
+                }
             }
             owner = md.getSourceInfo().getOwner();
         }
