@@ -184,6 +184,12 @@
         </author>
       </xsl:for-each>
 
+      <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:date/cit:CI_Date[cit:dateType/cit:CI_DateTypeCode[@codeListValue='publication']]/cit:date/gco:DateTime">
+        <publicationDateForRecord>
+          <xsl:value-of select="."/>
+        </publicationDateForRecord>
+      </xsl:for-each>
+
       <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='coAuthor']]/cit:party/cit:CI_Individual/cit:name/gco:CharacterString">
         <coAuthor>
           <xsl:value-of select="."/>
@@ -234,6 +240,12 @@
           "metadataReference": "<xsl:value-of select="mri:metadataReference/@xlink:href"/>",
           "initiativeType": "<xsl:value-of select="mri:initiativeType/mri:DS_InitiativeTypeCode/@codeListValue"/>"
         }</associatedResource>
+      </xsl:for-each>
+
+      <xsl:for-each select="mdb:identificationInfo/*/mri:extent/gex:EX_Extent/gex:verticalElement/gex:EX_VerticalExtent/gex:verticalCRSId/mrs:MD_ReferenceSystem/mrs:referenceSystemIdentifier/mcc:MD_Identifier/mcc:code/gco:CharacterString">
+        <verticalCode>
+          <xsl:value-of select="."/>
+        </verticalCode>
       </xsl:for-each>
 
       <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact">
@@ -944,8 +956,7 @@
             <xsl:if test="$min castable as xs:double">
               <resourceVerticalRange type="object">{
                 "gte": <xsl:value-of select="normalize-space($min)"/>
-                <xsl:if test="$max castable as xs:double
-                              and xs:double($min) &lt; xs:double($max)">
+                <xsl:if test="$max castable as xs:double">
                   ,"lte": <xsl:value-of select="normalize-space($max)"/>
                 </xsl:if>
                 }</resourceVerticalRange>
