@@ -184,6 +184,14 @@
         </author>
       </xsl:for-each>
 
+      <xsl:for-each select="mdb:dateInfo/cit:CI_Date[cit:dateType/cit:CI_DateTypeCode[@codeListValue='creation']]/cit:date/gco:DateTime">
+        <xsl:if test="position()=last()">
+          <recordCreationDate>
+            <xsl:value-of select="."/>
+          </recordCreationDate>
+        </xsl:if>
+      </xsl:for-each>
+
       <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:date/cit:CI_Date[cit:dateType/cit:CI_DateTypeCode[@codeListValue='publication']]/cit:date/gco:DateTime">
         <publicationDateForRecord>
           <xsl:value-of select="."/>
