@@ -642,6 +642,10 @@
                 sortOrder: "desc"
               },
               {
+                sortBy: "recordCreationDate",
+                sortOrder: "desc"
+              },
+              {
                 sortBy: "popularity",
                 sortOrder: "desc"
               }
