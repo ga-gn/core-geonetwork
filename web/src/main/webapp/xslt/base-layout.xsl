@@ -90,6 +90,7 @@
 
 
         <xsl:call-template name="css-load"/>
+        <xsl:call-template name="ga4-load"/>
       </head>
 
 
