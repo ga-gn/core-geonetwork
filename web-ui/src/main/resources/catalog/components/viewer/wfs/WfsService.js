@@ -121,6 +121,9 @@
             outputFormat: format
           };
 
+          if (params.outputFormat.toUpperCase() === "SHAPE-ZIP") {
+            params.version = "1.0.0";
+          }
           if (params.version < "2.0.0") {
             params.typeName = typename;
           } else {
