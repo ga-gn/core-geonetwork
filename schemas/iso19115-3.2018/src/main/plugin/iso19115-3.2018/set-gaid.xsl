@@ -90,18 +90,5 @@
           <xsl:apply-templates select="gex:temporalElement"/>
       </xsl:copy>
   </xsl:template>
-
-  <xsl:template match="mdb:acquisitionInformation">
-      <xsl:copy>
-          <mac:scope>
-            <mcc:MD_Scope>
-              <mcc:level>
-                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/resources/Codelists/cat/codelists.xml#MD_ScopeCode" codeListValue="collectionHardware"/>
-              </mcc:level>
-            </mcc:MD_Scope>
-          </mac:scope>
-          <xsl:apply-templates select="@* | node()"/>
-      </xsl:copy>
-  </xsl:template>
 </xsl:stylesheet>
 
