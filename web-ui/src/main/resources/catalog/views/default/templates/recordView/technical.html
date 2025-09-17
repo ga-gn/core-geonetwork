@@ -247,7 +247,15 @@
     <div>
       <h3 data-translate="">identifier</h3>
       <div data-ng-repeat="i in mdView.current.record.resourceIdentifier">
-        <p>{{i.link ? i.link : i.code | translate}}</p>
+        <div class="input-group">
+          <p>{{i.link ? i.link : i.code | translate}}</p>
+          <span
+            gn-copy-to-clipboard-button=""
+            data-btn-class="input-group-addon"
+            data-text="{{i.link ? i.link : i.code | translate}}"
+          >
+          </span>
+        </div>
       </div>
     </div>
   </div>
