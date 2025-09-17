@@ -247,7 +247,7 @@
     <div>
       <h3 data-translate="">identifier</h3>
       <div data-ng-repeat="i in mdView.current.record.resourceIdentifier">
-        <div class="input-group">
+        <div data-ng-if="i.link || i.code" class="input-group">
           <p>{{i.link ? i.link : i.code | translate}}</p>
           <span
             gn-copy-to-clipboard-button=""
