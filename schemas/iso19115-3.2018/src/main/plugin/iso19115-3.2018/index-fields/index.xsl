@@ -178,6 +178,16 @@
         <xsl:value-of select="mdb:alternativeMetadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:codeSpace/gco:CharacterString='eCatId']/mcc:code/gco:CharacterString" />
       </eCatId>
 
+      <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='pubilsher']]/cit:party/cit:CI_Individual/cit:name/gco:CharacterString">
+        <publisher>
+          <xsl:value-of select="."/>
+        </publisher>
+      </xsl:for-each>
+
+      <pageNumber>
+        <xsl:value-of select="mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:series/cit:CI_Series/cit:page/gco:CharacterString"/>
+      </pageNumber>
+
       <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='author']]/cit:party/cit:CI_Individual/cit:name/gco:CharacterString">
         <author>
           <xsl:value-of select="."/>
