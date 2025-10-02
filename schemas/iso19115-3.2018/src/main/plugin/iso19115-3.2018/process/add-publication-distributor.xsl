@@ -118,6 +118,8 @@
                         <xsl:apply-templates select="mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:identifier"/>
                         <xsl:apply-templates select="mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty"/>
                         <xsl:apply-templates select="mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:series"/>
+                        <xsl:apply-templates select="mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:ISBN"/>
+                        <xsl:apply-templates select="mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:ISSN"/>
                       </cit:CI_Citation>
                     </mri:citation>
                     <xsl:apply-templates select="mri:MD_DataIdentification/mri:citation[position() > 1]"/>
