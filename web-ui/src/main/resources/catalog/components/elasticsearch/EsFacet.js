@@ -142,6 +142,7 @@
               "isHarvested",
               "dateStamp",
               "documentStandard",
+              "recordCreationDate",
               "mdStatus*",
               "*inspire*"
             ]

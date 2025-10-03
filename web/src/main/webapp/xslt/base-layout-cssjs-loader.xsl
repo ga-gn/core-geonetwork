@@ -309,4 +309,17 @@
       }]);
     </script>
   </xsl:template>
+
+  <!-- Google Analytics 4 -->
+  <xsl:template name="ga4-load">
+    <!-- Google tag (gtag.js) -->
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-4PLC6Y2GN7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-4PLC6Y2GN7');
+    </script>
+  </xsl:template>
 </xsl:stylesheet>
