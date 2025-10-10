@@ -354,6 +354,8 @@
           // Publisher
           if (md.publisher) {
             citation += md.publisher + ". ";
+          } else {
+            citation += "Geoscience Australia, Canberra. ";
           }
 
           // DOI or PID
