@@ -45,11 +45,13 @@ import org.fao.geonet.api.processing.report.SimpleMetadataProcessingReport;
 import org.fao.geonet.api.records.model.*;
 import org.fao.geonet.api.tools.i18n.LanguageUtils;
 import org.fao.geonet.constants.Edit;
+import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.domain.*;
 import org.fao.geonet.domain.utils.ObjectJSONUtils;
 import org.fao.geonet.events.history.RecordRestoredEvent;
 import org.fao.geonet.kernel.AccessManager;
 import org.fao.geonet.kernel.DataManager;
+import org.fao.geonet.kernel.SchemaManager;
 import org.fao.geonet.kernel.datamanager.*;
 import org.fao.geonet.kernel.metadata.StatusActions;
 import org.fao.geonet.kernel.metadata.StatusActionsFactory;
@@ -78,6 +80,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import java.nio.file.Path;
 import java.util.*;
 
 import static org.fao.geonet.api.ApiParams.*;
@@ -148,6 +152,9 @@ public class MetadataWorkflowApi {
 
     @Autowired
     MetadataPublicationMailNotifier metadataPublicationMailNotifier;
+
+    @Autowired
+    private SchemaManager schemaManager;
 
     // The restore function currently supports these states
     static final Integer[] supportedRestoreStatuses = {
@@ -533,6 +540,11 @@ public class MetadataWorkflowApi {
 
                 metadataPublicationMailNotifier.notifyPublication(messages, context.getLanguage(), metadataListToNotifyPublication);
         }
+
+        if (metadataStatusValue.getStatusValue().getId() == Integer.parseInt(StatusValue.Status.RETIRED)) {
+            addRetiredKeyword(context, metadataUuid);
+        }
+
         return statusUpdate;
     }
 
@@ -1287,5 +1299,22 @@ public class MetadataWorkflowApi {
         List<MetadataStatus> listOfStatusChange = new ArrayList<>(1);
         listOfStatusChange.add(metadataStatusValue);
         sa.onStatusChange(listOfStatusChange);
+    }
+
+    /**
+     * Add retired keyword
+     * @param serviceContext
+     * @param id
+     * @throws Exception
+     */
+    private void addRetiredKeyword(ServiceContext serviceContext, String id) throws Exception {
+        String schema = dataManager.getMetadataSchema(id);
+        String retireDate = new ISODate().toString();
+        Element metadata = dataManager.getMetadata(id);
+        Map<String, Object> xslParameters = new HashMap<String, Object>();
+        xslParameters.put("keyword", Geonet.Transform.RETIRED_INTERNAL);
+        Path path = schemaManager.getSchemaDir(schema).resolve("process").resolve(Geonet.File.PUBLISHED_OR_RETIRED_KEYWORD);
+        metadata = Xml.transform(metadata, path, xslParameters);
+        dataManager.updateMetadata(serviceContext, id, metadata, false, false,  serviceContext.getLanguage(), retireDate, false, IndexingMode.full);
     }
 }

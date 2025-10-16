@@ -124,6 +124,7 @@ public final class Geonet {
         public static final String ENCRYPTOR_CONFIGURATION = "encryptor.properties";
         public static final int METADATA_MAX_BLANKS = 20;
         public static final String PUBLICATION_DISTRIBUTOR = "add-publication-distributor.xsl";
+        public static final String PUBLISHED_OR_RETIRED_KEYWORD = "add-published-or-retired-keyword.xsl";
 
     }
 
@@ -704,4 +705,11 @@ public final class Geonet {
         public static final int HTTPS = 443;
     }
 
+    public static class Transform {
+                public static final String[] PUBLISH_KEYWORDS = { "Published_Internal", "Published_External",
+                                "Retired_Internal" };
+                public static final String PUBLISHED_INTERNAL = "Published_Internal";
+                public static final String PUBLISHED_EXTERNAL = "Published_External";
+                public static final String RETIRED_INTERNAL = "Retired_Internal";
+    }
 }

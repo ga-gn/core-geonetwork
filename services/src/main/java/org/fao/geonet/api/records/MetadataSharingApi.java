@@ -1166,6 +1166,10 @@ public class MetadataSharingApi {
         SharingParameter sharing = buildSharingForPublicationConfig(publish, publicationType, internalPublish);
 
         addPublicationDate(context, String.valueOf(metadata.getId()));
+       
+        if (publish) {
+            addPublishedKeyword(context, String.valueOf(metadata.getId()), internalPublish);
+        }
 
         List<GroupOperations> privileges = sharing.getPrivileges();
         List<MetadataPublicationNotificationInfo> metadataListToNotifyPublication = new ArrayList<>();
@@ -1534,6 +1538,17 @@ public class MetadataSharingApi {
         Map<String, Object> xslParameters = new HashMap<String, Object>();
         xslParameters.put("date", publicationDate);
         Path path = schemaManager.getSchemaDir(schema).resolve("process").resolve(Geonet.File.PUBLICATION_DISTRIBUTOR);
+        metadata = Xml.transform(metadata, path, xslParameters);
+        dataManager.updateMetadata(serviceContext, id, metadata, false, false,  serviceContext.getLanguage(), publicationDate, false, IndexingMode.full);
+    }
+
+    private void addPublishedKeyword(ServiceContext serviceContext, String id, boolean internal) throws Exception {
+        String schema = dataManager.getMetadataSchema(id);
+        String publicationDate = new ISODate().toString();
+        Element metadata = dataManager.getMetadata(id);
+        Map<String, Object> xslParameters = new HashMap<String, Object>();
+        xslParameters.put("keyword", internal ? Geonet.Transform.PUBLISHED_INTERNAL: Geonet.Transform.PUBLISHED_EXTERNAL);
+        Path path = schemaManager.getSchemaDir(schema).resolve("process").resolve(Geonet.File.PUBLISHED_OR_RETIRED_KEYWORD);
         metadata = Xml.transform(metadata, path, xslParameters);
         dataManager.updateMetadata(serviceContext, id, metadata, false, false,  serviceContext.getLanguage(), publicationDate, false, IndexingMode.full);
     }
