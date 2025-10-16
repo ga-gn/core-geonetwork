@@ -281,6 +281,107 @@
       };
       gnMdView.initMdView();
 
+      $scope.getFullCitation = function (md) {
+        if (md) {
+          var citation = "";
+
+          // Author
+          if (angular.isArray(md.author)) {
+            angular.forEach(md.author, function (value) {
+              citation += value + ", ";
+            });
+          } else if (md.author) {
+            citation += md.author + ", ";
+          } else {
+            citation += "";
+          }
+
+          // CoAuthor
+          if (angular.isArray(md.coAuthor)) {
+            angular.forEach(md.coAuthor, function (value) {
+              citation += value + ", ";
+            });
+          } else if (md.coAuthor) {
+            citation += md.coAuthor + ", ";
+          } else {
+            citation += "";
+          }
+
+          // Year of publication
+          if (angular.isArray(md.resourceDate)) {
+            angular.forEach(md.resourceDate, function (value) {
+              if (value.type === "publication") {
+                var date = new Date(value.date);
+                var year = date.getFullYear();
+                citation += year + " ";
+              }
+            });
+          } else if (md.resourceDate) {
+            if (md.resourceDate === "publication") {
+              var date = new Date(md.resourceDate.date);
+              var year = date.getFullYear();
+              citation += year + " ";
+            }
+          } else {
+            citation += "";
+          }
+
+          // Title
+          if (md.resourceTitle) {
+            citation += md.resourceTitle + ". ";
+          }
+
+          // Series Name
+          if (md.seriesName) {
+            citation += md.seriesName + " ";
+          }
+
+          // Issue Identification
+          if (md.issueIdentification) {
+            citation += md.issueIdentification + ". ";
+          }
+
+          // Page Number
+          if (md.pageNumber) {
+            if (md.pageNumber.includes("-")) {
+              citation += "pp. ";
+            } else {
+              citation += "p. ";
+            }
+            citation += md.pageNumber + ". ";
+          }
+
+          // Publisher
+          if (md.publisher) {
+            citation += md.publisher + ". ";
+          } else {
+            citation += "Geoscience Australia, Canberra. ";
+          }
+
+          // DOI or PID
+          if (angular.isArray(md.resourceIdentifier)) {
+            var codeSpaces = new Map();
+            angular.forEach(md.resourceIdentifier, function (value) {
+              codeSpaces.set(value.codeSpace, value.code);
+            });
+            if (
+              codeSpaces.has("Digital Object Identifier") &&
+              codeSpaces.get("Digital Object Identifier")
+            ) {
+              citation += codeSpaces.get("Digital Object Identifier");
+            } else if (
+              codeSpaces.has("Geoscience Australia Persistent Identifier") &&
+              codeSpaces.get("Geoscience Australia Persistent Identifier")
+            ) {
+              citation += codeSpaces.get("Geoscience Australia Persistent Identifier");
+            } else {
+              citation += "";
+            }
+          }
+
+          return citation;
+        }
+      };
       $scope.goToSearch = function (any) {
         $location.path("/search").search({ any: any });
       };
