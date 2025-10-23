@@ -182,9 +182,9 @@
         <xsl:value-of select="mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='publisher']]/cit:party/cit:CI_Organisation/cit:name/gco:CharacterString"/>
       </publisher>
 
-      <pageNumber>
+      <seriesPages>
         <xsl:value-of select="mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:series/cit:CI_Series/cit:page/gco:CharacterString"/>
-      </pageNumber>
+      </seriesPages>
 
       <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='author']]/cit:party/cit:CI_Individual/cit:name/gco:CharacterString">
         <author>
