@@ -341,14 +341,14 @@
             citation += md.issueIdentification + ". ";
           }
 
-          // Page Number
-          if (md.pageNumber) {
-            if (md.pageNumber.includes("-")) {
-              citation += "pp. ";
+          // Series Page Number
+          if (md.seriesPages) {
+            if (md.seriesPages.includes("-")) {
+              citation += "pp.";
             } else {
-              citation += "p. ";
+              citation += "p.";
             }
-            citation += md.pageNumber + ". ";
+            citation += md.seriesPages + ". ";
           }
 
           // Publisher
