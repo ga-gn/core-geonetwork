@@ -402,8 +402,8 @@
     <name>cit:individual</name>
     <name>cit:logo</name>
     <name>cit:party</name>
-    <name>gex:EX_TemporalExtent</name>
     <name>gex:geographicBox</name>
+    <name>gex:temporalElement</name>
     <name>gex:verticalElement</name>
     <name>gfc:carrierOfCharacteristics</name>
     <name>gfc:featureType</name>
