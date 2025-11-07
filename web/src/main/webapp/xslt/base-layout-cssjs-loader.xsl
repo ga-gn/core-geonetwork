@@ -310,16 +310,24 @@
     </script>
   </xsl:template>
 
-  <!-- Google Analytics 4 -->
-  <xsl:template name="ga4-load">
-    <!-- Google tag (gtag.js) -->
-    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-4PLC6Y2GN7"></script>
+  <!-- Google Tag Manager -->
+  <xsl:template name="gtm-load">
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-4PLC6Y2GN7');
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-5GH7BS4C');
     </script>
   </xsl:template>
+  <!-- End Google Tag Manager -->
+
+  <!-- Google Tag Manager (noscript) -->
+  <xsl:template name="gtm-noscript">
+    <noscript>
+      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5GH7BS4C"
+              height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+  </xsl:template>
+  <!-- End Google Tag Manager (noscript) -->
 </xsl:stylesheet>
