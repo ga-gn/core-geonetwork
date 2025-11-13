@@ -350,7 +350,7 @@ public class MetadataSharingApi {
 
         setOperations(sharing, dataManager, context, appContext, metadata, operationMap, privileges,
             ApiUtils.getUserSession(session).getUserIdAsInt(), skipAllReservedGroup, null, request,
-            metadataListToNotifyPublication, notifyByEmail);
+            metadataListToNotifyPublication, notifyByEmail, false, false);
         metadataIndexer.indexMetadataPrivileges(metadata.getUuid(), metadata.getId());
 
         if (notifyByEmail && !metadataListToNotifyPublication.isEmpty()) {
@@ -384,6 +384,10 @@ public class MetadataSharingApi {
             description = "Publication type",
             required = false)
         String publicationType,
+        @Parameter(
+            description = "Internal publish",
+            required = false)
+        Boolean internalPublish,
         @Parameter(hidden = true)
         HttpSession session,
         HttpServletRequest request
@@ -392,7 +396,7 @@ public class MetadataSharingApi {
 
         SharingParameter sharing = buildSharingForPublicationConfig(true,
             StringUtils.isNotEmpty(publicationType) ? publicationType : DEFAULT_PUBLICATION_TYPE_NAME);
-        return shareSelection(uuids, bucket, sharing, session, request);
+        return shareSelection(uuids, bucket, sharing, true, internalPublish, session, request);
     }
 
     @io.swagger.v3.oas.annotations.Operation(
@@ -428,7 +432,7 @@ public class MetadataSharingApi {
 
         SharingParameter sharing = buildSharingForPublicationConfig(false,
             StringUtils.isNotEmpty(publicationType) ? publicationType : DEFAULT_PUBLICATION_TYPE_NAME);
-        return shareSelection(uuids, bucket, sharing, session, request);
+        return shareSelection(uuids, bucket, sharing, false, false, session, request);
     }
 
     @io.swagger.v3.oas.annotations.Operation(
@@ -465,8 +469,7 @@ public class MetadataSharingApi {
         HttpServletRequest request
     )
         throws Exception {
-
-        return shareSelection(uuids, bucket, sharing, session, request);
+        return shareSelection(uuids, bucket, sharing, false, false, session, request);
     }
 
     private void setOperations(
@@ -482,7 +485,9 @@ public class MetadataSharingApi {
         MetadataProcessingReport report,
         HttpServletRequest request,
         List<MetadataPublicationNotificationInfo> metadataListToNotifyPublication,
-        boolean notifyByMail) throws Exception {
+        boolean notifyByMail,
+        boolean publish,
+        boolean internalPublish) throws Exception {
         if (privileges != null) {
 
             ResourceBundle messages = ApiUtils.getMessagesResourceBundle(request.getLocales());
@@ -613,6 +618,10 @@ public class MetadataSharingApi {
 
                     metadataListToNotifyPublication.add(metadataNotificationInfo);
                 }
+            }
+
+            if (publish) {
+                addPublishedKeyword(context, String.valueOf(metadata.getId()), internalPublish);
             }
 
             if (sharingChanges) {
@@ -1166,10 +1175,6 @@ public class MetadataSharingApi {
         SharingParameter sharing = buildSharingForPublicationConfig(publish, publicationType, internalPublish);
 
         addPublicationDate(context, String.valueOf(metadata.getId()));
-       
-        if (publish) {
-            addPublishedKeyword(context, String.valueOf(metadata.getId()), internalPublish);
-        }
 
         List<GroupOperations> privileges = sharing.getPrivileges();
         List<MetadataPublicationNotificationInfo> metadataListToNotifyPublication = new ArrayList<>();
@@ -1177,7 +1182,8 @@ public class MetadataSharingApi {
 
         setOperations(sharing, dataManager, context, appContext, metadata, operationMap, privileges,
             ApiUtils.getUserSession(session).getUserIdAsInt(), true, null, request,
-            metadataListToNotifyPublication, notifyByEmail);
+            metadataListToNotifyPublication, notifyByEmail, publish, internalPublish);
+
         metadataIndexer.indexMetadata(String.valueOf(metadata.getId()), true, IndexingMode.full);
 
         java.util.Optional<PublicationOption> publicationOption = publicationConfig.getPublicationOptionConfiguration(publicationType);
@@ -1194,16 +1200,18 @@ public class MetadataSharingApi {
     /**
      * Shares a metadata selection with a list of groups, returning a report with the results.
      *
-     * @param uuids   Metadata list of uuids to share.
+     * @param uuids           Metadata list of uuids to share.
      * @param bucket
-     * @param sharing Sharing privileges.
+     * @param sharing         Sharing privileges.
+     * @param publish         is this a publish operation?
+     * @param internalPublish is this an internal or external publish?
      * @param session
      * @param request
      * @return Report with the results.
      * @throws Exception
      */
-    private MetadataProcessingReport shareSelection(String[] uuids, String bucket, SharingParameter sharing,
-                                                    HttpSession session, HttpServletRequest request) throws Exception {
+    private MetadataProcessingReport shareSelection(String[] uuids, String bucket, SharingParameter sharing, boolean publish,
+                                                    boolean internalPublish, HttpSession session, HttpServletRequest request) throws Exception {
 
         MetadataProcessingReport report = new SimpleMetadataProcessingReport();
 
@@ -1253,14 +1261,14 @@ public class MetadataSharingApi {
                             if (md != null) {
                                 setOperations(sharing, dataManager, context, appContext, md, operationMap, allGroupPrivileges,
                                     ApiUtils.getUserSession(session).getUserIdAsInt(), skipAllReservedGroup, report, request,
-                                    metadataListToNotifyPublication, notifyByEmail);
+                                    metadataListToNotifyPublication, notifyByEmail, publish, internalPublish);
 
                                 report.incrementProcessedRecords();
                                 listOfUpdatedRecords.add(String.valueOf(md.getId()));
                             } else {
                                 setOperations(sharing, dataManager, context, appContext, metadata, operationMap, privileges,
                                     ApiUtils.getUserSession(session).getUserIdAsInt(), skipAllReservedGroup, report, request,
-                                    metadataListToNotifyPublication, notifyByEmail);
+                                    metadataListToNotifyPublication, notifyByEmail, publish, internalPublish);
 
                                 report.incrementProcessedRecords();
                                 listOfUpdatedRecords.add(String.valueOf(metadata.getId()));
@@ -1269,7 +1277,7 @@ public class MetadataSharingApi {
                         } else {
                             setOperations(sharing, dataManager, context, appContext, metadata, operationMap, privileges,
                                 ApiUtils.getUserSession(session).getUserIdAsInt(), skipAllReservedGroup, report, request,
-                                metadataListToNotifyPublication, notifyByEmail);
+                                metadataListToNotifyPublication, notifyByEmail, publish, internalPublish);
 
                             report.incrementProcessedRecords();
                             listOfUpdatedRecords.add(String.valueOf(metadata.getId()));
