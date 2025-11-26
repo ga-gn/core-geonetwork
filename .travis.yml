@@ -7,7 +7,6 @@ branches:
     - main
     - dev
     - test
-    - bj/DAT-1199
 
 script:
   - if [[ $TRAVIS_BRANCH = dev ]]; then export BRANCH=/ecat3/dev; elif [[ $TRAVIS_BRANCH = test ]]; then export BRANCH=/ecat3/test; elif [[ $TRAVIS_BRANCH = main ]]; then export BRANCH=/ecat3/prod; fi
