@@ -82,7 +82,14 @@
   <div>
     <h3 data-translate="">verticalReferenceSystem</h3>
     <ul class="gn-comma-list">
-      <p>{{mdView.current.record.verticalCode | translate}}</p>
+      <a
+        data-ng-if="mdView.current.record.verticalUrl"
+        href="{{mdView.current.record.verticalUrl}}"
+        >{{mdView.current.record.verticalCode | translate}}</a
+      >
+      <p data-ng-if="!mdView.current.record.verticalUrl">
+        {{mdView.current.record.verticalCode | translate}}
+      </p>
     </ul>
   </div>
 </div>
