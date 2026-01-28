@@ -20,8 +20,6 @@
              select="'https://www.doi.org/'"/>
   <xsl:variable name="doiProtocol"
                 select="'DOI'"/>
-  <xsl:variable name="doiName"
-                select="'Digital Object Identifier (DOI)'"/>
   <xsl:param name="doiProtocolRegex"
              select="'(DOI|WWW:LINK-1.0-http--metadata-URL)'"/>
 
@@ -86,23 +84,6 @@
         <xsl:apply-templates select="*/mrd:distributionFormat"/>
         <xsl:apply-templates select="*/mrd:distributor"/>
         <xsl:apply-templates select="*/mrd:transferOptions"/>
-        <mrd:transferOptions>
-          <mrd:MD_DigitalTransferOptions>
-            <mrd:onLine>
-              <cit:CI_OnlineResource>
-                <cit:linkage>
-                  <gco:CharacterString><xsl:value-of select="concat($doiProxy, $doi)"/></gco:CharacterString>
-                </cit:linkage>
-                <cit:protocol>
-                  <gco:CharacterString><xsl:value-of select="$doiProtocol"/></gco:CharacterString>
-                </cit:protocol>
-                <cit:name>
-                  <gco:CharacterString><xsl:value-of select="$doiName"/></gco:CharacterString>
-                </cit:name>
-              </cit:CI_OnlineResource>
-            </mrd:onLine>
-          </mrd:MD_DigitalTransferOptions>
-        </mrd:transferOptions>
       </mrd:MD_Distribution>
     </xsl:copy>
   </xsl:template>

@@ -90,7 +90,7 @@
 
 
         <xsl:call-template name="css-load"/>
-        <xsl:call-template name="ga4-load"/>
+        <xsl:call-template name="gtm-load"/>
       </head>
 
 
@@ -129,6 +129,7 @@
             </xsl:if>
           </xsl:otherwise>
         </xsl:choose>
+        <xsl:call-template name="gtm-noscript"/>
       </body>
     </html>
   </xsl:template>

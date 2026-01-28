@@ -90,7 +90,7 @@
               title="{$title}"/>
 
         <xsl:call-template name="css-load-nojs"/>
-        <xsl:call-template name="ga4-load"/>
+        <xsl:call-template name="gtm-load"/>
 
       </head>
 
@@ -102,7 +102,7 @@
           </div>
           <xsl:call-template name="footer"/>
         </div>
-
+        <xsl:call-template name="gtm-noscript"/>
       </body>
     </html>
   </xsl:template>

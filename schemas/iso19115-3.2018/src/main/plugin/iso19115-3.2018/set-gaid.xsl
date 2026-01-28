@@ -86,8 +86,8 @@
       <xsl:copy>
           <xsl:copy-of select="@*"/>
           <xsl:apply-templates select="gex:geographicElement"/>
-          <xsl:apply-templates select="gex:verticalElement"/>
           <xsl:apply-templates select="gex:temporalElement"/>
+          <xsl:apply-templates select="gex:verticalElement"/>
       </xsl:copy>
   </xsl:template>
 </xsl:stylesheet>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gco="http://standards.iso.org/iso/19115/-3/gco/1.0" 
-  xmlns:gex="http://standards.iso.org/iso/19115/-3/gex/1.0" xmlns:gmw="http://standards.iso.org/iso/19115/-3/gmw/1.0" 
-  xmlns:mcc="http://standards.iso.org/iso/19115/-3/mcc/1.0" 
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gco="http://standards.iso.org/iso/19115/-3/gco/1.0"
+  xmlns:gex="http://standards.iso.org/iso/19115/-3/gex/1.0" xmlns:gmw="http://standards.iso.org/iso/19115/-3/gmw/1.0"
+  xmlns:mcc="http://standards.iso.org/iso/19115/-3/mcc/1.0"
   elementFormDefault="qualified" targetNamespace="http://standards.iso.org/iso/19115/-3/gex/1.0" version="1.0">
   <!-- deprecated namespaces:
   xmlns:gts="http://www.isotc211.org/2005/gts"
@@ -52,8 +52,8 @@
             </annotation>
           </element>
           <element maxOccurs="unbounded" minOccurs="0" name="geographicElement" type="gex:AbstractEX_GeographicExtent_PropertyType"/>
-          <element maxOccurs="unbounded" minOccurs="0" name="verticalElement" type="gex:EX_VerticalExtent_PropertyType"/>
           <element maxOccurs="unbounded" minOccurs="0" name="temporalElement" type="gex:EX_TemporalExtent_PropertyType"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="verticalElement" type="gex:EX_VerticalExtent_PropertyType"/>
         </sequence>
       </extension>
     </complexContent>
