@@ -414,6 +414,48 @@
             }
           });
         }
+
+        const searchFilters = [
+          {
+            searchString: "eCatIdSearch",
+            queryField: "eCatId"
+          },
+          {
+            searchString: "authorSearch",
+            queryField: "author"
+          },
+          {
+            searchString: "titleSearch",
+            queryField: "resourceTitleObject.default"
+          }
+        ];
+
+        searchFilters.forEach((searchFilter) => {
+          if (searchFilter.searchString in p) {
+            const multiSearch = p[searchFilter.searchString]
+              .toString()
+              .replaceAll(",", " OR ");
+            const queryString = {
+              query_string: {
+                query:
+                  "(" + searchFilter.queryField + ":" + "(" + multiSearch + ")" + ")",
+                default_operator: "AND"
+              }
+            };
+            queryHook.must.push(queryString);
+          }
+        });
+
+        searchFilters.forEach((searchFilter) => {
+          if (queryHook.must.length > 0) {
+            const indexOfFilter = queryHook.must.findIndex(
+              (i) => i.terms && searchFilter.searchString in i.terms
+            );
+            if (indexOfFilter > -1) {
+              queryHook.must.splice(indexOfFilter, 1);
+            }
+          }
+        });
       };
 
       this.generateEsRequest = function (p, searchState, searchConfigId, filters) {
