@@ -133,7 +133,7 @@
   "facet-OrgForResource": "Organizations",
   "facet-sourceCatalogue": "Catalogues",
   "facet-groupOwner": "Record groups",
-  "facet-recordOwner": "Record authors",
+  "facet-recordOwner": "Record owners",
   "facet-groupPublished": "Published in that group",
   "facet-groupPublishedId": "Published in that group",
   "facet-documentStandard": "Standards",
