@@ -258,11 +258,29 @@
         }</associatedResource>
       </xsl:for-each>
 
-      <xsl:for-each select="mdb:identificationInfo/*/mri:extent/gex:EX_Extent/gex:verticalElement/gex:EX_VerticalExtent/gex:verticalCRSId/mrs:MD_ReferenceSystem/mrs:referenceSystemIdentifier/mcc:MD_Identifier/mcc:code/gco:CharacterString">
-        <verticalCode>
-          <xsl:value-of select="."/>
-        </verticalCode>
-      </xsl:for-each>
+      <xsl:variable name="code"
+                    select="mdb:identificationInfo/*/mri:extent/gex:EX_Extent/gex:verticalElement/gex:EX_VerticalExtent/gex:verticalCRSId/mrs:MD_ReferenceSystem/mrs:referenceSystemIdentifier/mcc:MD_Identifier/mcc:code/gco:CharacterString"/>
+
+      <xsl:choose>
+        <xsl:when test="$code != ''">
+          <xsl:for-each select="mdb:identificationInfo/*/mri:extent/gex:EX_Extent/gex:verticalElement/gex:EX_VerticalExtent/gex:verticalCRSId/mrs:MD_ReferenceSystem/mrs:referenceSystemIdentifier/mcc:MD_Identifier/mcc:code/gco:CharacterString">
+            <verticalCode>
+              <xsl:value-of select="."/>
+            </verticalCode>
+          </xsl:for-each>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:for-each select="mdb:identificationInfo/*/mri:extent/gex:EX_Extent/gex:verticalElement/gex:EX_VerticalExtent/gex:verticalCRSId/mrs:MD_ReferenceSystem/mrs:referenceSystemIdentifier/mcc:MD_Identifier/mcc:description/gco:CharacterString">
+            <verticalCode>
+              <xsl:value-of select="."/>
+            </verticalCode>
+          </xsl:for-each>
+        </xsl:otherwise>
+      </xsl:choose>
+
+      <verticalUrl>
+        <xsl:value-of select="mdb:identificationInfo/*/mri:extent/gex:EX_Extent/gex:verticalElement/gex:EX_VerticalExtent/gex:verticalCRSId/mrs:MD_ReferenceSystem/mrs:referenceSystemIdentifier/mcc:MD_Identifier/mcc:code/*/@xlink:href"/>
+      </verticalUrl>
 
       <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact">
         <pointOfContact type="object">{
