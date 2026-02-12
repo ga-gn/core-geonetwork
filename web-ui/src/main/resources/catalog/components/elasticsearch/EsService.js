@@ -427,6 +427,14 @@
           {
             searchString: "titleSearch",
             queryField: "resourceTitleObject.default"
+          },
+          {
+            searchString: "publicateDateFrom",
+            queryField: "publicationDateForRecord"
+          },
+          {
+            searchString: "publicateDateTo",
+            queryField: "publicationDateForRecord"
           }
         ];
 
@@ -435,13 +443,34 @@
             const multiSearch = p[searchFilter.searchString]
               .toString()
               .replaceAll(",", " OR ");
-            const queryString = {
-              query_string: {
-                query:
-                  "(" + searchFilter.queryField + ":" + "(" + multiSearch + ")" + ")",
-                default_operator: "AND"
+            let queryString;
+            if (searchFilter.queryField === "publicationDateForRecord") {
+              if (searchFilter.searchString === "publicateDateFrom") {
+                queryString = {
+                  range: {
+                    publicationDateForRecord: {
+                      gte: multiSearch
+                    }
+                  }
+                };
+              } else {
+                queryString = {
+                  range: {
+                    publicationDateForRecord: {
+                      lte: multiSearch
+                    }
+                  }
+                };
               }
-            };
+            } else {
+              queryString = {
+                query_string: {
+                  query:
+                    "(" + searchFilter.queryField + ":" + "(" + multiSearch + ")" + ")",
+                  default_operator: "AND"
+                }
+              };
+            }
             queryHook.must.push(queryString);
           }
         });
