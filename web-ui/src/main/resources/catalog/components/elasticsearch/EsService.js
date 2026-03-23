@@ -426,7 +426,7 @@
           },
           {
             searchString: "titleSearch",
-            queryField: "resourceTitleObject.default"
+            queryField: "resourceTitleObject.\\*"
           },
           {
             searchString: "publicateDateFrom",
@@ -440,9 +440,10 @@
 
         searchFilters.forEach((searchFilter) => {
           if (searchFilter.searchString in p) {
-            const multiSearch = p[searchFilter.searchString]
-              .toString()
-              .replaceAll(",", " OR ");
+            const multiSearch =
+              searchFilter.searchString === "eCatIdSearch"
+                ? p[searchFilter.searchString].toString().replaceAll(",", " OR ")
+                : p[searchFilter.searchString].toString();
             let queryString;
             if (searchFilter.queryField === "publicationDateForRecord") {
               if (searchFilter.searchString === "publicateDateFrom") {
