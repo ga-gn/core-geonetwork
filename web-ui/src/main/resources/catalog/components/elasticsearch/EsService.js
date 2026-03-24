@@ -422,11 +422,11 @@
           },
           {
             searchString: "authorSearch",
-            queryField: "author"
+            queryField: "author.keyword"
           },
           {
             searchString: "titleSearch",
-            queryField: "resourceTitleObject.\\*"
+            queryField: "resourceTitleObject.default"
           },
           {
             searchString: "publicateDateFrom",
