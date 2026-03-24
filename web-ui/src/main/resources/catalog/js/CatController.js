@@ -191,8 +191,7 @@
             // 'queryBase': '${any}',
             // Full text but more boost on title match
             // * Search in languages depending on the strategy selected
-            queryBase:
-              'any.${searchLang}:(${any}) OR any.common:(${any}) OR eCatId:(${any}) OR resourceTitleObject.${searchLang}:(${any})^2 OR resourceTitleObject.\\*:"${any}"^6',
+            queryBase: "${any}${fuzz} OR eCatId:(${any})",
             queryBaseOptions: {
               default_operator: "AND"
             },

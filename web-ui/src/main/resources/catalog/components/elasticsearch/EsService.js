@@ -277,9 +277,11 @@
               }
 
               var searchString = escapeSpecialCharacters(p.any),
+                  fuzzySuffix = isFinite(p.any) ? "" : "~",
                 q = gnEsLanguageService
                   .injectLanguage(queryBase, state.languageConfig, true)
-                  .replace(/\$\{any\}/g, searchString);
+                  .replace(/\$\{any\}/g, searchString)
+                  .replace(/\$\{fuzz\}/g, fuzzySuffix);
               queryStringParams.push(q);
             } else {
               queryStringParams.push(queryExpression[1]);
