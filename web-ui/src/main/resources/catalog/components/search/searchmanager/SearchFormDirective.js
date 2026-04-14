@@ -373,6 +373,9 @@
         filters: {},
         exactMatch: false,
         titleOnly: false,
+        preciseTitle: false,
+        fuzzyAuthor: false,
+        eCatIdOnly: false,
         languageStrategy: "searchInAllLanguages",
         forcedLanguage: undefined,
         languageWhiteList: undefined,
@@ -589,6 +592,51 @@
      */
     this.getTitleOnly = function () {
       return $scope.searchObj.state.titleOnly;
+    };
+
+    /**
+     * @param {boolean} value
+     */
+    this.setPreciseTitle = function (value) {
+      this.updateSearchParams({ preciseTitle: value });
+      $scope.searchObj.state.preciseTitle = value;
+    };
+
+    /**
+     * @return {boolean}
+     */
+    this.getPreciseTitle = function () {
+      return $scope.searchObj.state.preciseTitle;
+    };
+
+    /**
+     * @param {boolean} value
+     */
+    this.setFuzzyAuthor = function (value) {
+      this.updateSearchParams({ fuzzyAuthor: value });
+      $scope.searchObj.state.fuzzyAuthor = value;
+    };
+
+    /**
+     * @return {boolean}
+     */
+    this.getFuzzyAuthor = function () {
+      return $scope.searchObj.state.fuzzyAuthor;
+    };
+
+    /**
+     * @param {boolean} value
+     */
+    this.setEcatIdOnly = function (value) {
+      this.updateSearchParams({ eCatIdOnly: value });
+      $scope.searchObj.state.eCatIdOnly = value;
+    };
+
+    /**
+     * @return {boolean}
+     */
+    this.getEcatIdOnly = function () {
+      return $scope.searchObj.state.eCatIdOnly;
     };
 
     /**

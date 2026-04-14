@@ -174,6 +174,18 @@
           searchState.exactMatch = true;
           delete p.exactMatch;
         }
+        if (p.preciseTitle) {
+          searchState.preciseTitle = true;
+          delete p.preciseTitle;
+        }
+        if (p.fuzzyAuthor) {
+          searchState.fuzzyAuthor = true;
+          delete p.fuzzyAuthor;
+        }
+        if (p.eCatIdOnly) {
+          searchState.eCatIdOnly = true;
+          delete p.eCatIdOnly;
+        }
         if (p.forcedLanguage) {
           searchState.forcedLanguage = p.forcedLanguage;
           delete p.forcedLanguage;
@@ -259,6 +271,12 @@
                 queryBase = gnGlobalSettings.gnCfg.mods.search.queryExactMatch;
               } else if (state.titleOnly === true) {
                 queryBase = gnGlobalSettings.gnCfg.mods.search.queryTitle;
+              } else if (state.preciseTitle === true) {
+                queryBase = gnGlobalSettings.gnCfg.mods.search.queryTitlePreciseMatch;
+              } else if (state.fuzzyAuthor === true) {
+                queryBase = gnGlobalSettings.gnCfg.mods.search.queryAuthorFuzzyMatch;
+              } else if (state.eCatIdOnly === true) {
+                queryBase = gnGlobalSettings.gnCfg.mods.search.queryEcatIdMatch;
               } else {
                 queryBase = gnGlobalSettings.gnCfg.mods.search.queryBase;
               }
@@ -275,7 +293,9 @@
                 );
                 queryBase = defaultQuery;
               }
-
+              if (state.eCatIdOnly === true) {
+                p.any = p.any.toString().replaceAll(",", " OR ");
+              }
               var searchString = escapeSpecialCharacters(p.any),
                 q = gnEsLanguageService
                   .injectLanguage(queryBase, state.languageConfig, true)
@@ -422,7 +442,7 @@
           },
           {
             searchString: "authorSearch",
-            queryField: "author.keyword"
+            queryField: "author"
           },
           {
             searchString: "titleSearch",

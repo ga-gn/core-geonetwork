@@ -26,6 +26,48 @@
     <span data-translate="">titleOnly</span>
   </label>
 </div>
+<div
+  class="checkbox"
+  title="{{'preciseTitle-help' | translate}}"
+  data-ng-show="optionsConfig.preciseTitle"
+>
+  <label>
+    <input
+      type="checkbox"
+      data-ng-model="preciseTitle"
+      aria-label="{{'preciseTitle' | translate}}"
+    />
+    <span data-translate="">preciseTitle</span>
+  </label>
+</div>
+<div
+  class="checkbox"
+  title="{{'fuzzyAuthor-help' | translate}}"
+  data-ng-show="optionsConfig.fuzzyAuthor"
+>
+  <label>
+    <input
+      type="checkbox"
+      data-ng-model="fuzzyAuthor"
+      aria-label="{{'fuzzyAuthor' | translate}}"
+    />
+    <span data-translate="">fuzzyAuthor</span>
+  </label>
+</div>
+<div
+  class="checkbox"
+  title="{{'eCatIdOnly-help' | translate}}"
+  data-ng-show="optionsConfig.eCatIdOnly"
+>
+  <label>
+    <input
+      type="checkbox"
+      data-ng-model="eCatIdOnly"
+      aria-label="{{'eCatIdOnly' | translate}}"
+    />
+    <span data-translate="">eCatIdOnly</span>
+  </label>
+</div>
 <div class="checkbox" data-ng-show="user.isConnected()">
   <label>
     <input

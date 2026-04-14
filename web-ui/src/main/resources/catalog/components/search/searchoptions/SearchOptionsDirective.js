@@ -122,6 +122,33 @@
             }
           });
 
+          Object.defineProperty(scope, "preciseTitle", {
+            get: function () {
+              return controller.getPreciseTitle();
+            },
+            set: function (value) {
+              controller.setPreciseTitle(value);
+            }
+          });
+
+          Object.defineProperty(scope, "fuzzyAuthor", {
+            get: function () {
+              return controller.getFuzzyAuthor();
+            },
+            set: function (value) {
+              controller.setFuzzyAuthor(value);
+            }
+          });
+
+          Object.defineProperty(scope, "eCatIdOnly", {
+            get: function () {
+              return controller.getEcatIdOnly();
+            },
+            set: function (value) {
+              controller.setEcatIdOnly(value);
+            }
+          });
+
           Object.defineProperty(scope, "languageStrategy", {
             get: function () {
               return controller.getLanguageStrategy();

@@ -207,10 +207,16 @@
             // 'queryBase': 'any.langfre:(${any}) any.common:(${any}) resourceTitleObject.langfre:(${any})^2',
             queryTitle: "resourceTitleObject.\\*:(${any})",
             queryTitleExactMatch: 'resourceTitleObject.\\*:"${any}"',
+            queryTitlePreciseMatch: "resourceTitleObject.default:(${any})",
+            queryAuthorFuzzyMatch: "author:(${any}*) OR author.keyword:(${any})",
+            queryEcatIdMatch: "eCatId:(${any})",
             searchOptions: {
               fullText: true,
               titleOnly: true,
               exactMatch: true,
+              preciseTitle: true,
+              fuzzyAuthor: true,
+              eCatIdOnly: true,
               language: true
             },
             // The language strategy define how to search on multilingual content.
