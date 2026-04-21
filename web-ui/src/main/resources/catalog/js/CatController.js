@@ -208,14 +208,12 @@
             queryTitle: "resourceTitleObject.\\*:(${any})",
             queryTitleExactMatch: 'resourceTitleObject.\\*:"${any}"',
             queryTitlePreciseMatch: "resourceTitleObject.default:(${any})",
-            queryAuthorFuzzyMatch: "author:(${any}*) OR author.keyword:(${any})",
             queryEcatIdMatch: "eCatId:(${any})",
             searchOptions: {
               fullText: true,
               titleOnly: true,
               exactMatch: true,
               preciseTitle: true,
-              fuzzyAuthor: true,
               eCatIdOnly: true,
               language: true
             },

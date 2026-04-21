@@ -178,10 +178,6 @@
           searchState.preciseTitle = true;
           delete p.preciseTitle;
         }
-        if (p.fuzzyAuthor) {
-          searchState.fuzzyAuthor = true;
-          delete p.fuzzyAuthor;
-        }
         if (p.eCatIdOnly) {
           searchState.eCatIdOnly = true;
           delete p.eCatIdOnly;
@@ -273,8 +269,6 @@
                 queryBase = gnGlobalSettings.gnCfg.mods.search.queryTitle;
               } else if (state.preciseTitle === true) {
                 queryBase = gnGlobalSettings.gnCfg.mods.search.queryTitlePreciseMatch;
-              } else if (state.fuzzyAuthor === true) {
-                queryBase = gnGlobalSettings.gnCfg.mods.search.queryAuthorFuzzyMatch;
               } else if (state.eCatIdOnly === true) {
                 queryBase = gnGlobalSettings.gnCfg.mods.search.queryEcatIdMatch;
               } else {

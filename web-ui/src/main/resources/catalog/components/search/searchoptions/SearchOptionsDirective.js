@@ -131,15 +131,6 @@
             }
           });
 
-          Object.defineProperty(scope, "fuzzyAuthor", {
-            get: function () {
-              return controller.getFuzzyAuthor();
-            },
-            set: function (value) {
-              controller.setFuzzyAuthor(value);
-            }
-          });
-
           Object.defineProperty(scope, "eCatIdOnly", {
             get: function () {
               return controller.getEcatIdOnly();

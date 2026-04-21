@@ -175,8 +175,6 @@
   "titleOnly-help": "Search in title only.",
   "preciseTitle": "Precise match in Title only",
   "preciseTitle-help": "Precise match in Title only.",
-  "fuzzyAuthor": "Fuzzy match in Author only",
-  "fuzzyAuthor-help": "Fuzzy search in Author only.",
   "eCatIdOnly": "Search in eCat ID only",
   "eCatIdOnly-help": "Search in eCat ID only.",
   "gnbbox": "Geographical area",

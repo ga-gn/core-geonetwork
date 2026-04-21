@@ -213,7 +213,6 @@
       $scope.exactMatchToggle = gnGlobalSettings.gnCfg.mods.search.exactMatchToggle;
       $scope.exactTitleToggle = gnGlobalSettings.gnCfg.mods.search.exactTitleToggle;
       $scope.preciseTitleToggle = gnGlobalSettings.gnCfg.mods.search.preciseTitleToggle;
-      $scope.fuzzyAuthorToggle = gnGlobalSettings.gnCfg.mods.search.fuzzyAuthorToggle;
       $scope.eCatIdOnlyToggle = gnGlobalSettings.gnCfg.mods.search.eCatIdOnlyToggle;
       $scope.searchOptions = gnGlobalSettings.gnCfg.mods.search.searchOptions;
       $scope.gnWmsQueue = gnWmsQueue;

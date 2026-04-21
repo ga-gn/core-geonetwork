@@ -374,7 +374,6 @@
         exactMatch: false,
         titleOnly: false,
         preciseTitle: false,
-        fuzzyAuthor: false,
         eCatIdOnly: false,
         languageStrategy: "searchInAllLanguages",
         forcedLanguage: undefined,
@@ -607,21 +606,6 @@
      */
     this.getPreciseTitle = function () {
       return $scope.searchObj.state.preciseTitle;
-    };
-
-    /**
-     * @param {boolean} value
-     */
-    this.setFuzzyAuthor = function (value) {
-      this.updateSearchParams({ fuzzyAuthor: value });
-      $scope.searchObj.state.fuzzyAuthor = value;
-    };
-
-    /**
-     * @return {boolean}
-     */
-    this.getFuzzyAuthor = function () {
-      return $scope.searchObj.state.fuzzyAuthor;
     };
 
     /**
