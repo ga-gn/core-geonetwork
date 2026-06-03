@@ -422,7 +422,7 @@
           },
           {
             searchString: "authorSearch",
-            queryField: "author.keyword"
+            queryField: "author"
           },
           {
             searchString: "titleSearch",
