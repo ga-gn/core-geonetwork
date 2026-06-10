@@ -463,6 +463,14 @@
                   }
                 };
               }
+            } else if (searchFilter.searchString === "authorSearch") {
+              queryString = {
+                prefix: {
+                  "author.keyword": {
+                    value: multiSearch
+                  }
+                }
+              };
             } else {
               queryString = {
                 query_string: {
