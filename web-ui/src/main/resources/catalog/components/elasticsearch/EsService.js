@@ -465,10 +465,24 @@
               }
             } else if (searchFilter.searchString === "authorSearch") {
               queryString = {
-                prefix: {
-                  "author.keyword": {
-                    value: multiSearch
-                  }
+                bool: {
+                  should: [
+                    {
+                      prefix: {
+                        "author.keyword": {
+                          value: multiSearch
+                        }
+                      }
+                    },
+                    {
+                      prefix: {
+                        "coAuthor.keyword": {
+                          value: multiSearch
+                        }
+                      }
+                    }
+                  ],
+                  minimum_should_match: 1
                 }
               };
             } else {
