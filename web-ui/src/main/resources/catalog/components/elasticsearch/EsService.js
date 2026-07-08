@@ -422,7 +422,7 @@
           },
           {
             searchString: "authorSearch",
-            queryField: "author.keyword"
+            queryField: "author"
           },
           {
             searchString: "titleSearch",
@@ -463,6 +463,28 @@
                   }
                 };
               }
+            } else if (searchFilter.searchString === "authorSearch") {
+              queryString = {
+                bool: {
+                  should: [
+                    {
+                      prefix: {
+                        "author.keyword": {
+                          value: multiSearch
+                        }
+                      }
+                    },
+                    {
+                      prefix: {
+                        "coAuthor.keyword": {
+                          value: multiSearch
+                        }
+                      }
+                    }
+                  ],
+                  minimum_should_match: 1
+                }
+              };
             } else {
               queryString = {
                 query_string: {
