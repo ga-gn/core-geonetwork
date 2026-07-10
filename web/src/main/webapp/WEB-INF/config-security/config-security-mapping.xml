@@ -236,7 +236,7 @@
         <sec:intercept-url pattern="/[a-zA-Z0-9_\-]+/atom/describe/service!?.*" access="permitAll"/>
         <sec:intercept-url pattern="/[a-zA-Z0-9_\-]+/atom/describe/dataset!?.*" access="permitAll"/>
         <sec:intercept-url pattern="/[a-zA-Z0-9_\-]+/atom/download/dataset!?.*" access="permitAll"/>
-        
+
         <!-- Metadata identifier templates -->
         <sec:intercept-url pattern="/[a-zA-Z0-9_\-]+/[a-z]{2,3}/metadataIdentifierTemplates!?.*"
                            access="hasAuthority('Editor')"/>
@@ -249,11 +249,6 @@
         <sec:intercept-url pattern="/home\?.*" access="permitAll"/>
         <sec:intercept-url pattern="/home" access="permitAll"/>
         <sec:intercept-url pattern="/rewritestatus" access="permitAll"/>
-
-        <!-- SLD helpers -->
-        <sec:intercept-url pattern="/[a-zA-Z0-9_\-]+/[a-z]{2,3}/generateSLD!?.*"
-                           access="permitAll"/>
-        <sec:intercept-url pattern="/[a-zA-Z0-9_\-]+/[a-z]{2,3}/getSLD/.*" access="permitAll"/>
 
         <sec:intercept-url pattern="/.*" access="denyAll"/>
       </sec:filter-security-metadata-source>
