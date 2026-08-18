@@ -205,9 +205,9 @@
       </xsl:for-each>
 
       <xsl:for-each select="/mdb:MD_Metadata/mdb:contact/cit:CI_Responsibility[cit:role/cit:CI_RoleCode/@codeListValue='owner']/cit:party/cit:CI_Individual/cit:name/gco:CharacterString">
-        <owner>
+        <metadataOwner>
           <xsl:value-of select="."/>
-        </owner>
+        </metadataOwner>
       </xsl:for-each>
 
       <xsl:for-each select="mdb:dateInfo/cit:CI_Date[cit:dateType/cit:CI_DateTypeCode[@codeListValue='creation']]/cit:date/gco:DateTime">

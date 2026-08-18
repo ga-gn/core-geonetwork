@@ -441,12 +441,8 @@
             queryField: "pointOfContactIndividualName"
           },
           {
-            searchString: "pointOfContactMetadataSearch",
-            queryField: "pointOfContactMetadata"
-          },
-          {
-            searchString: "ownerSearch",
-            queryField: "owner"
+            searchString: "metadataOwnerSearch",
+            queryField: "metadataOwner"
           }
         ];
 
@@ -477,24 +473,30 @@
               }
             } else if (searchFilter.searchString === "pointOfContactSearch") {
               queryString = {
-                prefix: {
-                  "pointOfContactIndividualName.keyword": {
-                    value: multiSearch
-                  }
+                bool: {
+                  should: [
+                    {
+                      prefix: {
+                        "pointOfContactIndividualName.keyword": {
+                          value: multiSearch
+                        }
+                      }
+                    },
+                    {
+                      prefix: {
+                        "pointOfContactMetadata.keyword": {
+                          value: multiSearch
+                        }
+                      }
+                    }
+                  ],
+                  minimum_should_match: 1
                 }
               };
-            } else if (searchFilter.searchString === "pointOfContactMetadataSearch") {
+            } else if (searchFilter.searchString === "metadataOwnerSearch") {
               queryString = {
                 prefix: {
-                  "pointOfContactMetadata.keyword": {
-                    value: multiSearch
-                  }
-                }
-              };
-            } else if (searchFilter.searchString === "ownerSearch") {
-              queryString = {
-                prefix: {
-                  "owner.keyword": {
+                  "metadataOwner.keyword": {
                     value: multiSearch
                   }
                 }
