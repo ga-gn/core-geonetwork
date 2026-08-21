@@ -1937,9 +1937,6 @@
       "owner": {
         "type": "keyword"
       },
-      "metadataOwner": {
-        "type": "keyword"
-      },
       "xlink": {
         "type": "keyword"
       },

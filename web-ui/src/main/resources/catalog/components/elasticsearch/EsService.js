@@ -439,10 +439,6 @@
           {
             searchString: "pointOfContactSearch",
             queryField: "pointOfContactIndividualName"
-          },
-          {
-            searchString: "metadataOwnerSearch",
-            queryField: "metadataOwner"
           }
         ];
 
@@ -477,7 +473,21 @@
                   should: [
                     {
                       prefix: {
-                        "pointOfContactIndividualName.keyword": {
+                        "pointOfContactProduct.keyword": {
+                          value: multiSearch
+                        }
+                      }
+                    },
+                    {
+                      prefix: {
+                        "ownerProduct.keyword": {
+                          value: multiSearch
+                        }
+                      }
+                    },
+                    {
+                      prefix: {
+                        "custodianProduct.keyword": {
                           value: multiSearch
                         }
                       }
@@ -491,14 +501,6 @@
                     }
                   ],
                   minimum_should_match: 1
-                }
-              };
-            } else if (searchFilter.searchString === "metadataOwnerSearch") {
-              queryString = {
-                prefix: {
-                  "metadataOwner.keyword": {
-                    value: multiSearch
-                  }
                 }
               };
             } else if (searchFilter.searchString === "authorSearch") {
