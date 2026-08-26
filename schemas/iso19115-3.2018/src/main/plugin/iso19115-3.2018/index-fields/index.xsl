@@ -192,6 +192,30 @@
         </author>
       </xsl:for-each>
 
+      <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact/cit:CI_Responsibility[cit:role/cit:CI_RoleCode/@codeListValue='owner']/cit:party/cit:CI_Individual/cit:name/gco:CharacterString">
+        <ownerProduct>
+          <xsl:value-of select="."/>
+        </ownerProduct>
+      </xsl:for-each>
+
+      <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact/cit:CI_Responsibility[cit:role/cit:CI_RoleCode/@codeListValue='custodian']/cit:party/cit:CI_Individual/cit:name/gco:CharacterString">
+        <custodianProduct>
+          <xsl:value-of select="."/>
+        </custodianProduct>
+      </xsl:for-each>
+
+      <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact/cit:CI_Responsibility[cit:role/cit:CI_RoleCode/@codeListValue='pointOfContact']/cit:party/cit:CI_Individual/cit:name/gco:CharacterString">
+        <pointOfContactProduct>
+          <xsl:value-of select="."/>
+        </pointOfContactProduct>
+      </xsl:for-each>
+
+      <xsl:for-each select="/mdb:MD_Metadata/mdb:contact/cit:CI_Responsibility[cit:role/cit:CI_RoleCode/@codeListValue='pointOfContact']/cit:party/cit:CI_Individual/cit:name/gco:CharacterString">
+        <pointOfContactMetadata>
+          <xsl:value-of select="."/>
+        </pointOfContactMetadata>
+      </xsl:for-each>
+
       <xsl:for-each select="mdb:dateInfo/cit:CI_Date[cit:dateType/cit:CI_DateTypeCode[@codeListValue='creation']]/cit:date/gco:DateTime">
         <xsl:if test="position()=last()">
           <recordCreationDate>
