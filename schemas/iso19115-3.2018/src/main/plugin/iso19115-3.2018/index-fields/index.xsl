@@ -192,25 +192,25 @@
         </author>
       </xsl:for-each>
 
-      <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact/cit:CI_Responsibility[cit:role/cit:CI_RoleCode/@codeListValue='owner']/cit:party/cit:CI_Individual/cit:name/gco:CharacterString">
+      <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact/cit:CI_Responsibility[cit:role/cit:CI_RoleCode/@codeListValue='owner']/cit:party//cit:name/gco:CharacterString">
         <ownerProduct>
           <xsl:value-of select="."/>
         </ownerProduct>
       </xsl:for-each>
 
-      <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact/cit:CI_Responsibility[cit:role/cit:CI_RoleCode/@codeListValue='custodian']/cit:party/cit:CI_Individual/cit:name/gco:CharacterString">
+      <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact/cit:CI_Responsibility[cit:role/cit:CI_RoleCode/@codeListValue='custodian']/cit:party//cit:name/gco:CharacterString">
         <custodianProduct>
           <xsl:value-of select="."/>
         </custodianProduct>
       </xsl:for-each>
 
-      <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact/cit:CI_Responsibility[cit:role/cit:CI_RoleCode/@codeListValue='pointOfContact']/cit:party/cit:CI_Individual/cit:name/gco:CharacterString">
+      <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact/cit:CI_Responsibility[cit:role/cit:CI_RoleCode/@codeListValue='pointOfContact']/cit:party//cit:name/gco:CharacterString">
         <pointOfContactProduct>
           <xsl:value-of select="."/>
         </pointOfContactProduct>
       </xsl:for-each>
 
-      <xsl:for-each select="/mdb:MD_Metadata/mdb:contact/cit:CI_Responsibility[cit:role/cit:CI_RoleCode/@codeListValue='pointOfContact']/cit:party/cit:CI_Individual/cit:name/gco:CharacterString">
+      <xsl:for-each select="/mdb:MD_Metadata/mdb:contact/cit:CI_Responsibility[cit:role/cit:CI_RoleCode/@codeListValue='pointOfContact']/cit:party//cit:name/gco:CharacterString">
         <pointOfContactMetadata>
           <xsl:value-of select="."/>
         </pointOfContactMetadata>
