@@ -100,20 +100,7 @@
         },
         home: {
           facets: {},
-          source: {
-            includes: [
-              "id",
-              "uuid",
-              "creat*",
-              "cl_topic*",
-              "inspire*",
-              "resource*",
-              "image*",
-              "tag*",
-              "mdStatus",
-              "mdStatusChangeDate"
-            ]
-          },
+          source: defaultSource,
           script_fields: defaultScriptedFields
         },
         recordWithLink: {

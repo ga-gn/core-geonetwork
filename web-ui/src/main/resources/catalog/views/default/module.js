@@ -70,6 +70,7 @@
     "$scope",
     "gnSearchSettings",
     function ($scope, gnSearchSettings) {
+      $scope.showBatchDropdown = false;
       $scope.searchObj = {
         permalink: false,
         internal: true,
@@ -89,6 +90,7 @@
     "$scope",
     "gnSearchSettings",
     function ($scope, gnSearchSettings) {
+      $scope.showBatchDropdown = false;
       $scope.searchObj = {
         permalink: false,
         internal: true,
