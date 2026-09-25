@@ -129,6 +129,7 @@
     .gn-md-details {
       width: calc(~"100% - @{gn-card-thumbnail-width} - 15px");
       float: left;
+      margin-bottom: 15px;
     }
     .gn-md-contact {
       clear: both;
@@ -273,6 +274,13 @@
     margin-bottom: 15px;
     float: left;
 
+    .gn-card-body {
+      .gn-md-contents.gn-no-thumbnail {
+        .gn-md-details {
+          width: 100%;
+        }
+      }
+    }
   }
   li.gn-list {
     padding: 0;
@@ -497,6 +505,20 @@ table.gn-resultview {
       .gn-md-title {
         padding-left: 15px;
       }
+    }
+  }
+}
+
+.gn-row-info {
+  .gn-card-heading {
+    height: auto;
+    min-height: @gn-card-header-height;
+    display: flex;
+    align-items: center;
+    .gn-md-title h1 {
+      height: auto;
+      padding-top: 10px;
+      padding-bottom: 10px;
     }
   }
 }

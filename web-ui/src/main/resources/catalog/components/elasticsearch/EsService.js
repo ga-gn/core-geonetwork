@@ -435,6 +435,10 @@
           {
             searchString: "publicateDateTo",
             queryField: "publicationDateForRecord"
+          },
+          {
+            searchString: "pointOfContactSearch",
+            queryField: "pointOfContactIndividualName"
           }
         ];
 
@@ -463,6 +467,42 @@
                   }
                 };
               }
+            } else if (searchFilter.searchString === "pointOfContactSearch") {
+              queryString = {
+                bool: {
+                  should: [
+                    {
+                      prefix: {
+                        "pointOfContactProduct.keyword": {
+                          value: multiSearch
+                        }
+                      }
+                    },
+                    {
+                      prefix: {
+                        "ownerProduct.keyword": {
+                          value: multiSearch
+                        }
+                      }
+                    },
+                    {
+                      prefix: {
+                        "custodianProduct.keyword": {
+                          value: multiSearch
+                        }
+                      }
+                    },
+                    {
+                      prefix: {
+                        "pointOfContactMetadata.keyword": {
+                          value: multiSearch
+                        }
+                      }
+                    }
+                  ],
+                  minimum_should_match: 1
+                }
+              };
             } else if (searchFilter.searchString === "authorSearch") {
               queryString = {
                 bool: {
