@@ -823,6 +823,9 @@
                 include
                   .split("")
                   .map(function (l) {
+                    if (l.toLowerCase() === l.toUpperCase()) {
+                      return "\\" + l;
+                    }
                     return "[" + l.toLowerCase() + l.toUpperCase() + "]";
                   })
                   .join("") +
