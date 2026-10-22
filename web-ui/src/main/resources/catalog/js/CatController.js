@@ -474,7 +474,7 @@
               },
               tag: {
                 terms: {
-                  field: "tag.${aggLang}",
+                  field: "keywords.keyword.keyword",
                   include: ".*",
                   size: 10
                 },
