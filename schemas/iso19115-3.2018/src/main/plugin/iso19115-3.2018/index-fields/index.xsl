@@ -238,7 +238,10 @@
 
       <xsl:for-each select="mdb:identificationInfo/*/mri:descriptiveKeywords/mri:MD_Keywords">
         <keywords type="object">{
-          "keyword": "<xsl:value-of select="mri:keyword/gco:CharacterString"/>",
+          "keyword": [<xsl:for-each select="mri:keyword/gco:CharacterString[normalize-space() != '']">
+              "<xsl:value-of select="gn-fn-index:json-escape(normalize-space())"/>"
+              <xsl:if test="position() != last()">,</xsl:if>
+          </xsl:for-each>],
           "multiKeywords": "<xsl:for-each select="mri:keyword/gco:CharacterString">
               <xsl:value-of select="."/>
               <xsl:if test="position() != last()">;</xsl:if>
