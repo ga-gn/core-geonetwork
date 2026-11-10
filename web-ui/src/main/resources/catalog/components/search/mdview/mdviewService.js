@@ -378,13 +378,19 @@
                           });
                           typeList.forEach((type) => {
                             type.list = data.metadata[0].keywordsArray
-                              .filter(
-                                (keyword) =>
+                              .filter((keyword) => {
+                                const keywordRecord = [].concat(keyword.keyword || []);
+                                return (
                                   keyword.thesaurusName === type.typeName &&
-                                  !["Published_External", "Published_Internal", "Retired_Internal"].includes(
-                                    keyword.keyword
+                                  !keywordRecord.some((record) =>
+                                    [
+                                      "Published_External",
+                                      "Published_Internal",
+                                      "Retired_Internal"
+                                    ].includes(record)
                                   )
-                              )
+                                );
+                              })
                               .map((keywordItem) => keywordItem.keywordsList)
                               .flat(1);
                           });
