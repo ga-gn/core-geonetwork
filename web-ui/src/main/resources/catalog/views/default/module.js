@@ -66,11 +66,33 @@
     }
   ]);
 
+  /**
+   * Result templates used by the homepage list type toggle
+   */
+  var homeListTemplates = {
+    blocks: "grid.html",
+    large: "list.html",
+    small: "title.html"
+  };
+
+  /**
+   * Update the result template of a homepage search when the list type changes
+   * @param  {Object} $scope Scope of the homepage search controller
+   */
+  function bindHomeListTemplate($scope) {
+    $scope.$watch("type", function (type) {
+      $scope.resultTemplate =
+        "../../catalog/components/search/resultsview/partials/viewtemplates/" +
+        (homeListTemplates[type] || homeListTemplates.blocks);
+    });
+  }
+
   module.controller("gnsSearchPopularController", [
     "$scope",
     "gnSearchSettings",
     function ($scope, gnSearchSettings) {
       $scope.showBatchDropdown = false;
+      bindHomeListTemplate($scope);
       $scope.searchObj = {
         permalink: false,
         internal: true,
@@ -91,6 +113,7 @@
     "gnSearchSettings",
     function ($scope, gnSearchSettings) {
       $scope.showBatchDropdown = false;
+      bindHomeListTemplate($scope);
       $scope.searchObj = {
         permalink: false,
         internal: true,
