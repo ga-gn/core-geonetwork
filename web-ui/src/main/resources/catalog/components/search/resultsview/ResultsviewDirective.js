@@ -60,6 +60,27 @@
 
   /**
    * @ngdoc directive
+   * @name gn_resultsview.directive:gnImgOnError
+   *
+   * @restrict A
+   *
+   * @description
+   * The `gnImgOnError` directive evaluates an expression when
+   * the image fails to load (eg. broken thumbnail URL).
+   */
+  module.directive("gnImgOnError", function () {
+    return {
+      restrict: "A",
+      link: function (scope, element, attrs) {
+        element.on("error", function () {
+          scope.$apply(attrs.gnImgOnError);
+        });
+      }
+    };
+  });
+
+  /**
+   * @ngdoc directive
    * @name gn_resultsview.directive:gnResultsContainer
    *
    * @restrict A
@@ -229,6 +250,9 @@
           var feat = new ol.Feature();
 
           element.bind("mouseenter", function () {
+            if (!scope.map) {
+              return;
+            }
             var feat = gnMap.getBboxFeatureFromMd(
               scope.md,
               scope.map.getView().getProjection()
@@ -239,6 +263,9 @@
           });
 
           element.bind("mouseleave", function () {
+            if (!scope.hoverOL) {
+              return;
+            }
             scope.hoverOL.getSource().clear();
           });
         }

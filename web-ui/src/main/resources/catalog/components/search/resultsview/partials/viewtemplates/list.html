@@ -44,18 +44,24 @@
     <!-- /.gn-card-heading -->
     <div class="panel-body gn-card-body">
       <div class="row">
-        <div class="col-lg-2 col-md-3 col-sm-3">
+        <div
+          class="col-lg-2 col-md-3 col-sm-3"
+          data-ng-if="(md.overview[0].data || md.overview[0].url) && !md.thumbnailError"
+        >
           <div class="gn-md-thumbnail">
-            <div class="gn-md-no-thumbnail" data-ng-if="!md.overview[0].url"></div>
             <img
               class="gn-img-thumbnail"
               alt="{{md.title || md.defaultTitle}}"
               data-ng-src="{{md.overview[0].data || (md.overview[0].url | thumbnailUrlSize)}}"
-              data-ng-if="md.overview[0].url"
+              data-gn-img-on-error="md.thumbnailError = true"
             />
           </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6">
+        <div
+          data-ng-class="(md.overview[0].data || md.overview[0].url) && !md.thumbnailError
+            ? 'col-lg-6 col-md-6 col-sm-6'
+            : 'col-lg-8 col-md-9 col-sm-9'"
+        >
           <div class="gn-md-abstract text-muted">
             <p title="{{md.resourceAbstract}}">
               {{md.resourceAbstract.split('\n')[0] | striptags}}
